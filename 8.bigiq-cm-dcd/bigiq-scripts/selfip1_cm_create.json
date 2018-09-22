@@ -1,0 +1,9 @@
+{
+	"name":"VLAN1_NAME_VAR_selfip",
+	"address":"CM_DATAPLANE_IP_VAR/24",
+	"vlan":"/Common/VLAN1_NAME_VAR",
+	"description":"",
+	"fullPath":"/Common/VLAN1_NAME_VAR_selfip",
+	"allow-service":"default"
+	
+}

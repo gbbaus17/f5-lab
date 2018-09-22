@@ -1,0 +1,37 @@
+{
+    "Outputs": {
+        "JumpHostPublicIP": {
+            "Description": "RDP Public IP - recommended to restrict access with Securty Group",
+            "Value": {
+                        "Ref": "JumpBoxEipAddress"
+             }
+        },
+        "UbuntuPassword": {
+            "Description": "RDP Access setup password",
+            "Value": {
+                "Ref": "UbuntuPassword"
+            }
+        },
+        "JumpBoxSSH": {
+            "Description": "ssh access to Ubuntu Jumpbox",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "ssh -i your-aws-pem-key.pem admin@",
+                        {
+                            "Ref": "JumpBoxEipAddress"
+                            
+                        }
+                    ]
+                ]
+            }
+        },
+        "Region": {
+            "Description": "AWS Region",
+            "Value": {
+                "Ref": "AWS::Region"
+            }
+        }
+    }
+}

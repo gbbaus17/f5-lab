@@ -1,0 +1,17 @@
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.info
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.info.learning
+
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.l3actualgreylistpktdrops
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.grey_conns_drops
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.conn_drops
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.l7actualgreylistdrops
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.l7_signature_drops
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.l7actualglobaldrops
+
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.health
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.l7requests
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig.tps
+# admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig
+
+admd -s vs./Common/Hackazon_BaDOS_protected+/Common/Hackazon_BaDOS.sig |grep  "health\|l3actualgreylistpktdrops\|grey_conns_drops\|l7actualgreylistdrops\|l7_signature_drops\|l7requests\|tps"
+

@@ -1,0 +1,272 @@
+    1  sudo su -
+    2  sudo su -
+    3  pwd
+    4  vi .xsession
+    5  apt-get update
+    6  sudo su -
+    7  wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+    8  ls
+    9  rm postman.tar.gz 
+   10  wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+   11  tar -xzf postman.tar.gz -C .
+   12  ls
+   13  Postman/Postman 
+   14  Postman/Postman 
+   15  sudo su -
+   16  tar zxf wapiti3-3.0.1.tar.gz 
+   17  cd wapiti3-3.0.1/
+   18  python3 setup.py install
+   19  sudo apt-get install python3-setuptools
+   20  python3 setup.py install
+   21  cd ../
+   22  rm -fr wapiti3-3.0.1*
+   23  sudo su -
+   24  ls
+   25  wget https://sourceforge.net/projects/wapiti/files/wapiti/wapiti-3.0.1/wapiti3-3.0.1.tar.gz
+   26  tar zxf wapiti3-3.0.1.tar.gz 
+   27  cd wapiti3-3.0.1/
+   28  python3 setup.py install
+   29  cd ,.
+   30  cd ..
+   31  rm -fr wapiti3-3.0.1*
+   32  sudo su -
+   33  wapiti
+   34  apt-get install git
+   35  sudo su -
+   36  sudo apt-get install git
+   37  ls
+   38  cd scripts/
+   39  ls
+   40  cd ../
+   41  ls
+   42  ./w3af_console 
+   43  sudo su -
+   44  ./w3af_console 
+   45  sudo su -
+   46  ./w3af_console 
+   47  sudo su -
+   48  ./w3af_console 
+   49  sudo su -
+   50  ./w3af_console 
+   51  sudo su -
+   52  Postman/Postman 
+   53  sudo su -
+   54  ifconfig 
+   55  ifconfig 
+   56  sudo su -
+   57  ifconfig 
+   58  ping 8.8.8.8
+   59  ping 10.1.10.245
+   60  sudo su -
+   61  Postman/Postman 
+   62  ls
+   63  ping www.google.com
+   64  sudo su -
+   65  ssh root@10.1.1.245
+   66  ssh f5student@10.1.20.252
+   67  ssh
+   68  ssh 10.1.20.252
+   69  ping 10.1.20.252
+   70  ping 10.1.1.252
+   71  ssh f5student@10.1.1.252
+   72  ssh 10.1.1.245
+   73  ssh root@10.1.1.245
+   74  exit
+   75  sudo apt-get purge firefox
+   76  wget https://ftp.mozilla.org/pub/firefox/releases/55.0.2/linux-x86_64/en-US/firefox-55.0.2.tar.bz2
+   77  Tar xfj firefox-55.0.2.tar.bz2
+   78  tar xfj firefox-55.0.2.tar.bz2
+   79  sudo mv firefox /opt/
+   80  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+   81  sudo apt-get purge firefox
+   82  wget https://ftp.mozilla.org/pub/firefox/releases/55.0.2/linux-x86_64/en-US/firefox-55.0.2.tar.bz2
+   83  tar xfj firefox-55.0.2.tar.bz2
+   84  sudo mv firefox /opt/
+   85  ls
+   86  cd /opt
+   87  ls
+   88  cd firefox
+   89  ls
+   90  sudo apt-get purge firefox
+   91  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+   92  cd ..
+   93  ls
+   94  sudo mv /usr/bin/firefox /usr/bin/firefox_old
+   95  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+   96  sudo apt-mark hold firefox
+   97  sudo apt-get purge firefox
+   98  sudo apt-get remove purge firefox
+   99  ls
+  100  ls -al
+  101  cd firefox
+  102  ls
+  103  ls -al
+  104  cd ..
+  105  ls
+  106  rm ~/firefox
+  107  rm -r ~/firefox
+  108  rm ~/bin/firefox
+  109  ls
+  110  sudo apt-get purge firefox
+  111  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+  112  rm ~/bin/firefox
+  113  rm /usr/bin/firefox
+  114  sudo rm /usr/bin/firefox
+  115  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+  116  sudo apt-mark hold firefox
+  117  tar xfj firefox-55.0.2.tar.bz2
+  118  Sudo mv firefox /opt/
+  119  sudo mv firefox /opt/
+  120  cd /opt/
+  121  ls
+  122  rm -f firefox
+  123  rm -r firefox
+  124  sudo rm -r firefox
+  125  cd ~
+  126  ls
+  127  sudo mv firefox /opt/
+  128  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+  129  mv /opt/firefox/firefox /usr/bin/firefox_old
+  130  sudo mv /opt/firefox/firefox /usr/bin/firefox_old
+  131  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+  132  cd /opt
+  133  la
+  134  cd firefox/
+  135  ls
+  136  cd .
+  137  cd ..
+  138  rm -r firefox
+  139  sudo rm -r firefox
+  140  cd ~
+  141  rm ~/bin/firefox
+  142  sudo rm /usr/bin/firefox
+  143  sudo rm /usr/bin/firefox_old
+  144  ls
+  145  tar xfj firefox-55.0.2.tar.bz2
+  146  sudo mv firefox /opt/
+  147  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+  148  ls
+  149  sudo apt-mark hold firefox
+  150  sudo apt-get purge firefox
+  151  cd /opt/
+  152  ls
+  153  cd firefox
+  154  ls
+  155  cd ..
+  156  cd ~
+  157  ls
+  158  tar xfj firefox-55.0.2.tar.bz2
+  159  ls
+  160  sudo mv firefox /opt/
+  161  rm -r /opt/firefox
+  162  sudo rm -r /opt/firefox
+  163  sudo mv firefox /opt/
+  164  rm /usr/bin/firefox
+  165  sudo rm /usr/bin/firefox
+  166  ls
+  167  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+  168  sudo apt-get install apache2-utils
+  169  ab
+  170  sudo apt install apache2-utils
+  171  ab
+  172  ssh f5student@10.1.1.245
+  173  ssh root@10.1.1.245
+  174  exit
+  175  ssh root@10.1.1.10
+  176  ssh root@10.1.1.250
+  177  ssh root@10.1.1.10
+  178  scp f5student@10.1.1.10
+  179  sfp
+  180  scp
+  181  ls
+  182  cd downloads
+  183  ls
+  184  cd downloads
+  185  cd Downloads/
+  186  ls
+  187  scp ?
+  188  man scp
+  189  scp AB_DOS.sh f5student@10.1.1.10 AB_DOS.sh
+  190  scp AB_DOS.sh f5student@10.1.1.10 ~/AB_DOS.sh
+  191  scp AB_DOS.sh f5student@10.1.1.10:~/ 
+  192  scp baseline_menu.sh f5student@10.1.1.10:~/ 
+  193  ping 10.1.1.250
+  194  ping 10.1.1.10
+  195  ssh root@10.1.1.10
+  196  ssh f5student@10.1.1.10
+  197  sudo nano etc/hosts
+  198  sudo nano /etc/hosts
+  199  ls
+  200  cd Downloads/
+  201  ls
+  202  chmod u+x burpsuite_community_linux_v1_7_35.sh 
+  203  ls
+  204  ./burpsuite_community_linux_v1_7_35.sh 
+  205  ls
+  206  cd ab
+  207  ls
+  208  ./AB_DOS.sh 
+  209  more AB_DOS.sh 
+  210  ssh f5student@10.1.1.10
+  211  sudo su -
+  212  vi ab/AB_DOS.sh 
+  213  cd ab/
+  214  ./AB_DOS.sh 
+  215  sudo su -
+  216  ip addr show
+  217  sudo su -
+  218  ifconfig 
+  219  ip addr show
+  220  cd ab/
+  221  ./AB_DOS.sh 
+  222  vi AB_DOS.sh 
+  223  ./AB_DOS.sh 
+  224  vi AB_DOS.sh 
+  225  ./AB_DOS.sh 
+  226  ifconfig
+  227  ip addr
+  228  ip addr show
+  229  ssh root@10.1.1.10
+  230  ssh f5student@10.1.1.10
+  231  ls
+  232  cd ab
+  233  scp ?
+  234  man scp
+  235  scp root@10.1.1.10
+  236  cd ..
+  237  ls
+  238  scp -r ab f5student@10.1.1.10:/home/f5student/ab
+  239  ls
+  240  cd scripts/
+  241  ls
+  242  cd ..
+  243  ssh admin@10.1.1.245
+  244  scp -r scripts admin@10.1.1.245:/home/admin/
+  245  ssh admin@10.1.1.245
+  246  ping 10.1.1.245
+  247  ssh admin@10.1.1.245
+  248  ls
+  249  nano version
+  250  ls
+  251  sudo apt-get update
+  252  sudo apt-get install google-chrome-stable
+  253  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  254  echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+  255  sudo apt-get update
+  256  sudo apt-get install google-chrome-stable
+  257  nano version
+  258  exit
+  259  nano /etc/hosts
+  260  ssh 10.1.1.252
+  261  ssh root@10.1.1.252
+  262  ssh f5student@10.1.1.252
+  263  ssh admin@10.1.1.245
+  264  ssh admin@10.1.1.245
+  265  docker ps
+  266  suod docker ps
+  267  sudo docker ps
+  268  fond / -name docker
+  269  sudo find / -name docker
+  270  sudo find / -name docker*
+  271  history
+  272  history > history.txt

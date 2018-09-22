@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=FireFox
+Comment=Open Firefox
+Exec=/usr/bin/firefox
+Icon=/usr/share/app-install/icons/firefox.png
+Terminal=false
+Type=Application
+StartupNotify=false

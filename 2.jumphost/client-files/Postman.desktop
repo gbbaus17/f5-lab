@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Postman
+Comment=Open Postman
+Exec=/opt/Postman/Postman
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Path=
+StartupNotify=false

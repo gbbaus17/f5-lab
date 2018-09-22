@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=BurpSuite
+Comment=Run Burp
+Exec=java -jar /home/ubuntu/lab-env-2/files/burpsuite/burpsuite_community_linux.jar
+Icon=/home/ubuntu/lab-env-2/files/burpsuite/burp.png
+Terminal=false
+Type=Application
+Path=/home/ubuntu/lab-env-2/files/burpsuite/
+StartupNotify=false

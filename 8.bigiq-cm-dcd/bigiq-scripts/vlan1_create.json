@@ -1,0 +1,20 @@
+{
+	"name":"VLAN1_NAME_VAR",
+	"description":"",
+	"tag":VLAN1_TAG_VAR,
+	"mtu":1500,
+	"interfacesReference":
+	{"items":
+	  [
+	    {
+	 	"name":"1.1",
+		"fullPath":"1.1",
+		"selfLink":"https://localhost/mgmt/tm/net/interface/1.1?ver=12.1.1",
+		"kind":"tm:net:interface:interfacestate",
+		"tagged":false,
+		"untagged":true
+	   }
+	 ]
+    },
+	"fullPath":"/Common/VLAN1_NAME_VAR"
+}

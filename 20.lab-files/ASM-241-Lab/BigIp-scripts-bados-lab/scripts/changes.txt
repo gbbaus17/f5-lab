@@ -1,0 +1,15 @@
+tmsh mod sys db adm.cloud.host value local
+tmsh mod sys db adm.mitigation.attack.timeout value 60
+tmsh mod sys db adm.logs.level value debug_lite
+tmsh mod sys db logrotate.logage value 100
+tmsh mod sys db dos.forceswdos value true
+
+
+tmsh modify sys db adm.logs.level value info 
+
+
+
+
+cat /var/log/dwbl/dwbld.log 
+
+/Common/set03-vs30-asm_BaDDoS+/Common/my_L7_BaDOS_profile_02

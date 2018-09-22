@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Chrome
+Comment=Open Chrome
+Exec=/opt/google/chrome/google-chrome
+Icon=google-chrome
+Terminal=false
+Type=Application
+Path=
+StartupNotify=false
