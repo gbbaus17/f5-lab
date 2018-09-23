@@ -1,0 +1,3 @@
+A copy of the latest template and script files should be called 
+"F5Lab-jumphost-latest.template"
+"F5Lab-jumphost-setup-latest.sh"

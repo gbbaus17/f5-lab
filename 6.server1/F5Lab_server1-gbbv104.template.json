@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-	"Conditions": {
+    "Conditions": {
         "noCustomImageId": {
             "Fn::Equals": [
                 "OPTIONAL",
@@ -9,33 +9,30 @@
                 }
             ]
         }
-    },	
-    "Description": "Ubuntu Jumpbox for use with F5 labs on Ubuntu 16.04 LTS - Xenial HVM",
+    },
+    "Description": "Ubuntu 16.04 LTS Server for use with F5 ASM labs https://clouddocs.f5.com/training/community/",
     "Parameters": {
         "VPC": {
-            "Description": "Existing F5 Lab VPC",
-            "Type": "AWS::EC2::VPC::Id",
-            "ConstraintDescription": "Run the F5 Lab Topology template first if it does not exist."
+            "Description": "Existing VPC to use",
+            "Type": "AWS::EC2::VPC::Id"
         },
-        "UbuntuPassword": {
+        "Server1Password": {
             "Default": "SuperSecret01!",
-            "Description": "ubuntu User password for Jumpbox RDP access",
+            "Description": "ubuntu User password for Server1 RDP access",
             "Type": "String"
-        },		
+        },
         "InstanceType": {
             "AllowedValues": [
                 "t2.medium",
-				"t2.large",
+                "t2.large",
                 "m3.medium",
                 "m3.large"
             ],
-			"ConstraintDescription": "Subset of valid EC2 instance types for Lab Jumpbox",
             "Default": "t2.large",
             "Description": "Size of the Ubuntu Instance |'t2.large' has 2 cores, 8Gb RAM @~11cents/hour",
             "Type": "String"
         },
-		"customImageId": {
-            "ConstraintDescription": "Must be a valid AMI Id",
+        "customImageId": {
             "Default": "OPTIONAL",
             "Description": "If the template AMI Ids are wrong or you would like to deploy using a custom Ubuntu image, provide the AMI Id.",
             "MaxLength": 255,
@@ -49,23 +46,20 @@
         },
         "KeyName": {
             "Description": "Name of an existing EC2 KeyPair to enable SSH to the instance",
-            "Type": "AWS::EC2::KeyPair::KeyName",
-            "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
+            "Type": "AWS::EC2::KeyPair::KeyName"
         },
         "ManagementSubnet": {
             "Description": "Existing F5Lab Mgmt subnet in the VPC",
-            "Type": "AWS::EC2::Subnet::Id",
-            "ConstraintDescription": "must be the name of an existing subnet."
+            "Type": "AWS::EC2::Subnet::Id"
         },
-        "ExternalSubnet": {
-            "Description": "Existing External subnet in the VPC",
-            "Type": "AWS::EC2::Subnet::Id",
-            "ConstraintDescription": "must be the name of an existing subnet."
+        "InternalSubnet": {
+            "Description": "Existing Internal subnet in the VPC",
+            "Type": "AWS::EC2::Subnet::Id"
         },
-        "IngressSG": {
-            "Description": "Existing Ingress Security Group for the VPC",
-            "Type": "AWS::EC2::SecurityGroup::Id",
-            "ConstraintDescription": "must be the name of an existing security group."
+        "RepoBranch": {
+            "Description": "Option to change the GitHub Repo branch to load setup scripts from",
+            "Type": "String",
+            "Default": "master"
         },
         "UserIP": {
             "Description": "The IPv4 address range that will be granted remote access (SSH and RDP) to the Ubuntu instance",
@@ -190,55 +184,50 @@
                         }
                     }
                 ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "afd8ef24-a9ef-4642-8716-448687224a9b"
-                }
             }
         },
-        "ENIExternal": {
-            "Type": "AWS::EC2::NetworkInterface",
+        "InstanceInternalSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
-                "Description": "RDP:External",
-                "SourceDestCheck": "true",
-                "SubnetId": {
-                    "Ref": "ExternalSubnet"
+                "VpcId": {
+                    "Ref": "VPC"
                 },
-                "PrivateIpAddresses": [
+                "GroupDescription": "Enable remote access via port SSH (22) and HTTP (80)",
+                "SecurityGroupIngress": [
                     {
-                        "PrivateIpAddress": "10.1.10.20",
-                        "Primary": "true"
-                    }
-                ],
-                "GroupSet": [
+                        "IpProtocol": "icmp",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                        "CidrIp": "0.0.0.0/0"
+                    },
                     {
-                        "Ref": "InstanceSecurityGroup"
-                    }
-                ],
-                "Tags": [
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    },
                     {
-                        "Key": "Name",
-                        "Value": "RDP:External"
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
                     }
                 ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "e50059f5-1d32-4b8a-b2d2-07ffe681ae0d"
-                }
             }
         },
-        "UbuntuInstance": {
+        "F5LabServerInstance": {
             "Type": "AWS::EC2::Instance",
             "Metadata": {
                 "AWS::CloudFormation::Init": {
                     "config": {
                         "commands": {
                             "a_update_etc_hosts": {
-                                "command": "sh -c 'sudo echo \"10.1.1.51 ip-10-1-1-51\" >> /etc/hosts'"
+                                "command": "sh -c 'sudo echo \"10.1.1.250 ip-10-1-1-250\" >> /etc/hosts'"
                             },
-                            "b_update_apt": {
+                            "b_update_etc_hosts": {
+                                "command": "sh -c 'sudo echo \"10.1.20.100 ip-10-1-20-100\" >> /etc/hosts'"
+                            },
+                            "c_update_apt": {
                                 "command": "apt-get -y update"
                             },
                             "d_install_git": {
@@ -250,24 +239,26 @@
                                         " ",
                                         [
                                             "git clone -b",
-                                            "master",
-                                            "https://github.com/gbbaus17/lab-env-2",
-                                            "/home/ubuntu/lab-env-2"
+                                            {
+                                                "Ref": "RepoBranch"
+                                            },
+                                            "https://github.com/gbbaus17/F5-Lab",
+                                            "/home/ubuntu/F5-Lab"
                                         ]
                                     ]
                                 }
                             },
                             "f_sleep": {
-                                "command": "sleep 20"
+                                "command": "sleep 5"
                             },
-                            "g_execute_script": {
-                                "command": "sh /home/ubuntu/lab-env-2/lab_environments/AWS/jumphost/f5labs_jumphost_setup-latest.sh"
+                            "g_chmod_script": {
+                                "command": "chmod 755 /home/ubuntu/F5-Lab/6.server1/f5labs_server1_setup-latest.sh"
+                            },
+                            "h_execute_script": {
+                                "command": "sh /home/ubuntu/F5-Lab/6.server1/f5labs_server1_setup-latest.sh"
                             }
                         }
                     }
-                },
-                "AWS::CloudFormation::Designer": {
-                    "id": "66b385a3-f0eb-4094-978a-3bcc1a6bfaac"
                 }
             },
             "Properties": {
@@ -281,13 +272,13 @@
                                     "Ref": "AWS::Region"
                                 },
                                 {
-									"Fn::FindInMap": [
-										"AWSInstanceType2Arch",
-										{
-											"Ref": "InstanceType"
-										},
-										"Arch"
-									]
+                                    "Fn::FindInMap": [
+                                        "AWSInstanceType2Arch",
+                                        {
+                                            "Ref": "InstanceType"
+                                        },
+                                        "Arch"
+                                    ]
                                 }
                             ]
                         },
@@ -314,14 +305,14 @@
                 },
                 "Tags": [
                     {
-                        "Key": "RDP Instance",
+                        "Key": "Server Instance",
                         "Value": {
                             "Ref": "AWS::StackId"
                         }
                     },
                     {
                         "Key": "Name",
-                        "Value": "f5labsJumphost"
+                        "Value": "F5LabServer1"
                     }
                 ],
                 "UserData": {
@@ -339,178 +330,135 @@
                                 {
                                     "Ref": "AWS::StackName"
                                 },
-                                "         --resource UbuntuInstance ",
+                                "         --resource F5LabServerInstance ",
                                 "         --region ",
                                 {
                                     "Ref": "AWS::Region"
                                 },
                                 "\n",
                                 "# Signal the status from cfn-init\n",
-                                "echo \"#!/bin/bash\" > /etc/rc.local",
-                                "\n",
-                                "echo \"/usr/local/bin/cfn-signal -e $? ",
+                                "cfn-signal -e $? ",
                                 "         --stack ",
                                 {
                                     "Ref": "AWS::StackName"
                                 },
-                                "         --resource UbuntuInstance ",
+                                "         --resource F5LabServerInstance ",
                                 "         --region ",
                                 {
                                     "Ref": "AWS::Region"
                                 },
-                                "\" >> /etc/rc.local",
                                 "\n",
-                                "echo \"exit 0\" >> /etc/rc.local",
-                                "\n",
-								"sh -c 'echo \"ubuntu:",
-										{
-										"Ref": "UbuntuPassword"
-										},
-										"\" | chpasswd'",
+                                "sh -c 'echo \"ubuntu:",
+                                {
+                                    "Ref": "Server1Password"
+                                },
+                                "\" | chpasswd'",
                                 "\n",
                                 "reboot",
                                 "\n"
                             ]
                         ]
                     }
-                },
-                "NetworkInterfaces": [
-                    {
-                        "GroupSet": [
-                            {
-                                "Ref": "InstanceSecurityGroup"
-                            }
-                        ],
-                        "Description": "Management",
-                        "AssociatePublicIpAddress": "true",
-                        "DeviceIndex": "0",
-                        "DeleteOnTermination": "true",
-                        "SubnetId": {
-                            "Ref": "ManagementSubnet"
-                        },
-                        "PrivateIpAddresses": [
-                            {
-                                "PrivateIpAddress": "10.1.1.51",
-                                "Primary": "true"
-                            }
-                        ]
-                    }
-                ]
-            },
+                }
+             },
             "CreationPolicy": {
                 "ResourceSignal": {
-                    "Timeout": "PT30M"
+                    "Timeout": "PT15M"
                 }
             }
         },
-        "eniattach2": {
+		
+		"ENIManagementInterface": {
+		  "Type": "AWS::EC2::NetworkInterface",
+		  "Properties": {
+			"Description": "RDP:Management",
+			"SourceDestCheck": "true",
+			"SubnetId": {
+			  "Ref": "ManagementSubnet"
+			},
+			"PrivateIpAddresses": [{
+			  "PrivateIpAddress": "10.1.1.250",
+			  "Primary": "true"
+			}],
+			"GroupSet": [{
+			  "Ref": "InstanceSecurityGroup"
+			}],
+			"Tags": [{
+			  "Key": "Name",
+			  "Value": "RDP:Management"
+			}]
+		  }
+		},		
+
+		"ENIManagementAattach": {
+		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
+		  "Properties": {
+			"DeleteOnTermination": "true",
+			"DeviceIndex": "0",
+			"NetworkInterfaceId": {
+			  "Ref": "ENIManagementInterface"
+			},
+			"InstanceId": {
+			  "Ref": "F5LabServerInstance"
+			}
+		  }
+		},		
+		
+        "ENIInternal": {
+            "Type": "AWS::EC2::NetworkInterface",
+            "Properties": {
+                "Description": "Server:Internal",
+                "SourceDestCheck": "true",
+                "SubnetId": {
+                    "Ref": "InternalSubnet"
+                },
+                "PrivateIpAddresses": [
+                    {
+                        "PrivateIpAddress": "10.1.20.100",
+                        "Primary": "true"
+                    },
+                    {
+                        "PrivateIpAddress": "10.1.20.101",
+                        "Primary": "false"
+                    },
+                    {
+                        "PrivateIpAddress": "10.1.20.102",
+                        "Primary": "false"
+                    },
+                    {
+                        "PrivateIpAddress": "10.1.20.103",
+                        "Primary": "false"
+                    }
+                ],
+                "GroupSet": [
+                    {
+                        "Ref": "InstanceInternalSecurityGroup"
+                    }
+                ]
+            }
+        },
+        "ENIInternalAttach": {
             "Type": "AWS::EC2::NetworkInterfaceAttachment",
             "Properties": {
                 "DeleteOnTermination": "true",
-                "DeviceIndex": "2",
+                "DeviceIndex": "1",
                 "NetworkInterfaceId": {
-                    "Ref": "ENIExternal"
+                    "Ref": "ENIInternal"
                 },
                 "InstanceId": {
-                    "Ref": "UbuntuInstance"
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "07a7a252-077c-4a3e-999a-0d2ef0130a06"
-                }
-            }
-        },
-        "IngressSGIcmp": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "IngressSG"
-                },
-                "IpProtocol": "icmp",
-                "FromPort": "-1",
-                "ToPort": "-1",
-                "CidrIp": {
-                    "Ref": "UserIP"
-                }
-            }
-        },
-        "IngressSGHttp": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "IngressSG"
-                },
-                "IpProtocol": "tcp",
-                "FromPort": "80",
-                "ToPort": "80",
-                "CidrIp": {
-                    "Ref": "UserIP"
-                }
-            }
-        },
-        "IngressSGRdp": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "IngressSG"
-                },
-                "IpProtocol": "tcp",
-                "FromPort": "3389",
-                "ToPort": "3389",
-                "CidrIp": {
-                    "Ref": "UserIP"
-                }
-            }
-        },
-        "IngressSGSSH": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "IngressSG"
-                },
-                "IpProtocol": "tcp",
-                "FromPort": "22",
-                "ToPort": "22",
-                "CidrIp": {
-                    "Ref": "UserIP"
+                    "Ref": "F5LabServerInstance"
                 }
             }
         }
     },
+	
     "Outputs": {
-        "JumpHostPublicIP": {
-            "Description": "RDP Public IP - recommended to restrict access with Securty Group",
+        "UbuntuPassword": {
+            "Description": "Default ubuntu user setup password for ssh access",
             "Value": {
-                "Fn::GetAtt": [
-                    "UbuntuInstance",
-                    "PublicIp"
-                ]
+                "Ref": "Server1Password"
             }
         },
-        "UbuntuPassword": {
-            "Description": "RDP Access setup password",
-            "Value": {
-                "Ref": "UbuntuPassword"
-            }
-        },	
-        "JumpBoxSSH": {
-            "Description": "ssh access to Ubuntu Jumpbox",
-            "Value": {
-                "Fn::Join": [
-                    "",
-                    [
-                        "ssh -i your-aws-pem-key.pem admin@",
-                        {
-                            "Fn::GetAtt": [
-                                "UbuntuInstance",
-                                "PublicIp"
-                            ]
-                        }
-                    ]
-                ]
-            }
-        },		
         "Region": {
             "Description": "AWS Region",
             "Value": {
@@ -518,87 +466,92 @@
             }
         }
     },
+	
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
-			    {
+                {
                     "Label": {
                         "default": "Note: You must first Accept Terms and Conditions for Ubuntu 16.04 LTS - Xenial HVM"
                     },
                     "Parameters": []
                 },
-				{
+                {
                     "Label": {
                         "default": "https://aws.amazon.com/marketplace/search/results?searchTerms=Ubuntu+16.04+LTS+%28HVM%29"
                     },
                     "Parameters": []
-                },				{
+                },
+                {
                     "Label": {
                         "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
-                    },
-                    "Parameters": []
-                }, 
-		    
-			    {
-                    "Label": {
-                        "default": "Run this template AFTER you have run the F5 Lab TOPOLOGY template. Jumpbox Build takes ~10 min"
                     },
                     "Parameters": []
                 },
-				{
+                {
+                    "Label": {
+                        "default": "Run this template AFTER you have run the F5 Lab TOPOLOGY template. Server1 Build takes ~10 min"
+                    },
+                    "Parameters": []
+                },
+                {
                     "Label": {
                         "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
                     },
                     "Parameters": []
-                },	
-				{
+                },
+                {
                     "Label": {
-                        "default": "JUMPBOX CONFIGURATION"
+                        "default": "SERVER1 CONFIGURATION"
                     },
                     "Parameters": [
-						"VPC",   
-						"InstanceType",
-						"customImageId",
-						"EBSVolumeSize",
-						"KeyName",
-						"UbuntuPassword",
-						"ManagementSubnet",
-						"ExternalSubnet",
-						"IngressSG",
-						"UserIP"
+                        "VPC",
+                        "InstanceType",
+                        "customImageId",
+                        "EBSVolumeSize",
+                        "KeyName",
+                        "Server1Password",
+                        "ManagementSubnet",
+                        "InternalSubnet",
+                        "IngressSG",
+                        "UserIP",
+                        "RepoBranch"
                     ]
                 }
             ],
             "ParameterLabels": {
                 "VPC": {
                     "default": "F5 Lab VPC"
-                },   
-				"InstanceType": {
-                    "default": "Ubuntu instance"
                 },
-				"customImageId": {
+                "InstanceType": {
+                    "default": "Server1 instance"
+                },
+                "customImageId": {
                     "default": "Custom Image Id"
                 },
-				"EBSVolumeSize": {
+                "EBSVolumeSize": {
                     "default": "EBS Volume Size"
                 },
-				"KeyName": {
+                "KeyName": {
                     "default": "KeyPair to enable SSH"
                 },
-				"ManagementSubnet": {
+                "ManagementSubnet": {
                     "default": "F5Lab Mgmt subnet"
                 },
-				"ExternalSubnet": {
-                    "default": "External subnet"
+                "InternalSubnet": {
+                    "default": "Internal subnet"
                 },
-				"IngressSG": {
+                "IngressSG": {
                     "default": "Ingress Security Group"
                 },
-				"UserIP": {
+                "UserIP": {
                     "default": "Restrict To"
                 },
-				"UbuntuPassword": {
-                    "default": "Ubuntu password"
+                "Server1Password": {
+                    "default": "Server1 password"
+                },
+                "RepoBranch": {
+                    "default": "GitHub Repo branch"
                 }
             }
         }

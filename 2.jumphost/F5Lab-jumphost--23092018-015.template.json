@@ -5,7 +5,7 @@
             "Fn::Equals": [
                 "OPTIONAL",
                 {
-                    "Ref": "customImageId"
+                    "Ref": "CustomImageId"
                 }
             ]
         }
@@ -23,7 +23,7 @@
             "Description": "ubuntu User password for Jumpbox RDP access",
             "Type": "String"
         },		
-        "InstanceType": {
+        "instanceType": {
             "AllowedValues": [
                 "t2.medium",
 				"t2.large",
@@ -35,7 +35,7 @@
             "Description": "Size of the Ubuntu Instance |'t2.large' has 2 cores, 8Gb RAM @~11cents/hour",
             "Type": "String"
         },
-		"customImageId": {
+		"CustomImageId": {
             "ConstraintDescription": "Must be a valid AMI Id",
             "Default": "OPTIONAL",
             "Description": "If the template AMI Ids are wrong or you would like to deploy using a custom Ubuntu image, provide the AMI Id.",
@@ -48,22 +48,40 @@
             "Type": "String",
             "Default": "40"
         },
-        "KeyName": {
+        "sshKey": {
             "Description": "Name of an existing EC2 KeyPair to enable SSH to the instance",
             "Type": "AWS::EC2::KeyPair::KeyName",
             "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
         },
         "ManagementSubnet": {
-            "Description": "Existing F5Lab Mgmt subnet in the VPC",
-            "Type": "AWS::EC2::Subnet::Id",
-            "ConstraintDescription": "must be the name of an existing subnet."
+            "ConstraintDescription": "The subnet ID must be within an existing VPC",
+            "Description": "Management Subnet",
+            "Type": "AWS::EC2::Subnet::Id"
         },
         "ExternalSubnet": {
-            "Description": "Existing External subnet in the VPC",
-            "Type": "AWS::EC2::Subnet::Id",
-            "ConstraintDescription": "must be the name of an existing subnet."
+            "ConstraintDescription": "The subnet ID must be within an existing VPC",
+            "Description": "Data Plane subnet",
+            "Type": "AWS::EC2::Subnet::Id"
         },
-	   "RepoBranch": {
+		"JumphostLandingPrivateIP": {
+			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
+            "Default": "10.1.10.51",
+            "Description": "Jumhost External vlan address- Lab Default is 10.1.10.51",
+            "MaxLength": 18,
+            "MinLength": 9,
+            "Type": "String"
+		},
+		"JumphostMngmtAccessIP": {
+			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
+            "Default": "10.1.1.51",
+            "Description": "Jumphost Mngmt vlan address - Lab Default is 10.1.1.51",
+            "MaxLength": 18,
+            "MinLength": 9,
+            "Type": "String"
+		},		
+	    "RepoBranch": {
 		  "Description": "The GitHub Repo branch to load setup scripts from",
 		  "Type": "String",
 		  "Default": "master"
@@ -80,7 +98,7 @@
     },
 
     "Mappings": {
-        "AWSInstanceType2Arch": {
+        "AWSinstanceType2Arch": {
             "t2.medium": {
                 "Arch": "HVM64"
             },
@@ -195,49 +213,108 @@
                 ]
             }
         },
-
         "UbuntuInstance": {
             "Type": "AWS::EC2::Instance",
-			  "Metadata" : {
-					"Comment1" : "Configure the bootstrap helpers to install the Jumpbox",
-					"Comment2" : "comment 2 here",
-					"AWS::CloudFormation::Init" : {
-					  "configSets" : {
-						"MyInstallSets" : [ "Phase1" ] 
-						},
-							  "Phase1" : {
-									"02_update_etc_hosts": {
-										"command": "sh -c 'sudo echo \"10.1.1.51 ip-10-1-1-51\" >> /etc/hosts'"
-									},
-									"04_update_apt": {
-										"command": "apt-get -y update"
-									},
-									"06_install_git": {
-										"command": "apt-get -y install git"
-									},
-									"08_clone_repo": {
-										"command": { 
-										"Fn::Join": [
-										"", 
-										[
-											"git clone -b ",
-											{ "Ref": "RepoBranch" },
-												"https://github.com/gbbaus17/lab-env-2",
-												"/home/ubuntu/lab-env-2"
-										  ]
-										  ]
-										}
-									  },
-									 "10_chmod_script": {
-										"command": "chmod 755 /home/ubuntu/lab-env-2/lab_environments/AWS/jumphost/f5labs_jumphost_setup-latest.sh"
-									},						
-									"12_execute_script": {
-										"command": "sh /home/ubuntu/lab-env-2/lab_environments/AWS/jumphost/f5labs_jumphost_setup-latest.sh"
-									}
-								}
-							  }
-							  
+			"Metadata" : {
+			 "AWS::CloudFormation::Init" : {
+			   "config" : {
+				 "commands": {
+				   "01-set-host-file": {
+						"command": {
+						 "Fn::Join": [
+						  "",
+						  [
+						   "myvarip1="
+						   	{
+								"Ref": "JumphostMngmtAccessIP"
 							},
+							";",
+							"myvar1=$(sed 's/\./-/g' <<< $myvarip1);",
+						    "sh -c 'sudo echo \"$myvarip1",
+						    " ip-$myvar1",
+						    "\" >> /etc/hosts'"
+						  ]
+						 ]
+						}
+					},
+				   "02-set-host-file": {
+						"command": {
+						 "Fn::Join": [
+						  "",
+						  [
+						   "myvarip2="
+						   	{
+								"Ref": "JumphostLandingPrivateIP"
+							},
+							";",
+							"myvar2=$(sed 's/\./-/g' <<< $myvarip2);",
+						    "sh -c 'sudo echo \"$myvarip2",
+						    " ip-$myvar2",
+						    "\" >> /etc/hosts'"
+						  ]
+						 ]
+						}
+					},					
+				   "05-inital-install": {
+						"command": {
+						 "Fn::Join": [
+						  "",
+						  [
+						   "apt-get -y update;",
+						   "sleep 10;",
+						   "apt-get -y install git"
+						  ]
+						 ]
+						}
+					},						   
+				   "10_download_setup_file": {
+						"command": { 
+						"Fn::Join": [
+						"", 
+						[
+						  "mkdir -p /home/ubuntu/F5-Lab/jumphost;",
+						  "cd /home/ubuntu/F5-Lab/jumphost/;",
+						  "curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/F5Lab-jumphost-setup-latest.sh > F5Lab-jumphost-setup-latest.sh;",
+						  "chmod 777 *.sh"								
+						  ]
+						  ]
+						}
+					  },
+				   "15_reconfirm_adressing_eth0": {
+						"command": { 
+						"Fn::Join": [
+						" ", 
+						[
+						  "ifconfig eth0",
+						  {
+							 "Ref": "JumphostLandingPrivateIP"
+						  },
+						  "netmask 255.255.255.0"
+ 						 ]
+						]
+					  }
+					},					  
+				   "16_reconfirm_adressing_eth1": {
+						"command": { 
+						"Fn::Join": [
+						" ", 
+						[
+						  "ifconfig eth1",
+						  {
+							 "Ref": "JumphostMngmtAccessIP"
+						  },
+						  "netmask 255.255.255.0"
+ 						 ]
+						]
+					  }
+					},
+				   "20_execute_script": {
+						"command": "echo /" don't run yet ... sh /home/ubuntu/F5-Lab/2.jumphost/F5Lab-jumphost-setup-latest.sh/""
+					}
+				 }
+			   }
+			 }
+			},
             "Properties": {
                 "ImageId": {
                     "Fn::If": [
@@ -250,9 +327,9 @@
                                 },
                                 {
 									"Fn::FindInMap": [
-										"AWSInstanceType2Arch",
+										"AWSinstanceType2Arch",
 										{
-											"Ref": "InstanceType"
+											"Ref": "instanceType"
 										},
 										"Arch"
 									]
@@ -260,12 +337,12 @@
                             ]
                         },
                         {
-                            "Ref": "customImageId"
+                            "Ref": "CustomImageId"
                         }
                     ]
                 },
-                "InstanceType": {
-                    "Ref": "InstanceType"
+                "instanceType": {
+                    "Ref": "instanceType"
                 },
                 "BlockDeviceMappings": [
                     {
@@ -277,8 +354,8 @@
                         }
                     }
                 ],
-                "KeyName": {
-                    "Ref": "KeyName"
+                "sshKey": {
+                    "Ref": "sshKey"
                 },
                 "Tags": [
                     {
@@ -303,7 +380,6 @@
 								 "/opt/aws/bin/cfn-init -v ",
 								 "         --stack ", { "Ref" : "AWS::StackName" },
 								 "         --resource UbuntuInstance ",
-								 "         --configsets MyInstallSets ",
 								 "         --region ", { "Ref" : "AWS::Region" }, "\n",
 								 
 								 "# Signal the status from cfn-init\n",
@@ -331,15 +407,9 @@
 					"Primary": "true"
 				  }]
 				}]				
-				},
-			
-			  "CreationPolicy" : {
-				"ResourceSignal" : {
-				  "Timeout" : "PT15M"
 				}
-			  }
+		 	
         },
-
 		"ENIManagementInterface": {
 		  "Type": "AWS::EC2::NetworkInterface",
 		  "Properties": {
@@ -361,7 +431,6 @@
 			}]			
 		  }
 		},		
-
 		"ENIManagementAattach": {
 		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
 		  "Properties": {
@@ -375,14 +444,12 @@
 			}
 		  }
 		},		
-
         "JumpBoxEipAddress": {
             "Properties": {
                 "Domain": "VPC"
             },
             "Type": "AWS::EC2::EIP"
         },
-
         "JumpBoxEipAssociation": {
             "Properties": {
                 "AllocationId": {
@@ -474,10 +541,10 @@
                     },
                     "Parameters": [
 						"VPC",   
-						"InstanceType",
-						"customImageId",
+						"instanceType",
+						"CustomImageId",
 						"EBSVolumeSize",
-						"KeyName",
+						"sshKey",
 						"UbuntuPassword",
 						"ManagementSubnet",
 						"ExternalSubnet",
@@ -490,16 +557,16 @@
                 "VPC": {
                     "default": "F5 Lab VPC"
                 },   
-				"InstanceType": {
+				"instanceType": {
                     "default": "Ubuntu instance"
                 },
-				"customImageId": {
+				"CustomImageId": {
                     "default": "Custom Image Id"
                 },
 				"EBSVolumeSize": {
                     "default": "EBS Volume Size"
                 },
-				"KeyName": {
+				"sshKey": {
                     "default": "KeyPair to enable SSH"
                 },
 				"ManagementSubnet": {
