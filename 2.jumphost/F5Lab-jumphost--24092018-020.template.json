@@ -77,7 +77,7 @@
 		  "Type": "String",
 		  "Default": "master"
 		},		
-        "UserIP": {
+        "restrictedSrcAddress": {
             "Description": "The IPv4 address range that will be granted remote access (SSH and RDP) to the Ubuntu instance",
             "Type": "String",
             "MinLength": "9",
@@ -95,20 +95,22 @@
                 "VpcId": {
                     "Ref": "VPC"
                 },
-                "GroupDescription": "Enable remote access via port SSH (22) and RDP (3389)",
+                "GroupDescription": "Enable neccessary protocols",
                 "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "icmp",
-                        "FromPort": "-1",
-                        "ToPort": "-1",
-                        "CidrIp": "0.0.0.0/0"
-                    },
                     {
                         "IpProtocol": "tcp",
                         "FromPort": "22",
                         "ToPort": "22",
                         "CidrIp": {
-                            "Ref": "UserIP"
+                            "Ref": "restrictedSrcAddress"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": {
+                            "Ref": "restrictedSrcAddress"
                         }
                     },
                     {
@@ -116,7 +118,7 @@
                         "FromPort": "80",
                         "ToPort": "80",
                         "CidrIp": {
-                            "Ref": "UserIP"
+                            "Ref": "restrictedSrcAddress"
                         }
                     },
                     {
@@ -124,12 +126,12 @@
                         "FromPort": "3389",
                         "ToPort": "3389",
                         "CidrIp": {
-                            "Ref": "UserIP"
+                            "Ref": "restrictedSrcAddress"
                         }
                     }
                 ]
             }
-        },
+        },		
         "UbuntuInstance": {
             "Type": "AWS::EC2::Instance",
 			"Metadata" : {
@@ -184,7 +186,7 @@
 					  ]]
 					}
 				  },
-				  "10_retrieve_setup_script": {
+				   "10_retrieve_setup_script": {
 					"command": "wget -O /home/ubuntu/F5Lab-jumphost-setup-latest.sh https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/F5Lab-jumphost-setup-latest.sh"
 				  },  
 				   "15_reconfirm_adressing_eth0": {
@@ -291,60 +293,84 @@
 					  "\n"
 					]]
 				  }
-				},
-				"NetworkInterfaces": [{
-				  "GroupSet": [{
-					"Ref": "InstanceSecurityGroup"
-				  }],
-				  "Description": "PrimaryNIC",
-				  "AssociatePublicIpAddress": "false",
-				  "DeviceIndex": "0",
-				  "DeleteOnTermination": "true",
-				  "SubnetId": {
-					"Ref": "ExternalSubnet"
-				  },
-				  "PrivateIpAddresses": [{
-					"PrivateIpAddress": "10.1.10.51",
-					"Primary": "true"
-				  }]
-				}]				
 				}
+			}
 		 	
         },
-		"UbuntuManagementInterface": {
+		"UbuntuExternalInterface": {
 		  "Type": "AWS::EC2::NetworkInterface",
 		  "Properties": {
-			"Description": "RDP:Management",
+			"Description": "Jumpbox:RDP",
 			"SourceDestCheck": "false",
 			"SubnetId": {
-			  "Ref": "ManagementSubnet"
+			  "Ref": "ExternalSubnet"
 			},
 			"PrivateIpAddresses": [{
-			  "PrivateIpAddress": "10.1.1.51",
-			  "Primary": "true"
-			}],
+				"PrivateIpAddress": 
+					{
+					   "Ref" : "JumphostLandingPrivateIP"
+					},			
+				"Primary": "true"
+		   }],			
 			"GroupSet": [{
 			  "Ref": "InstanceSecurityGroup"
 			}],
 			"Tags": [{
 			  "Key": "Name",
-			  "Value": "JumpBox:Management"
+			  "Value": "JumpBox:RDPExternal"
 			}]			
 		  }
 		},		
-		"UbuntuManagementEipAssociation": {
+		"UbuntuExternalENIAttach": {
 		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
 		  "Properties": {
 			"DeleteOnTermination": "true",
-			"DeviceIndex": "1",
+			"DeviceIndex": "0",
 			"NetworkInterfaceId": {
-			  "Ref": "UbuntuManagementInterface"
+			  "Ref": "UbuntuExternalInterface"
 			},
 			"InstanceId": {
 			  "Ref": "UbuntuInstance"
 			}
 		  }
-		},		
+		},
+		"UbuntuEth1Interface": {
+		  "Type": "AWS::EC2::NetworkInterface",
+		  "Properties": {
+			"Description": "RDP:ManagementAccess",
+			"SourceDestCheck": "false",
+			"SubnetId": {
+			  "Ref": "ManagementSubnet"
+			},
+			"PrivateIpAddresses": [{
+				"PrivateIpAddress": 
+						{
+						   "Ref" : "JumphostMngmtAccessIP"
+						},			
+				"Primary": "true"
+		   }],			
+			"GroupSet": [{
+				  "Ref": "InstanceSecurityGroup"
+				}],
+			"Tags": [{
+			  "Key": "Name",
+			  "Value": "JumpBox:ManagementAccess"
+			}]			
+		  }
+		  },
+		"UbuntuEth1ENIAttach": {
+		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
+		  "Properties": {
+			"DeleteOnTermination": "true",
+			"DeviceIndex": "1",
+			"NetworkInterfaceId": {
+			  "Ref": "UbuntuEth1Interface"
+			},
+			"InstanceId": {
+			  "Ref": "UbuntuInstance"
+			}
+		  }
+		},		  
         "JumpBoxEipAddress": {
             "Properties": {
                 "Domain": "VPC"
@@ -360,11 +386,11 @@
                     ]
                 },
                 "NetworkInterfaceId": {
-                    "Ref": "UbuntuManagementInterface"
+                    "Ref": "UbuntuExternalInterface"
                 }
             },
             "Type": "AWS::EC2::EIPAssociation"
-        }
+        }		
     },
 	
     "Outputs": {
@@ -446,7 +472,7 @@
 						"CustomImageId",
 						"EBSVolumeSize",
 						"sshKey",
-						"UserIP",
+						"restrictedSrcAddress",
 						"UbuntuPassword",
 						"ManagementSubnet",
 						"JumphostMngmtAccessIP",					
@@ -484,7 +510,7 @@
 				"JumphostLandingPrivateIP": {
                     "default": "External subnet IP"
                 },				
-				"UserIP": {
+				"restrictedSrcAddress": {
                     "default": "Restrict To"
                 },
 				"UbuntuPassword": {

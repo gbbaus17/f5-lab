@@ -172,7 +172,9 @@
 						 ]
 						}
 					},					
-                   "05_install_git": { "command": "apt-get -y install git" },					
+                   "05_install_git": { 
+				      "command": "apt-get -y install git" 
+				   },					
 				   "06_clone_repo": {
 					"command": { "Fn::Join": [" ", [
 						"git clone -b",
@@ -184,8 +186,6 @@
 				  },
 				  "10_retrieve_setup_script": {
 					"command": "wget -O /home/ubuntu/F5Lab-jumphost-setup-latest.sh https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/F5Lab-jumphost-setup-latest.sh"
-					  ]]
-					}
 				  },  
 				   "15_reconfirm_adressing_eth0": {
 						"command": { 

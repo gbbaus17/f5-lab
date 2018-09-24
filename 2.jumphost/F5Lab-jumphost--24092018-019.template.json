@@ -291,30 +291,48 @@
 					  "\n"
 					]]
 				  }
-				},
-				"NetworkInterfaces": [{
-				  "GroupSet": [{
-					"Ref": "InstanceSecurityGroup"
-				  }],
-				  "Description": "PrimaryNIC",
-				  "AssociatePublicIpAddress": "false",
-				  "DeviceIndex": "0",
-				  "DeleteOnTermination": "true",
-				  "SubnetId": {
-					"Ref": "ExternalSubnet"
-				  },
-				  "PrivateIpAddresses": [{
-					"PrivateIpAddress": "10.1.10.51",
-					"Primary": "true"
-				  }]
-				}]				
 				}
+			}
 		 	
         },
-		"UbuntuManagementInterface": {
+		"UbuntuExternalInterface": {
 		  "Type": "AWS::EC2::NetworkInterface",
 		  "Properties": {
-			"Description": "RDP:Management",
+			"Description": "Jumpbox:RDP",
+			"SourceDestCheck": "false",
+			"SubnetId": {
+			  "Ref": "ExternalSubnet"
+			},
+			"PrivateIpAddresses": [{
+			  "PrivateIpAddress": "10.1.10.51",
+			  "Primary": "true"
+			}],
+			"GroupSet": [{
+			  "Ref": "InstanceSecurityGroup"
+			}],
+			"Tags": [{
+			  "Key": "Name",
+			  "Value": "JumpBox:RDPExternal"
+			}]			
+		  }
+		},		
+		"UbuntuExternalEipAssociation": {
+		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
+		  "Properties": {
+			"DeleteOnTermination": "true",
+			"DeviceIndex": "0",
+			"NetworkInterfaceId": {
+			  "Ref": "UbuntuExternalInterface"
+			},
+			"InstanceId": {
+			  "Ref": "UbuntuInstance"
+			}
+		  }
+		},
+		"UbuntuEth1Interface": {
+		  "Type": "AWS::EC2::NetworkInterface",
+		  "Properties": {
+			"Description": "RDP:ManagementAccess",
 			"SourceDestCheck": "false",
 			"SubnetId": {
 			  "Ref": "ManagementSubnet"
@@ -328,23 +346,9 @@
 			}],
 			"Tags": [{
 			  "Key": "Name",
-			  "Value": "JumpBox:Management"
+			  "Value": "JumpBox:ManagementAccess"
 			}]			
 		  }
-		},		
-		"UbuntuManagementEipAssociation": {
-		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
-		  "Properties": {
-			"DeleteOnTermination": "true",
-			"DeviceIndex": "1",
-			"NetworkInterfaceId": {
-			  "Ref": "UbuntuManagementInterface"
-			},
-			"InstanceId": {
-			  "Ref": "UbuntuInstance"
-			}
-		  }
-		},		
         "JumpBoxEipAddress": {
             "Properties": {
                 "Domain": "VPC"
@@ -360,11 +364,12 @@
                     ]
                 },
                 "NetworkInterfaceId": {
-                    "Ref": "UbuntuManagementInterface"
+                    "Ref": "UbuntuExternalInterface"
                 }
             },
             "Type": "AWS::EC2::EIPAssociation"
-        }
+        }		
+
     },
 	
     "Outputs": {
