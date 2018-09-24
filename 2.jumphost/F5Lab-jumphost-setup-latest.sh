@@ -17,6 +17,17 @@ set -x
 #ifconfig eth0 10.1.10.51 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
+# Disable SSH Host Key Checking for hosts in the lab
+cat << 'EOF' >> /etc/ssh/ssh_config
+
+Host 10.1.*.*
+   StrictHostKeyChecking no
+   UserKnownHostsFile /dev/null
+   LogLevel ERROR
+
+EOF
+
+
 # Install desktop environment
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
@@ -29,7 +40,7 @@ systemctl restart xrdp.service
 
 # Install specific fonts support
 # Japanese
-apt-get -y install fonts-takao-mincho
+#apt-get -y install fonts-takao-mincho
 
 # Install Chrome setup and add the desktop icon
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -38,18 +49,24 @@ apt-get -y update
 sleep 5
 apt-get -y install google-chrome-stable
 
-
 # Install ubuntu docker
-apt-get update
-apt-get install -y docker.io
-sleep 2
+#apt-get update
+#apt-get install -y docker.io
+#sleep 2
+
 
 # Install official docker
-#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-#apt-get -y update
-#apt-get install -y docker-ce
-#sleep 2
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get -y update
+apt-get install -y docker-ce
+sleep 2
+
+
+# pull the f5-super-netops images : base, jenkins, ansible
+#docker pull f5devcentral/f5-super-netops-container:base
+#docker pull f5devcentral/f5-super-netops-container:jenkins
+#docker pull f5devcentral/f5-super-netops-container:ansible
 
 # Install Postman
 wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
@@ -73,14 +90,15 @@ sleep 5
 #Install Download Burp 1.7.36
 apt-get -y install openjdk-8-jre
 sleep 5
-# Dont have to download if part of git pull of lab files
 wget -O /home/ubuntu/burpsuite/burpsuite_community_linux.jar 'https://portswigger.net/burp/releases/download?product=community&version=1.7.36&type=jar'
-#mkdir /home/ubuntu/burpsuite/
-#mv /home/ubuntu/lab-env-2/files/Jumpbox-client01-base-install/burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
-#mv /home/ubuntu/lab-env-2/files/Jumpbox-client01-base-install/burpsuite/burp.png /home/ubuntu/burpsuite/burp.png
-#chmod 755 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
-#cd ~
-sleep 5
+# Only need below if Burpsuite installer is part of Git clone
+##mkdir -p /home/ubuntu/burpsuite/
+##mv /home/ubuntu/...lab-directiry..../burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
+chmod 755 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
+curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
+chmod 555 /home/ubuntu/burpsuite/burp.png
+cd ~
+sleep 1
    
 # Setup Desktop icons
 # Desktop folder probabely already exists
@@ -92,6 +110,7 @@ mkdir -p /home/ubuntu/Desktop
 #curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/Chrome.desktop > /home/ubuntu/Desktop/Chrome.desktop
 #curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/Postman.desktop > /home/ubuntu/Desktop/Postman.desktop
 #curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/BurpSuite.desktop > /home/ubuntu/Desktop/BurpSuite.desktop						  
+
 #chmod 755 /home/ubuntu/Desktop/Firefox.desktop
 #chmod 755 /home/ubuntu/Desktop/Chrome.desktop
 #chmod 755 /home/ubuntu/Desktop/Postman.desktop
@@ -194,16 +213,4 @@ sleep 2
 curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh
 chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
 
-
-# Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/ssh_config
-
-Host 10.1.*.*
-   StrictHostKeyChecking no
-   UserKnownHostsFile /dev/null
-   LogLevel ERROR
-
-EOF
-
-#service ssh restart
 
