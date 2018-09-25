@@ -404,7 +404,7 @@
                                 "\n",
                                 "echo \"exit 0\" >> /etc/rc.local",
                                 "\n",
-                                "touch /home/ubuntu/fith-finished-about-to-reboot\n",
+                                "touch /home/ubuntu/all-setup-finished-about-to-reboot\n",
                                 "#reboot",
                                 "\n"
                             ]

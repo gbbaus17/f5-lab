@@ -32,7 +32,7 @@ EOF
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
 apt-get -y update
-touch /home/ubuntu/third-xrdp-install-started
+touch /home/ubuntu/third-xrdp-install-started-wait-about-7min
 apt-get install -y ubuntu-desktop xrdp
 service xrdp restart
 apt-get install -y xfce4 xfce4-goodies
@@ -275,7 +275,7 @@ chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 
-touch /home/ubuntu/forth-finished-jumphost-setup-script
+touch /home/ubuntu/fith-finished-jumphost-setup-script
 
 
 
