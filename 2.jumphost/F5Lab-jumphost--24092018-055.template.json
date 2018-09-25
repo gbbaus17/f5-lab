@@ -257,7 +257,7 @@
                 "AWS::CloudFormation::Init": {
                     "config": {
 					"files": {
-					   "/home/ubuntu/set-nics-and-hosts.sh": {
+					   "/home/ubuntu/run1-set-nics-and-hosts.sh": {
 						"content": {
 							 "Fn::Join": [
 							  "",
@@ -306,16 +306,16 @@
                                 "command": "git clone -b master https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab"
                             },
                             "010-retrieve-setup-script": {
-                                "command": "wget -O /home/ubuntu/f5lab-jumphost-setup-latest.sh https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/F5Lab-jumphost-setup-latest.sh"
+                                "command": "wget -O /home/ubuntu/run2-f5lab-jumphost-setup.sh https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/F5Lab-jumphost-setup-latest.sh"
                             },
                             "011-change-mod-setup-script": {
                                 "command": "chmod 755 /home/ubuntu/f5lab-jumphost-setup-latest.sh"
                             },
-                            "015-execute-set-nic-and-hosts": {
-                                "command": "/home/ubuntu/set-nics-and-hosts.sh"
+                            "015-execute-run1": {
+                                "command": "/home/ubuntu/run1-set-nics-and-hosts.sh"
                             },
-                            "020-execute-script": {
-                                "command": "/home/ubuntu/f5lab-jumphost-setup-latest.sh"
+                            "020-execute-run2": {
+                                "command": "/home/ubuntu/run2-f5lab-jumphost-setup.sh"
                             }							
                         }
                     }
@@ -389,7 +389,7 @@
                                 "\n",
                                 "echo \"exit 0\" >> /etc/rc.local",
                                 "\n",
-                                "touch /home/ubuntu/finished-about-to-reboot\n",
+                                "touch /home/ubuntu/fith-finished-about-to-reboot\n",
                                 "#reboot",
                                 "\n"
                             ]

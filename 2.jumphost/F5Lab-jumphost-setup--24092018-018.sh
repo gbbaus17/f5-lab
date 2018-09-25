@@ -38,8 +38,6 @@ apt-get install -y xfce4 xfce4-goodies
 echo xfce4-session > /home/ubuntu/.xsession
 systemctl restart xrdp.service
 
-touch /home/ubuntu/third-xrdp-installed
-
 # Install specific fonts support
 # Japanese
 #apt-get -y install fonts-takao-mincho
@@ -217,7 +215,7 @@ chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 
-touch /home/ubuntu/forth-finished-jumphost-setup-script
+touch /home/ubuntu/third-finished-jumphost-setup-script
 
 
 
