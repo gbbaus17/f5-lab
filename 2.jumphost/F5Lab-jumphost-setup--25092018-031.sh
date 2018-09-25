@@ -264,6 +264,17 @@ sleep 2
 curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh
 chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
 
+
+#Create new lab users
+# quietly add users without passwords
+adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
+adduser --quiet --disabled-password --shell /bin/bash --home /home/admin --gecos "admin" admin
+# set passwords
+echo "f5student:f5DEMOs4u!" | chpasswd
+echo "admin:f5DEMOs4u!" | chpasswd
+#echo "root:f5DEMOs4u!" | chpasswd
+
+
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
