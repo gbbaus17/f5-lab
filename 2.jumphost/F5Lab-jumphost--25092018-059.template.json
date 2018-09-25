@@ -305,7 +305,7 @@
 							"003-setup-ubuntu-password": {
 									"command": { 
 									"Fn::Join": [
-									  " ", 
+									  "", 
 									   [
 										"sh -c 'echo \"ubuntu:",
 										{"Ref": "UbuntuPassword"},
@@ -387,25 +387,9 @@
                                     "Ref": "AWS::Region"
                                 },
                                 "\n",
-                                "# Signal the status from cfn-init\n",
-                                "echo \"#!/bin/bash\" > /etc/rc.local",
-                                "\n",
-                                "echo \"/usr/local/bin/cfn-signal -e $? ",
-                                "         --stack ",
-                                {
-                                    "Ref": "AWS::StackName"
-                                },
-                                "         --resource UbuntuInstance ",
-                                "         --region ",
-                                {
-                                    "Ref": "AWS::Region"
-                                },
-                                "\" >> /etc/rc.local",
-                                "\n",
-                                "echo \"exit 0\" >> /etc/rc.local",
-                                "\n",
                                 "touch /home/ubuntu/all-setup-finished-about-to-reboot\n",
-                                "#reboot",
+								"sleep 10",
+                                "reboot",
                                 "\n"
                             ]
                         ]
