@@ -254,9 +254,11 @@ sleep 1
 # Probabely easier just to copy a file already done
 curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/xfce4-keyboard-shortcuts.xml
 sleep 2
+rm /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+touch /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 cat /home/ubuntu/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 chmod 775 /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
-chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
+chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce-perchannel-xml
 sleep 2
 #If above does not work put a script on Desktop to run manually
 curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh

@@ -473,6 +473,20 @@
                 ]
             }
         },
+        "MTSC_exe_CLI": {
+            "Description": "MS RDP Client launch command User=ubuntu",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "mstsc.exe /f /v:",
+                        {
+                            "Ref": "JumpBoxEipAddress"
+                        }
+                    ]
+                ]
+            }
+        },		
         "Region": {
             "Description": "AWS Region",
             "Value": {
