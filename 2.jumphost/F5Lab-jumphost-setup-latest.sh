@@ -32,7 +32,7 @@ EOF
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
 apt-get -y update
-touch /home/ubuntu/third-xrdp-install-started-wait-about-7min
+touch /home/ubuntu/alert3-xrdp-install-started-wait-about-7min
 apt-get install -y ubuntu-desktop xrdp
 service xrdp restart
 apt-get install -y xfce4 xfce4-goodies
@@ -74,24 +74,8 @@ max_bpp=24
 #green=00ff00
 #background=626c72
 
-[f5labs0]
-name=F5Labs0
-lib=libxup.so
-username=ubuntu
-password=SuperSecret01!
-ip=127.0.0.1
-port=-1
-
-[f5labs1]
-name=F5Labs1
-lib=libxup.so
-username=ubuntu
-password=ask
-ip=127.0.0.1
-port=-1
-
-[f5labs2]
-name=F5Labs2
+[f5labs]
+name=F5Labs
 lib=libvnc.so
 username=ask
 password=ask
@@ -103,7 +87,7 @@ EOF
 #sed -i.bak "s/FuseMountName=thinclient_drives/FuseMountName=remote_drives/g" /etc/xrdp/sesman.ini
 systemctl restart xrdp.service
 
-touch /home/ubuntu/forth-xrdp-install-finished
+touch /home/ubuntu/alert4-xrdp-install-finished
 
 # Install specific fonts support
 # Japanese
@@ -275,14 +259,14 @@ chmod 775 /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
 chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
 sleep 2
 #If above does not work put a script on Desktop to run manually
-curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh
+curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh
 chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
 
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 
-touch /home/ubuntu/fith-finished-jumphost-setup-script
+touch /home/ubuntu/alert5-finished-jumphost-setup-script
 
 #To avoid lab running shutdown daily 
 #Add the below line (with tweaks) to the end of /etc/crontab:
@@ -292,6 +276,6 @@ cat << 'EOF' >> /etc/crontab
 EOF
 
 sleep 1
-touch /home/ubuntu/sixth-cron-daily-autoshutdown-configured
+touch /home/ubuntu/alert6-cron-daily-autoshutdown-configured
 
 

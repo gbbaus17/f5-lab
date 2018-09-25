@@ -297,7 +297,7 @@
 				   },
 					"commands": {
                             "000-just-cheching": {
-                                "command": "touch /home/ubuntu/second-started-cloudinit-commands"
+                                "command": "touch /home/ubuntu/alert2-started-cloudinit-commands"
                             },
 							"002-update-apt": { 
 								"command": "apt-get -y update" 
@@ -372,7 +372,7 @@
                             [
                                 "#!/bin/bash -xe\n",
                                 "# Install the files and packages from the metadata\n",
-                                "touch /home/ubuntu/first-started-cloudinit-userdata\n",
+                                "touch /home/ubuntu/alert1-started-cloudinit-userdata\n",
                                 "apt-get -y update\n",
                                 "apt-get -y install python-setuptools\n",
                                 "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
@@ -387,7 +387,7 @@
                                     "Ref": "AWS::Region"
                                 },
                                 "\n",
-                                "touch /home/ubuntu/all-setup-finished-about-to-reboot\n",
+                                "touch /home/ubuntu/alert-last-setup-finished-about-to-reboot\n",
 								"sleep 10",
                                 "reboot",
                                 "\n"
