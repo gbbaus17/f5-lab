@@ -32,7 +32,6 @@ EOF
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
 apt-get -y update
-touch /home/ubuntu/third-xrdp-install-started
 apt-get install -y ubuntu-desktop xrdp
 service xrdp restart
 apt-get install -y xfce4 xfce4-goodies
@@ -96,7 +95,7 @@ EOF
 #sed -i.bak "s/FuseMountName=thinclient_drives/FuseMountName=remote_drives/g" /etc/xrdp/sesman.ini
 systemctl restart xrdp.service
 
-touch /home/ubuntu/forth-xrdp-install-finished
+touch /home/ubuntu/third-xrdp-installed
 
 # Install specific fonts support
 # Japanese
