@@ -9,11 +9,5 @@
 # to
 #     <property name="&lt;Super&gt;Tab" type="string" value="empty"/>
 #
-# Probaely easier just to copy a file already done
+# Probabely easier just to copy a file already modified
 cat /home/ubuntu/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-#chmod 775 /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
-#chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
-
-
-
-

@@ -1,2 +1,0 @@
-A copy of the latest template should be called 
-"f5-existing-stack-payg-3nic-bigip-latest.template"

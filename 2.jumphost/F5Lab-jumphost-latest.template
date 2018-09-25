@@ -486,6 +486,10 @@
                     ]
                 ]
             }
+        },
+        "AutoShutDown": {
+            "Description": "CRONTAB set to shutdown daily at 23h30",
+            "Value": "Daily"
         },		
         "Region": {
             "Description": "AWS Region",
