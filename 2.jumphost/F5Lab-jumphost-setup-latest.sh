@@ -277,5 +277,7 @@ EOF
 
 sleep 1
 touch /home/ubuntu/alert6-cron-daily-autoshutdown-configured
-
-
+sleep 2
+touch /home/ubuntu/alert7-setup-finished-reboot-in-10s
+sleep 10
+reboot

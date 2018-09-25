@@ -386,10 +386,6 @@
                                 {
                                     "Ref": "AWS::Region"
                                 },
-                                "\n",
-                                "touch /home/ubuntu/alert-last-setup-finished-about-to-reboot\n",
-								"sleep 10",
-                                "reboot",
                                 "\n"
                             ]
                         ]
