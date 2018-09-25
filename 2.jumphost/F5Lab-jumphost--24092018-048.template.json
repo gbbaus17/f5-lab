@@ -302,13 +302,8 @@
                                     "Fn::Join": [
                                         "",
                                         [
-											"MYVARIP1=\"",
-											{
-												"Ref": "JumphostMngmtAccessIP"
-											},
-											"\";",
-											"MYVAR1=`$(sed 's/\\./-/g' <<< ${MYVARIP1})`;",
-											"echo \"${MYVARIP1} ip-${MYVAR1}\" > /home/ubuntu/hosts;"
+											"MYVAR1=`$(sed 's/\\./-/g' <<< {"Ref": "JumphostMngmtAccessIP"})`;",
+											"sh -c 'echo {"Ref": "JumphostMngmtAccessIP"} ip-${MYVAR1} > /home/ubuntu/hosts';"
                                         ]
                                     ]
                                 }
@@ -318,13 +313,8 @@
                                     "Fn::Join": [
                                         "",
                                         [
-											"MYVARIP2=\"",
-											{
-												"Ref": "JumphostLandingPrivateIP"
-											},
-											"\";",
-											"MYVAR2=`$(sed 's/\\./-/g' <<< ${MYVARIP2})`;",
-											"echo \"${MYVARIP2} ip-${MYVAR2}\" >> /home/ubuntu/hosts;"
+											"MYVAR2=`$(sed 's/\\./-/g' <<< {"Ref": "JumphostLandingPrivateIP"})`;",
+											"sh -c 'echo {"Ref": "JumphostLandingPrivateIP"} ip-${MYVAR2} >> /home/ubuntu/hosts';"
                                         ]
                                     ]
                                 }
@@ -485,11 +475,7 @@
                 "Fn::Join": [
                     "",
                     [
-                        "ssh -i ",
-                        {
-                            "Ref": "sshKey"
-                        },
-                        ".pem ubuntu@",
+                        "ssh -i your-aws-key.pem ubuntu@",
                         {
                             "Ref": "JumpBoxEipAddress"
                         }

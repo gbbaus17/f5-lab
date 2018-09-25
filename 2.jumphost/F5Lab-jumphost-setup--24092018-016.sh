@@ -14,8 +14,8 @@
 set -x
 
 # This should not be needed - TO BE INVESTIGATED
-#ifconfig eth0 10.1.10.51 netmask 255.255.255.0
-#ifconfig eth1 10.1.1.51 netmask 255.255.255.0
+##ifconfig eth0 10.1.10.51 netmask 255.255.255.0
+##ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
 # Disable SSH Host Key Checking for hosts in the lab
 cat << 'EOF' >> /etc/ssh/ssh_config

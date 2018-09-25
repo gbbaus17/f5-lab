@@ -256,7 +256,46 @@
             "Metadata": {
                 "AWS::CloudFormation::Init": {
                     "config": {
-                        "commands": {
+					"files": {
+					   "/home/ubuntu/set-nics-and-hosts.sh": {
+						"content": {
+							 "Fn::Join": [
+							  "",
+							  [
+							   "#!/bin/bash\n",
+								"ifconfig eth0 ",
+								{
+									"Ref": "JumphostLandingPrivateIP"
+								},
+								" netmask 255.255.255.0\n",
+								"ifconfig eth1 ",
+								{
+									"Ref": "JumphostMngmtAccessIP"
+								},
+								" netmask 255.255.255.0\n",
+								"MYVARIP1=\"",
+								{
+									"Ref": "JumphostMngmtAccessIP"
+								},
+								"\"\n",
+								"MYVAR1=`$(sed 's/\\./-/g' <<< ${MYVARIP1})`\n",
+								"echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
+								"MYVARIP2=\"",
+								{
+									"Ref": "JumphostLandingPrivateIP"
+								},
+								"\"\n",
+								"MYVAR2=`$(sed 's/\\./-/g' <<< ${MYVARIP2})`\n",
+								"echo \"${MYVARIP2} ip-${MYVAR2}\" >> /etc/hosts\n"
+							  ]
+							 ]
+							},
+						"group": "root",
+						"mode": "000755",
+						"owner": "root"
+					   }
+				   },
+					"commands": {
                             "000-just-cheching": {
                                 "command": "touch /home/ubuntu/started-cloudinit-commands"
                             },
@@ -269,69 +308,15 @@
                             "010-retrieve-setup-script": {
                                 "command": "wget -O /home/ubuntu/F5Lab-jumphost-setup-latest.sh https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/F5Lab-jumphost-setup-latest.sh"
                             },
-                            "015-reconfirm-adressing-eth0": {
-                                "command": {
-                                    "Fn::Join": [
-                                        " ",
-                                        [
-                                            "ifconfig eth0",
-                                            {
-                                                "Ref": "JumphostLandingPrivateIP"
-                                            },
-                                            "netmask 255.255.255.0"
-                                        ]
-                                    ]
-                                }
+                            "011-change-mod-setup-script": {
+                                "command": "chmod 755 /home/ubuntu/F5Lab-jumphost-setup-latest.sh"
                             },
-                            "016-reconfirm-adressing-eth1": {
-                                "command": {
-                                    "Fn::Join": [
-                                        " ",
-                                        [
-                                            "ifconfig eth1",
-                                            {
-                                                "Ref": "JumphostMngmtAccessIP"
-                                            },
-                                            "netmask 255.255.255.0"
-                                        ]
-                                    ]
-                                }
+                            "015-execute-set-nic-and-hosts": {
+                                "command": "/home/ubuntu/set-nics-and-hosts.sh"
                             },
-                            "017-create-file-entry": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-											"MYVARIP1=\"",
-											{
-												"Ref": "JumphostMngmtAccessIP"
-											},
-											"\";",
-											"MYVAR1=`$(sed 's/\\./-/g' <<< ${MYVARIP1})`;",
-											"echo \"${MYVARIP1} ip-${MYVAR1}\" > /home/ubuntu/hosts;"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "018-create-file-entry": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-											"MYVARIP2=\"",
-											{
-												"Ref": "JumphostLandingPrivateIP"
-											},
-											"\";",
-											"MYVAR2=`$(sed 's/\\./-/g' <<< ${MYVARIP2})`;",
-											"echo \"${MYVARIP2} ip-${MYVAR2}\" >> /home/ubuntu/hosts;"
-                                        ]
-                                    ]
-                                }
-                            },							
                             "020-execute-script": {
-                                "command": "echo \" don't run yet ... sh /home/ubuntu/F5Lab-jumphost-setup-latest.sh\""
-                            }
+                                "command": "/home/ubuntu/F5Lab-jumphost-setup-latest.sh\""
+                            }							
                         }
                     }
                 },
@@ -485,11 +470,7 @@
                 "Fn::Join": [
                     "",
                     [
-                        "ssh -i ",
-                        {
-                            "Ref": "sshKey"
-                        },
-                        ".pem ubuntu@",
+                        "ssh -i your-aws-key.pem ubuntu@",
                         {
                             "Ref": "JumpBoxEipAddress"
                         }

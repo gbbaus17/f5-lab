@@ -485,11 +485,7 @@
                 "Fn::Join": [
                     "",
                     [
-                        "ssh -i ",
-                        {
-                            "Ref": "sshKey"
-                        },
-                        ".pem ubuntu@",
+                        "ssh -i your-aws-key.pem ubuntu@",
                         {
                             "Ref": "JumpBoxEipAddress"
                         }
