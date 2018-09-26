@@ -373,10 +373,6 @@
 					],
 				   "Tags": [
 						{
-							"Key": "Network",
-							"Value": "Management"
-						},
-						{
 							"Key": "Name",
 							"Value": "Server1:ManagementAccess"
 						}
@@ -438,10 +434,6 @@
 			  }
 			],
 			"Tags": [
-				{
-					"Key": "Network",
-					"Value": "Internal"
-				},
 				{
 					"Key": "Name",
 					"Value": "Server1:SecondaryNIC"
