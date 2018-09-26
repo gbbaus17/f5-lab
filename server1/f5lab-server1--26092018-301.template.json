@@ -43,36 +43,36 @@
             "Description": "Existing Internal subnet in the VPC",
             "Type": "AWS::EC2::Subnet::Id"
         },
-        "Server1Eth0PrivateIP": {
+        "Server1Eth1PrivateIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in xxxx Subnet",
+            "ConstraintDescription": "Must be a valid IP in the Internal Subnet",
             "Default": "10.1.20.100",
             "Description": "Server Internal vlan address- Lab Default is 10.1.20.100",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
         },
-        "Server1Eth01PrivateIP": {
+        "Server1Eth11PrivateIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in xxxx Subnet",
+            "ConstraintDescription": "Must be a valid IP in the Internal Subnet",
             "Default": "10.1.20.101",
             "Description": "Additional Server Internal vlan address- Lab Default is 10.1.20.101",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
         },
-        "Server1Eth02PrivateIP": {
+        "Server1Eth12PrivateIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in xxxx Subnet",
+            "ConstraintDescription": "Must be a valid IP in the Internal Subnet",
             "Default": "10.1.20.102",
             "Description": "Additional Server Internal vlan address- Lab Default is 10.1.20.102",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
         },
-        "Server1Eth03PrivateIP": {
+        "Server1Eth13PrivateIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in xxxx Subnet",
+            "ConstraintDescription": "Must be a valid IP in the Internal Subnet",
             "Default": "10.1.20.103",
             "Description": "Additional Server Internal vlan address- Lab Default is 10.1.20.103",
             "MaxLength": 18,
@@ -83,9 +83,9 @@
             "Description": "Existing F5Lab Mgmt subnet in the VPC",
             "Type": "AWS::EC2::Subnet::Id"
         },
-        "Server1Eth1PrivateIP": {
+        "Server1Eth0PrivateIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in External / Access Subnet",
+            "ConstraintDescription": "Must be a valid IP in Management Subnet",
             "Default": "10.1.1.250",
             "Description": "Server vlan address- Lab Default is 10.1.1.250",
             "MaxLength": 18,
@@ -144,11 +144,6 @@
                         "Value": "InternalSecuriytGroup"
                     }
                 ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "338ed0c0-42ec-4829-bb22-b51d294686a4"
-                }
             }
         },
         "Server1Instance": {
@@ -157,78 +152,52 @@
                 "AWS::CloudFormation::Init": {
                     "config": {
                         "files": {
+							"/home/ubuntu/alert03-started-cloudinit-file-create": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [					
+										"#Start of cloud-init file creation\n"
+										]
+                                    ]
+                                },
+                                "group": "root",
+                                "mode": "000555",
+                                "owner": "root"
+                            },						
                             "/home/ubuntu/set-nics-and-hosts.sh": {
                                 "content": {
                                     "Fn::Join": [
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "#ifconfig eth0 10.1.20.100 netmask 255.255.255.0\n",
-                                            "#ifconfig eth0:1 10.1.20.101 netmask 255.255.255.0\n",
-                                            "#ifconfig eth0:2 10.1.20.102 netmask 255.255.255.0\n",
-                                            "#ifconfig eth0:3 10.1.20.103 netmask 255.255.255.0\n",
-                                            "#ifconfig eth1 10.1.1.250 netmask 255.255.255.0\n",
-                                            "ifconfig eth0 ",
-                                            {
-                                                "Ref": "Server1Eth0PrivateIP"
-                                            },
-                                            " netmask 255.255.255.0\n",
-                                            "ifconfig eth0:1 ",
-                                            {
-                                                "Ref": "Server1Eth01PrivateIP"
-                                            },
-                                            " netmask 255.255.255.0\n",
-                                            "ifconfig eth0:2 ",
-                                            {
-                                                "Ref": "Server1Eth02PrivateIP"
-                                            },
-                                            " netmask 255.255.255.0\n",
-                                            "ifconfig eth0:3 ",
-                                            {
-                                                "Ref": "Server1Eth03PrivateIP"
-                                            },
-                                            " netmask 255.255.255.0\n",
-                                            "ifconfig eth1 ",
-                                            {
-                                                "Ref": "Server1Eth1PrivateIP"
-                                            },
-                                            " netmask 255.255.255.0\n",
-                                            "MYVARIP1=\"",
-                                            {
-                                                "Ref": "Server1Eth1PrivateIP"
-                                            },
-                                            "\"\n",
-                                            "MYVAR1=$(sed 's/\\./-/g' <<< ${MYVARIP1})\n",
-                                            "echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
-                                            "MYVARIP0=\"",
-                                            {
-                                                "Ref": "Server1Eth0PrivateIP"
-                                            },
-                                            "\"\n",
+                                            "#ifconfig eth0 10.1.1.250 netmask 255.255.255.0\n",
+                                            "#ifconfig eth1 10.1.20.100 netmask 255.255.255.0\n",
+                                            "#ifconfig eth1:1 10.1.20.101 netmask 255.255.255.0\n",
+                                            "#ifconfig eth1:2 10.1.20.102 netmask 255.255.255.0\n",
+                                            "#ifconfig eth1:3 10.1.20.103 netmask 255.255.255.0\n",
+                                            "ifconfig eth0 ",{ "Ref": "Server1Eth0PrivateIP" }," netmask 255.255.255.0\n",
+											"ifconfig eth1 ",{ "Ref": "Server1Eth1PrivateIP" }," netmask 255.255.255.0\n",
+                                            "ifconfig eth1:1 ",{ "Ref": "Server1Eth11PrivateIP" }," netmask 255.255.255.0\n",
+                                            "ifconfig eth1:2 ",{ "Ref": "Server1Eth12PrivateIP" }," netmask 255.255.255.0\n",
+                                            "ifconfig eth1:3 ",{ "Ref": "Server1Eth13PrivateIP" }," netmask 255.255.255.0\n",
+                                            "MYVARIP0=\"",{ "Ref": "Server1Eth0PrivateIP" },"\"\n",
                                             "MYVAR0=$(sed 's/\\./-/g' <<< ${MYVARIP0})\n",
-                                            "echo \"${MYVARIP0} ip-${MYVAR0}\" >> /etc/hosts\n",
-                                            "MYVARIP01=\"",
-                                            {
-                                                "Ref": "Server1Eth01PrivateIP"
-                                            },
-                                            "\"\n",
+                                            "MYVARIP1=\"",{ "Ref": "Server1Eth1PrivateIP" },"\"\n",
+                                            "MYVAR1=$(sed 's/\\./-/g' <<< ${MYVARIP1})\n",
+                                            "MYVARIP01=\"",{ "Ref": "Server1Eth11PrivateIP" },"\"\n",
                                             "MYVAR01=$(sed 's/\\./-/g' <<< ${MYVARIP01})\n",
-                                            "echo \"${MYVARIP01} ip-${MYVAR01}\" >> /etc/hosts\n",
-                                            "MYVARIP02=\"",
-                                            {
-                                                "Ref": "Server1Eth02PrivateIP"
-                                            },
-                                            "\"\n",
+                                            "MYVARIP02=\"",{ "Ref": "Server1Eth12PrivateIP" },"\"\n",
                                             "MYVAR02=$(sed 's/\\./-/g' <<< ${MYVARIP02})\n",
-                                            "echo \"${MYVARIP02} ip-${MYVAR02}\" >> /etc/hosts\n",
-                                            "MYVARIP03=\"",
-                                            {
-                                                "Ref": "Server1Eth03PrivateIP"
-                                            },
-                                            "\"\n",
+                                            "MYVARIP03=\"",{ "Ref": "Server1Eth13PrivateIP" },"\"\n",
                                             "MYVAR03=$(sed 's/\\./-/g' <<< ${MYVARIP03})\n",
-                                            "echo \"${MYVARIP03} ip-${MYVAR03}\" >> /etc/hosts\n"
-                                        ]
+											"echo \"${MYVARIP0} ip-${MYVAR0}\" >> /etc/hosts\n",	
+											"echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
+                                            "echo \"${MYVARIP11} ip-${MYVAR11}\" >> /etc/hosts\n",                                            
+											"echo \"${MYVARIP12} ip-${MYVAR12}\" >> /etc/hosts\n",											
+                                            "echo \"${MYVARIP13} ip-${MYVAR13}\" >> /etc/hosts\n",
+											"touch /home/ubuntu/alert04-set-nics-and-hosts-file-created\n"
+										]
                                     ]
                                 },
                                 "group": "root",
@@ -245,29 +214,20 @@
                                             "mkdir -p /etc/dnsmasq.d\n",
                                             "touch /etc/dnsmasq.d/f5lab\n",
                                             "echo \"listen-address=127.0.0.1,",
-                                            {
-                                                "Ref": "Server1Eth1PrivateIP"
-                                            },
+                                            { "Ref": "Server1Eth0PrivateIP" },
                                             ",",
-                                            {
-                                                "Ref": "Server1Eth0PrivateIP"
-                                            },
+                                            { "Ref": "Server1Eth1PrivateIP" },
                                             ",",
-                                            {
-                                                "Ref": "Server1Eth01PrivateIP"
-                                            },
+                                            { "Ref": "Server1Eth11PrivateIP" },
                                             ",",
-                                            {
-                                                "Ref": "Server1Eth02PrivateIP"
-                                            },
+                                            { "Ref": "Server1Eth12PrivateIP" },
                                             ",",
-                                            {
-                                                "Ref": "Server1Eth03PrivateIP"
-                                            },
+                                            { "Ref": "Server1Eth13PrivateIP" },
                                             "\" >> /etc/dnsmasq.d/f5lab",
                                             "\n",
-                                            "echo \"no-dhcp-interface=lo0,eth1,eth0,eth0:1,eth0:2,eth0:3\" >> /etc/dnsmasq.d/f5lab",
-                                            "\n"
+                                            "echo \"no-dhcp-interface=lo0,eth0,eth1,eth1:1,eth1:2,eth1:3\" >> /etc/dnsmasq.d/f5lab",
+                                            "\n",
+											"touch /home/ubuntu/alert05-f5lab-dns-masq-file-created\n"
                                         ]
                                     ]
                                 },
@@ -278,7 +238,7 @@
                         },
                         "commands": {
                             "000-just-cheching": {
-                                "command": "touch /home/ubuntu/alert2-started-cloudinit-commands"
+                                "command": "touch /home/ubuntu/alert06-started-cloudinit-commands"
                             },
                             "001-unlink-timezone": {
                                 "command": "unlink /etc/localtime"
@@ -326,7 +286,7 @@
                             "016-execute-dns-masq": {
                                 "command": "/home/ubuntu/f5lab-dns-masq.sh"
                             },
-                            "020-chmod-script": {
+                            "019-chmod-script": {
                                 "command": "chmod 755 /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
                             },
                             "020-execute-script": {
@@ -334,9 +294,6 @@
                             }
                         }
                     }
-                },
-                "AWS::CloudFormation::Designer": {
-                    "id": "9c37ae63-018a-42be-82a7-a922238e7e9a"
                 }
             },
             "Properties": {
@@ -361,12 +318,6 @@
                 },
                 "Tags": [
                     {
-                        "Key": "Server Instance",
-                        "Value": {
-                            "Ref": "AWS::StackId"
-                        }
-                    },
-                    {
                         "Key": "Name",
                         "Value": "F5LabServer1"
                     }
@@ -378,10 +329,11 @@
                             [
                                 "#!/bin/bash -xe\n",
                                 "# Install the files and packages from the metadata\n",
-                                "touch /home/ubuntu/alert1-started-cloudinit-userdata\n",
+                                "touch /home/ubuntu/alert01-started-cloudinit-userdata\n",
                                 "apt-get -y update\n",
                                 "apt-get -y install python-setuptools\n",
                                 "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
+								"touch /home/ubuntu/alert02-cloudinit-easyinstall-done\n",
                                 "cfn-init -v ",
                                 "         --stack ",
                                 {
@@ -398,121 +350,97 @@
                     }
                 },
                 "NetworkInterfaces": [
-                    {
-                        "NetworkInterfaceId": {
-                            "Ref": "Server1Eth0Interface"
-                        },
-                        "DeviceIndex": "0"
-                    },
-                    {
-                        "NetworkInterfaceId": {
-                            "Ref": "Server1Eth1Interface"
-                        },
-                        "DeviceIndex": "1"
-                    }
+				  {
+					"GroupSet": [
+					  {
+						"Ref": "InternalPortControlSG"
+					  }
+					],
+					"Description": "Server:Management",
+					"AssociatePublicIpAddress": "false",
+					"DeviceIndex": "0",
+					"DeleteOnTermination": "true",
+					"SubnetId": {
+					  "Ref": "ManagementSubnet"
+					},
+					"PrivateIpAddresses": [
+						{
+							"PrivateIpAddress": {
+								"Ref": "Server1Eth0PrivateIP"
+							},
+							"Primary": "true"
+						}
+					]					
+				  }					
                 ]
             }
         },
-        "Server1Eth0Interface": {
-            "Type": "AWS::EC2::NetworkInterface",
-            "Properties": {
-                "SubnetId": {
-                    "Ref": "InternalSubnet"
-                },
-                "Description": "Interface for Server traffic",
-                "GroupSet": [
-                    {
-                        "Ref": "InternalPortControlSG"
-                    }
-                ],
-                "PrivateIpAddresses": [
-                    {
-                        "PrivateIpAddress": {
-                            "Ref": "Server1Eth0PrivateIP"
-                        },
-                        "Primary": "true"
-                    },
-                    {
-                        "PrivateIpAddress": {
-                            "Ref": "Server1Eth01PrivateIP"
-                        },
-                        "Primary": "false"
-                    },
-                    {
-                        "PrivateIpAddress": {
-                            "Ref": "Server1Eth02PrivateIP"
-                        },
-                        "Primary": "false"
-                    },
-                    {
-                        "PrivateIpAddress": {
-                            "Ref": "Server1Eth03PrivateIP"
-                        },
-                        "Primary": "false"
-                    }
-                ],
-                "SourceDestCheck": "true",
-                "Tags": [
-                    {
-                        "Key": "Network",
-                        "Value": "PrimaryNIC"
-                    },
-                    {
-                        "Key": "Name",
-                        "Value": "Server1:PrimaryNIC"
-                    }
-                ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "81113191-81e4-4c1b-b3bb-a1f32a0012e3"
-                }
-            }
-        },
-        "Server1Eth1Interface": {
-            "Type": "AWS::EC2::NetworkInterface",
-            "Properties": {
-                "SubnetId": {
-                    "Ref": "ManagementSubnet"
-                },
-                "Description": "Interface for Management Access",
-                "GroupSet": [
-                    {
-                        "Ref": "InternalPortControlSG"
-                    }
-                ],
-                "PrivateIpAddresses": [
-                    {
-                        "PrivateIpAddress": {
-                            "Ref": "Server1Eth1PrivateIP"
-                        },
-                        "Primary": "true"
-                    }
-                ],
-                "SourceDestCheck": "true",
-                "Tags": [
-                    {
-                        "Key": "Network",
-                        "Value": "MngmtAccess"
-                    },
-                    {
-                        "Key": "Name",
-                        "Value": "Server1:ManagementAccess"
-                    }
-                ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "8876d620-e136-4b60-af3a-774484a161b2"
-                }
-            }
-        }
+		"EniAttachEth1Interface": {
+		  "Type": "AWS::EC2::NetworkInterfaceAttachment",
+		  "Properties": {
+			"DeleteOnTermination": "true",
+			"DeviceIndex": "1",
+			"NetworkInterfaceId": {
+			  "Ref": "Server1Eth1Interface"
+			  },
+			  "InstanceId": {
+				"Ref": "Server1Instance"
+			  }
+		  }
+		},
+		"Server1Eth1Interface": {
+		  "Type": "AWS::EC2::NetworkInterface",
+		  "Properties": {
+			"Description": "Server:Internal",
+			"SourceDestCheck": "true",
+			"SubnetId": {
+			  "Ref": "InternalSubnet"
+			},
+			"PrivateIpAddresses": [
+				{
+					"PrivateIpAddress": {
+						"Ref": "Server1Eth1PrivateIP"
+					},
+					"Primary": "true"
+				},
+				{
+					"PrivateIpAddress": {
+						"Ref": "Server1Eth11PrivateIP"
+					},
+					"Primary": "false"
+				},
+				{
+					"PrivateIpAddress": {
+						"Ref": "Server1Eth12PrivateIP"
+					},
+					"Primary": "false"
+				},
+				{
+					"PrivateIpAddress": {
+						"Ref": "Server1Eth13PrivateIP"
+					},
+					"Primary": "false"
+				}
+			],
+			"GroupSet": [
+			  {
+				"Ref": "InternalPortControlSG"
+			  }
+			],
+			"Tags": [
+				{
+					"Key": "Name",
+					"Value": "Server1:SecondaryNIC"
+				}
+			 ]			
+		  }
+		}	
     },
     "Outputs": {
         "Server1IP": {
             "Description": "SSH from Jumpbox to Server1 internal IP",
             "Value": {
-                "Ref": "Server1Eth1PrivateIP"
+                "Ref": "Server1Eth0PrivateIP"
             }
         },
         "Server1Password": {
@@ -577,12 +505,12 @@
                         "sshKey",
                         "Server1Password",
                         "InternalSubnet",
-                        "Server1Eth0PrivateIP",
-                        "Server1Eth01PrivateIP",
-                        "Server1Eth02PrivateIP",
-                        "Server1Eth03PrivateIP",
+                        "Server1Eth1PrivateIP",
+                        "Server1Eth11PrivateIP",
+                        "Server1Eth12PrivateIP",
+                        "Server1Eth13PrivateIP",
                         "ManagementSubnet",
-                        "Server1Eth1PrivateIP"
+                        "Server1Eth0PrivateIP"
                     ]
                 }
             ],
@@ -608,84 +536,24 @@
                 "InternalSubnet": {
                     "default": "Internal subnet"
                 },
-                "Server1Eth1PrivateIP": {
+                "Server1Eth0PrivateIP": {
                     "default": "Management subnet Primary IP"
                 },
-                "Server1Eth0PrivateIP": {
+                "Server1Eth1PrivateIP": {
                     "default": "Internal subnet Primary IP"
                 },
-                "Server1Eth01PrivateIP": {
+                "Server1Eth11PrivateIP": {
                     "default": "Internal additional lab IP"
                 },
-                "Server1Eth02PrivateIP": {
+                "Server1Eth12PrivateIP": {
                     "default": "Internal additional lab IP"
                 },
-                "Server1Eth03PrivateIP": {
+                "Server1Eth13PrivateIP": {
                     "default": "Internal additional lab IP"
                 },
                 "Server1Password": {
                     "default": "Server1 password"
                 }
-            }
-        },
-        "AWS::CloudFormation::Designer": {
-            "9c37ae63-018a-42be-82a7-a922238e7e9a": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 30,
-                    "y": 80
-                },
-                "z": 1,
-                "embeds": [],
-                "isassociatedwith": [
-                    "81113191-81e4-4c1b-b3bb-a1f32a0012e3",
-                    "8876d620-e136-4b60-af3a-774484a161b2"
-                ]
-            },
-            "338ed0c0-42ec-4829-bb22-b51d294686a4": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 180,
-                    "y": 80
-                },
-                "z": 1,
-                "embeds": []
-            },
-            "8876d620-e136-4b60-af3a-774484a161b2": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 190,
-                    "y": 170
-                },
-                "z": 1,
-                "embeds": [],
-                "isassociatedwith": [
-                    "338ed0c0-42ec-4829-bb22-b51d294686a4"
-                ]
-            },
-            "81113191-81e4-4c1b-b3bb-a1f32a0012e3": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 190,
-                    "y": -10
-                },
-                "z": 1,
-                "embeds": [],
-                "isassociatedwith": [
-                    "338ed0c0-42ec-4829-bb22-b51d294686a4"
-                ]
             }
         }
     }
