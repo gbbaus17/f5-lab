@@ -156,10 +156,10 @@ mkdir -p /home/ubuntu/Desktop
 
 #Either get these pre-created Desktop shortcuts or create them at each build below
 
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/Firefox.desktop > /home/ubuntu/Desktop/Firefox.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/Chrome.desktop > /home/ubuntu/Desktop/Chrome.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/Postman.desktop > /home/ubuntu/Desktop/Postman.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/BurpSuite.desktop > /home/ubuntu/Desktop/BurpSuite.desktop						  
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Firefox.desktop > /home/ubuntu/Desktop/Firefox.desktop
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Chrome.desktop > /home/ubuntu/Desktop/Chrome.desktop
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Postman.desktop > /home/ubuntu/Desktop/Postman.desktop
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/BurpSuite.desktop > /home/ubuntu/Desktop/BurpSuite.desktop						  
 
 #chmod 755 /home/ubuntu/Desktop/Firefox.desktop
 #chmod 755 /home/ubuntu/Desktop/Chrome.desktop
@@ -240,10 +240,6 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
-# Get the lab files
-git clone -b lab-files --single-branch https://github.com/gbbaus17/F5-Lab /home/Desktop/labfilesubuntu/F5-Lab/jumphost
-sleep 2
- 
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping
 #      <property name="&lt;Super&gt;Tab" type="string" value="switch_window_key"/>
@@ -251,18 +247,17 @@ sleep 2
 #     <property name="&lt;Super&gt;Tab" type="string" value="empty"/>
 #
 # Probabely easier just to copy a file already done
-curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/xfce4-keyboard-shortcuts.xml
-sleep 2
 rm /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 touch /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-cat /home/ubuntu/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 chmod 775 /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
 chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce-perchannel-xml
 sleep 2
-#If above does not work put a script on Desktop to run manually
-curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh
-chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
-
+#If above does not work put a script link on the Desktop to run manually
+chmod 775 /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh
+ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/ubuntu/Desktop/make-tab-complete-work.sh
+# Create lab files shortcut
+ln -s /home/ubuntu/F5-Lab/lab-files/ /home/ubuntu/Desktop/lab-files
 
 #Create new lab users
 # quietly add users without passwords

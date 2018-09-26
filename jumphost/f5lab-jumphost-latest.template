@@ -337,8 +337,8 @@
                             "005_install_git": {
                                 "command": "apt-get -y install git"
                             },
-                            "006-clone-repo-branch1": {
-                                "command": "git clone -b jumphost --single-branch https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab/jumphost"
+                            "006-clone-repo": {
+                                "command": "git clone -b master https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab"
                             },
                             "010-execute-nics-and-hosts": {
                                 "command": "/home/ubuntu/set-nics-and-hosts.sh"

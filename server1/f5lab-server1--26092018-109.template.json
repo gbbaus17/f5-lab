@@ -336,8 +336,8 @@
                                 "command": "apt-get -y install git"
                             },
                             "010-clone-repo": {
-                                "command": "git clone -b server1 --single-branch https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab/server1"
-                            },
+                                "command": "git clone -b master https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab"
+                            },							
                             "015-execute-nics-hosts": {
                                 "command": "/home/ubuntu/set-nics-and-hosts.sh"
                             },
