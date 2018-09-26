@@ -615,13 +615,13 @@
                     "default": "Internal subnet Primary IP"
                 },
                 "Server1Eth01PrivateIP": {
-                    "default": "Internal subnet additional lab IP"
+                    "default": "Internal additional lab IP"
                 },
                 "Server1Eth02PrivateIP": {
-                    "default": "Internal subnet additional lab IP"
+                    "default": "Internal additional lab IP"
                 },
                 "Server1Eth03PrivateIP": {
-                    "default": "Internal subnet additional lab IP"
+                    "default": "Internal additional lab IP"
                 },
                 "Server1Password": {
                     "default": "Server1 password"
