@@ -314,7 +314,7 @@
 									   [							
 										"ln -s /usr/share/zoneinfo/",
 										{"Ref": "TimeZone"},
-										" /etc/localtime",
+										" /etc/localtime"
 									   ]
 									  ]
 								   }

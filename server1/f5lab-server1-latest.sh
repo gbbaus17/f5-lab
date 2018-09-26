@@ -19,15 +19,8 @@
 
 touch /home/ubuntu/alert3-server-install-started-wait-about-7min
 
-# Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/sshd_config
-
-Host 10.1.*.*
-   StrictHostKeyChecking no
-   UserKnownHostsFile /dev/null
-   LogLevel ERROR	
-
-EOF
+# Allow ssh with passwords
+sudo sed -i 's/RSAAuthentication yes/RSAAuthentication no/g; s/PubkeyAuthentication yes/PubkeyAuthentication no/g; s/PasswordAuthentication no/PasswordAuthentication yes /g' /etc/ssh/sshd_config
 
 # Install dnsmasq
 apt-get install -y dnsmasq
