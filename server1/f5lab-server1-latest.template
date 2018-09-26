@@ -522,7 +522,7 @@
             }
         },
         "AutoShutDown": {
-            "Description": "Server1 set to shutdown daily at 23h59",
+            "Description": "Server1 set to shutdown daily at 23h59 via rc.local",
             "Value": "Daily"
         },
         "Region": {

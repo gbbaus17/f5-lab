@@ -505,7 +505,7 @@
             }
         },
         "AutoShutDown": {
-            "Description": "CRONTAB set to shutdown daily at 23h30",
+            "Description": "Jumpbox set to shutdown daily at 23h59 via rc.local",
             "Value": "Daily"
         },		
         "Region": {
