@@ -286,7 +286,7 @@
 								  "mkdir -p /config/cloud",
 								  "cd /config/cloud/",
 								  "mount -o remount,rw /usr",
-								  "curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/8.bigiq-cm-dcd/bigiq-scripts/bigiq-scripts.tar > bigiq-scripts.tar",
+								  "curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/bigiq-cm-dcd/bigiq-scripts/bigiq-scripts.tar > bigiq-scripts.tar",
 								  "tar -xvf bigiq-scripts.tar",
 								  "chmod 777 *.py",
 								  "######################################",
@@ -562,7 +562,7 @@
 								  "mkdir -p /config/cloud",
 								  "cd /config/cloud/",
 								  "mount -o remount,rw /usr",
-								  "curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/8.bigiq-cm-dcd/bigiq-scripts/bigiq-scripts.tar > bigiq-scripts.tar",
+								  "curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/bigiq-cm-dcd/bigiq-scripts/bigiq-scripts.tar > bigiq-scripts.tar",
 								  "tar -xvf bigiq-scripts.tar",
 								  "chmod 777 *.py",
 								  "echo \"Starting tmsh config\"",
@@ -897,9 +897,7 @@
         },	
         "NextSteps": {
             "Description": "ssh to DCD then CM run ./setup-xxx-runme-xxx.sh",
-            "Value": {
-                "Ref": "CmElasticIp"
-            }
+            "Value": "setup-xxx-runme-xxx.sh"
         }			
     }
 }

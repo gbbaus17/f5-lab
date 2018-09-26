@@ -27,7 +27,6 @@ Host 10.1.*.*
 
 EOF
 
-
 # Install desktop environment
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
@@ -241,10 +240,10 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
-sleep 1
-
-
-
+# Get the lab files
+git clone -b lab-files --single-branch https://github.com/gbbaus17/F5-Lab /home/Desktop/labfilesubuntu/F5-Lab/jumphost
+sleep 2
+ 
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping
 #      <property name="&lt;Super&gt;Tab" type="string" value="switch_window_key"/>
@@ -281,15 +280,14 @@ chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 
 touch /home/ubuntu/alert5-finished-jumphost-setup-script
 
-#To avoid lab running shutdown daily 
-#Add the below line (with tweaks) to the end of /etc/crontab:
-cat << 'EOF' >> /etc/crontab
-30 23 * * * root shutdown -h now
-
+# To avoid lab running and costing money, shutdown daily :
+# Use 'shutdown -c ' to cancel
+cat << 'EOF' >> /etc/rc.local
+#!/bin/sh -e
+shutdown -h 23:59
 EOF
 
-sleep 1
-touch /home/ubuntu/alert6-cron-daily-autoshutdown-configured
+touch /home/ubuntu/alert6-daily-autoshutdown-configured
 sleep 2
 touch /home/ubuntu/alert7-setup-finished-reboot-in-10s
 sleep 10
