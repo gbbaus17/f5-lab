@@ -451,7 +451,6 @@
                         "Primary": "false"
                     }
                 ],
-				"AssociatePublicIpAddress": "true",
                 "SourceDestCheck": "true",
                 "Tags": [
                     {
