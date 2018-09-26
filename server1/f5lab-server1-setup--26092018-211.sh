@@ -11,11 +11,11 @@
 #
 # It takes approx. 5 min to have the instance fully setup
 
-#ifconfig eth0 10.1.1.250 netmask 255.255.255.0
-#ifconfig eth1 10.1.20.100 netmask 255.255.255.0
-#ifconfig eth1:1 10.1.20.101 netmask 255.255.255.0
-#ifconfig eth1:2 10.1.20.102 netmask 255.255.255.0
-#ifconfig eth1:3 10.1.20.103 netmask 255.255.255.0
+#ifconfig eth1 10.1.1.250 netmask 255.255.255.0
+#ifconfig eth0 10.1.20.100 netmask 255.255.255.0
+#ifconfig eth0:1 10.1.20.101 netmask 255.255.255.0
+#ifconfig eth0:2 10.1.20.102 netmask 255.255.255.0
+#ifconfig eth0:3 10.1.20.103 netmask 255.255.255.0
 
 touch /home/ubuntu/alert3-server-install-started-wait-about-7min
 
@@ -29,8 +29,8 @@ EOF
 apt-get install -y dnsmasq
 # these entries are added by AWS commands
 #cat << 'EOF' > /etc/dnsmasq.d/f5lab
-#listen-address=127.0.0.1,10.1.10.100,10.1.10.101,10.1.10.102,10.1.10.103
-#no-dhcp-interface=lo0,eth0,eth1,eth1:1,eth1:2,eth1:3
+#listen-address=127.0.0.1,10.1.20.100,10.1.20.101,20.1.10.102,10.1.20.103
+#no-dhcp-interface=lo0,eth0,eth0:1,eth0:2,eth0:3,eth1
 #EOF
 systemctl enable dnsmasq.service
 service dnsmasq start
