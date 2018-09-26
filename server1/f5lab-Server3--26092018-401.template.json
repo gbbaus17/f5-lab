@@ -219,8 +219,8 @@
 								},
 								"\"\n",
 								"MYVAR2=$(sed 's/\\./-/g' <<< ${MYVARIP2})\n",
-								"echo \"${MYVARIP2} ip-${MYVAR2}\" >> /etc/hosts\n"
-								"touch /home/ubuntu/alert3-set-nics-and-hosts-run"
+								"echo \"${MYVARIP2} ip-${MYVAR2}\" >> /etc/hosts\n",
+								"touch /home/ubuntu/alert3-set-nics-and-hosts-run\n"
 							  ]
 							 ]
 							},
