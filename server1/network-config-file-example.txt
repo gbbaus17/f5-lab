@@ -32,3 +32,7 @@ auto eth1:3
 iface eth1:3 inet static
         address <eth1:3 IP address #3>
         netmask 255.255.255.255
+
+		
+		
+		
