@@ -1254,6 +1254,14 @@
                         "CidrIp": {
                             "Ref": "restrictedSrcAddress"
                         },
+						"IpProtocol": "icmp",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                    },				
+                    {
+                        "CidrIp": {
+                            "Ref": "restrictedSrcAddress"
+                        },
                         "FromPort": "22",
                         "IpProtocol": "tcp",
                         "ToPort": "22"

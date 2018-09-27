@@ -203,6 +203,23 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/Chrome.desktop
 
+
+touch /home/ubuntu/Desktop/F5-BigIP.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/F5-BigIP.desktop
+[Desktop Entry]
+Version=1.0
+Type=Link
+Name=F5-BigIP
+Comment=
+Icon=google-chrome
+URL=https://10.1.1.245
+
+EOF
+
+sleep 1
+chmod 755 /home/ubuntu/Desktop/F5-BigIP.desktop
+
+
 touch /home/ubuntu/Desktop/Postman.desktop
 cat << 'EOF' >> /home/ubuntu/Desktop/Postman.desktop
 [Desktop Entry]
@@ -220,6 +237,7 @@ EOF
 
 sleep 1
 chmod 755 /home/ubuntu/Desktop/Postman.desktop
+
 
 touch /home/ubuntu/Desktop/BurpSuite.desktop
 cat << 'EOF' >> /home/ubuntu/Desktop/BurpSuite.desktop
@@ -251,6 +269,7 @@ chmod 664 /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml
 rm /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 cp /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+systemctl restart xrdp.service
 #If above does not work put a script link on the Desktop to run manually
 chmod 775 /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh
 ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/ubuntu/Desktop/make-tab-complete-work.sh
@@ -270,11 +289,22 @@ chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 
 # To avoid lab running and costing money, shutdown daily :
 # Use 'shutdown -c ' to cancel
-cat << 'EOF' >> /etc/rc.local
+cat << 'EOF' > /etc/rc.local
 #!/bin/sh -e
-sudo cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#!/bin/sh -e
+# sudo cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 shutdown -h 23:59
 EOF
+
 
 touch /home/ubuntu/alert5-daily-autoshutdown-configured
 sleep 2
