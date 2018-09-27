@@ -523,7 +523,7 @@
                     ]
                 },
                 "NetworkInterfaceId": {
-                    "Ref": "Server1Eth1Interface"
+                    "Ref": "Server1Eth0Interface"
                 }
             }
         }		
