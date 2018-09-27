@@ -706,7 +706,7 @@
                 "Fn::Join": [
                     "",
                     [
-                        "ssh -i your-aws-key.pem ubuntu@",
+                        "ssh ubuntu@",
                         {
                             "Ref": "Server1EipAddress"
                         }
