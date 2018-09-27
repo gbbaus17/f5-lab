@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Template v3.3.0: AWS CloudFormation Template for creating a F5 Lab 3NIC BIG-IP in an existing VPC",
+    "Description": "F5 BigIP 3nic Template for use with F5 labs https://clouddocs.f5.com/training/community/",
     "Parameters": {
         "VPC": {
             "ConstraintDescription": "This must be an existing VPC within the working region.",
