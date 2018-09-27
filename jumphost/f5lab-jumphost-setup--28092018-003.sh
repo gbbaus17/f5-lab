@@ -19,7 +19,7 @@ set -x
 # Disable SSH Host Key Checking for hosts in the lab
 cat << 'EOF' >> /etc/ssh/ssh_config
 
-Host 10.1.*.*
+Host 10.*.*.*
    StrictHostKeyChecking no
    UserKnownHostsFile /dev/null
    LogLevel ERROR
@@ -30,9 +30,12 @@ EOF
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
 apt-get -y update
+sleep 10
 touch /home/ubuntu/alert3-xrdp-install-started-wait-about-7min
 apt-get install -y ubuntu-desktop xrdp
+sleep 10
 service xrdp restart
+sleep 10
 apt-get install -y xfce4 xfce4-goodies
 echo xfce4-session > /home/ubuntu/.xsession
 # Install specific fonts support
@@ -153,20 +156,7 @@ sleep 1
 # Desktop folder probabely already exists
 mkdir -p /home/ubuntu/Desktop
 
-#Either get these pre-created Desktop shortcuts or create them at each build below
-
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Firefox.desktop > /home/ubuntu/Desktop/Firefox.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Chrome.desktop > /home/ubuntu/Desktop/Chrome.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Postman.desktop > /home/ubuntu/Desktop/Postman.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/BurpSuite.desktop > /home/ubuntu/Desktop/BurpSuite.desktop						  
-
-#chmod 755 /home/ubuntu/Desktop/Firefox.desktop
-#chmod 755 /home/ubuntu/Desktop/Chrome.desktop
-#chmod 755 /home/ubuntu/Desktop/Postman.desktop
-#chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
-
-
-#Either copy the Desktp shortcuts above or create them at each build
+#Desktp shortcuts
 
 touch >> /home/ubuntu/Desktop/Firefox.desktop
 cat << 'EOF' > /home/ubuntu/Desktop/Firefox.desktop
@@ -257,7 +247,7 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
-sleep 20
+#File to make 'tab complete' work
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping
 #      <property name="&lt;Super&gt;Tab" type="string" value="switch_window_key"/>
@@ -266,11 +256,7 @@ sleep 20
 #
 # Probabely easier just to copy a file already done
 chmod 664 /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml
-rm /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-cp /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-systemctl restart xrdp.service
-#If above does not work put a script link on the Desktop to run manually
+#Put a script link on the Desktop to fix 'tab complete' - user must run manually and reboot and after XRDP first launch
 chmod 775 /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh
 ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/ubuntu/Desktop/make-tab-complete-work.sh
 # Create lab files shortcut
@@ -301,7 +287,7 @@ cat << 'EOF' > /etc/rc.local
 # In order to enable or disable this script just change the execution
 # bits.
 #!/bin/sh -e
-# sudo cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+#sudo cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 shutdown -h 23:59
 EOF
 

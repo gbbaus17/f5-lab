@@ -242,7 +242,7 @@
                     "default": "BIG-IP Management Port"
                 },
                 "ManagementSubnet": {
-                    "default": "Management Subnet AZ1"
+                    "default": "Management Subnet"
                 },
                 "ntpServer": {
                     "default": "NTP Server"
@@ -257,10 +257,10 @@
                     "default": "SSH Key"
                 },
                 "ExternalSubnet": {
-                    "default": "Subnet1 in AZ1"
+                    "default": "External Subnet"
                 },
                 "InternalSubnet": {
-                    "default": "Subnet2 in AZ1"
+                    "default": "Internal Subnet"
                 },
                 "TimeZone": {
                     "default": "Timezone (Olson)"
@@ -947,7 +947,21 @@
                                 ]
                             ]
                         }
-                    }
+                    },
+                    {
+                        "Key": "SSHConnectivity",
+						"Value": {
+							"Fn::Join": [
+								"",
+								[
+									"ssh -i your-aws-key.pem ubuntu@",
+									{
+										"Ref": "BigIp1ManagementEipAddress"
+									}
+								]
+							]
+						}
+                    }					
                 ],
                 "UserData": {
                     "Fn::Base64": {
