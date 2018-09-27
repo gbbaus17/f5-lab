@@ -157,6 +157,58 @@
                 "AWS::CloudFormation::Init": {
                     "config": {
                         "files": {
+                            "/home/ubuntu/interfaces": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "\n",
+                                        [
+										"#ifconfig eth1 10.1.1.250 netmask 255.255.255.0",
+										"#ifconfig eth0 10.1.20.100 netmask 255.255.255.0",
+										"#ifconfig eth0:1 10.1.20.101 netmask 255.255.255.0",
+										"#ifconfig eth0:2 10.1.20.102 netmask 255.255.255.0",
+										"#ifconfig eth0:3 10.1.20.103 netmask 255.255.255.0",
+										" ",										
+										"auto lo",
+										"iface lo inet loopback",
+										" ",
+										"#auto eth0",
+										"#iface eth0 inet dhcp",
+										" ",
+										"auto eth0",
+										"iface eth0 inet static",
+										"        address <main server IP>",
+										"        netmask 255.255.255.255",
+										"        gateway <main server IP's first three octets>.1",
+										"        dns-nameservers 8.8.8.8 8.8.4.4",
+										" ",
+										"auto eth1",
+										"iface eth1 inet static",
+										"        address <main server IP>",
+										"        netmask 255.255.255.255",
+										"        gateway <main server IP's first three octets>.1",
+										"        dns-nameservers 8.8.8.8 8.8.4.4",
+										" ",
+										"auto eth1:1",
+										"iface eth1:1 inet static",
+										"        address <eth1:1 IP address #1>",
+										"        netmask 255.255.255.255"",
+										" ",		
+										"auto eth1:2",
+										"iface eth1:2 inet static",
+										"        address <eth1:2 IP address #2>",
+										"        netmask 255.255.255.255",
+										" ",
+										"auto eth1:3",
+										"iface eth1:3 inet static",
+										"        address <eth1:3 IP address #3>",
+										"        netmask 255.255.255.255"
+                                        ]
+                                    ]
+                                },
+                                "group": "root",
+                                "mode": "000755",
+                                "owner": "root"
+                            },						
                             "/home/ubuntu/set-nics-and-hosts.sh": {
                                 "content": {
                                     "Fn::Join": [
@@ -327,13 +379,10 @@
                                 "command": "/home/ubuntu/f5lab-dns-masq.sh"
                             },
 							"018-sleep": {
-                                "command": "sleep 5" 
-                            },
-                            "019-chmod-script": {
-                                "command": "chmod 755 /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh" 
+                                "command": "sleep 30" 
                             },
                             "020-execute-script": {
-                                "command": "/home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
+                                "command": "sh /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
                             },
                             "030-just-cheching": {
                                 "command": "touch /home/ubuntu/alert2b-finished-cloudinit-commands"

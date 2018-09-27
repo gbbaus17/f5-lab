@@ -327,13 +327,10 @@
                                 "command": "/home/ubuntu/f5lab-dns-masq.sh"
                             },
 							"018-sleep": {
-                                "command": "sleep 5" 
-                            },
-                            "019-chmod-script": {
-                                "command": "chmod 755 /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh" 
+                                "command": "sleep 30" 
                             },
                             "020-execute-script": {
-                                "command": "/home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
+                                "command": "sh /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
                             },
                             "030-just-cheching": {
                                 "command": "touch /home/ubuntu/alert2b-finished-cloudinit-commands"
