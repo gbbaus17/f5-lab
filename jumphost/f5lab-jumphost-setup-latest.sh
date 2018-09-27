@@ -13,7 +13,6 @@
 
 set -x
 
-# This should not be needed - TO BE INVESTIGATED
 #ifconfig eth0 10.1.10.51 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
@@ -114,9 +113,9 @@ sleep 2
 
 
 # pull the f5-super-netops images : base, jenkins, ansible
-#docker pull f5devcentral/f5-super-netops-container:base
-#docker pull f5devcentral/f5-super-netops-container:jenkins
-#docker pull f5devcentral/f5-super-netops-container:ansible
+docker pull f5devcentral/f5-super-netops-container:base
+docker pull f5devcentral/f5-super-netops-container:jenkins
+docker pull f5devcentral/f5-super-netops-container:ansible
 
 # Install Postman
 wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
@@ -260,34 +259,33 @@ ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/
 ln -s /home/ubuntu/F5-Lab/lab-files/ /home/ubuntu/Desktop/lab-files
 
 #Create new lab users
-# quietly add users without passwords
+# quietly add user without passwords
 adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
-adduser --quiet --disabled-password --shell /bin/bash --home /home/admin --gecos "admin" admin
 # set passwords
 echo "f5student:f5DEMOs4u!" | chpasswd
-echo "admin:f5DEMOs4u!" | chpasswd
-#echo "root:f5DEMOs4u!" | chpasswd
-
 
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 chown -R ubuntu:ubuntu /home/ubuntu/set-nics-and-hosts.sh
 
-touch /home/ubuntu/alert5-finished-server1-setup-script
 
 # Initilise NIC on every reboot -- need to figure out cloud-init with /etc/network/interfaces.d
 # Also to avoid lab running and costing money, shutdown daily :
 # Use 'shutdown -c ' to cancel
 cat << 'EOF' >> /etc/rc.local
 #!/bin/sh -e
-sudo /home/ubuntu/set-nics-and-hosts.sh
 shutdown -h 23:59
 EOF
 
 
-touch /home/ubuntu/alert6-daily-autoshutdown-configured
+touch /home/ubuntu/alert5-daily-autoshutdown-configured
 sleep 2
-touch /home/ubuntu/alert7-setup-finished-reboot-in-10s
-sleep 10
+
+# Ensure NICs are set and persit reboot
+cat /home/ubuntu/interfaces > /etc/network/interfaces
+
+touch /home/ubuntu/alert6-setup-finished-reboot-in-30s
+sleep 30
 reboot
+

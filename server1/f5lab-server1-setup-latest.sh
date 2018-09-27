@@ -13,7 +13,7 @@
 
 #ifconfig eth0 10.1.20.100 netmask 255.255.255.0
 #ifconfig eth0:1 10.1.20.101 netmask 255.255.255.0
-#ifconfig eth0:2 10.1.20.102 netmask 255.255.255.0
+#ifconfig eth0:2 10.1.20.102 netmask 255.255.255.0 
 #ifconfig eth0:3 10.1.20.103 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.250 netmask 255.255.255.0
 #ifconfig eth1:1 10.1.1.15 netmask 255.255.255.0
@@ -21,7 +21,7 @@
 touch /home/ubuntu/alert3-server-install-started-wait-about-7min
 
 # Allow ssh with passwords
-sed -i 's/RSAAuthentication yes/RSAAuthentication no/g; s/PubkeyAuthentication yes/PubkeyAuthentication no/g; s/PasswordAuthentication no/PasswordAuthentication yes /g' /etc/ssh/sshd_config
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes /g' /etc/ssh/sshd_config
 
 # Install dnsmasq
 apt-get install -y dnsmasq
@@ -47,25 +47,20 @@ sleep 2
 
 
 #Create new lab users
-# quietly add users without passwords
+# quietly add user without passwords
 adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
-adduser --quiet --disabled-password --shell /bin/bash --home /home/admin --gecos "admin" admin
 # set passwords
 echo "f5student:f5DEMOs4u!" | chpasswd
-echo "admin:f5DEMOs4u!" | chpasswd
 
-
-## Start the f5-demo-httpd container
-#cat << 'EOF' > /etc/rc.local
-##!/bin/sh -e
-#docker run -d -p 80:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' f5devcentral/f5-demo-httpd
-#docker run -d -p 8000:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' f5devcentral/f5-demo-httpd
-#docker run -d -p 8001:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=A0A0A0 -e F5DEMO_NODENAME='Gray' f5devcentral/f5-demo-httpd
-#docker run -d -p 8002:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' f5devcentral/f5-demo-httpd
-#docker run -d -p 8003:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' #f5devcentral/f5-demo-httpd
-#EOF
-
-touch /home/ubuntu/alert4-finished-jumphost-setup-script
+# Start the f5-demo-httpd container
+cat << 'EOF' > /etc/rc.local
+#!/bin/sh -e
+docker run -d -p 80:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' f5devcentral/f5-demo-httpd
+docker run -d -p 8000:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' f5devcentral/f5-demo-httpd
+docker run -d -p 8001:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=A0A0A0 -e F5DEMO_NODENAME='Gray' f5devcentral/f5-demo-httpd
+docker run -d -p 8002:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' f5devcentral/f5-demo-httpd
+docker run -d -p 8003:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' f5devcentral/f5-demo-httpd
+EOF
 
 # To avoid lab running and costing money, shutdown daily :
 # Use 'shutdown -c ' to cancel
@@ -74,15 +69,11 @@ cat << 'EOF' >> /etc/rc.local
 shutdown -h 23:59
 EOF
 
-
 sleep 2
 # Ensure NICs are set and persit reboot
 cat /home/ubuntu/interfaces > /etc/network/interfaces
-                            
-sleep 2
-touch /home/ubuntu/alert5-daily-autoshutdown-configured
-sleep 2
-touch /home/ubuntu/alert6-setup-finished-reboot-in-30s
+
+touch /home/ubuntu/alert4-setup-finished-reboot-in-30s
 sleep 30
 reboot
 

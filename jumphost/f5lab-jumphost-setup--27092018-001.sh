@@ -13,9 +13,8 @@
 
 set -x
 
-# This should not be needed - TO BE INVESTIGATED
-##ifconfig eth0 10.1.10.51 netmask 255.255.255.0
-##ifconfig eth1 10.1.1.51 netmask 255.255.255.0
+#ifconfig eth0 10.1.10.51 netmask 255.255.255.0
+#ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
 # Disable SSH Host Key Checking for hosts in the lab
 cat << 'EOF' >> /etc/ssh/ssh_config
@@ -27,16 +26,66 @@ Host 10.1.*.*
 
 EOF
 
-
 # Install desktop environment
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
 # Option 2
 apt-get -y update
+touch /home/ubuntu/alert3-xrdp-install-started-wait-about-7min
 apt-get install -y ubuntu-desktop xrdp
 service xrdp restart
 apt-get install -y xfce4 xfce4-goodies
 echo xfce4-session > /home/ubuntu/.xsession
+# Install specific fonts support
+# Japanese
+apt-get -y install fonts-takao-mincho
+systemctl enable xrdp.service
+
+# Configure xrdp
+cp /etc/xrdp/startwm.sh /etc/xrdp/startwm.sh.original
+
+cat << 'EOF' > /etc/xrdp/startwm.sh
+#!/bin/sh
+if [ -r /etc/default/locale ]; then
+  . /etc/default/locale
+  export LANG LANGUAGE
+fi
+. /etc/X11/Xsession
+EOF
+
+cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.ini.original
+
+cat << 'EOF' > /etc/xrdp/xrdp.ini
+[globals]
+bitmap_cache=yes
+bitmap_compression=yes
+port=3389
+crypt_level=low
+channel_code=1
+max_bpp=24
+#black=000000
+#grey=d6d3ce
+#dark_grey=808080
+#blue=08246b
+#dark_blue=08246b
+#white=ffffff
+#red=ff0000
+#green=00ff00
+#background=626c72
+
+[f5labs]
+name=F5Labs
+lib=libvnc.so
+username=ask
+password=ask
+ip=127.0.0.1
+port=-1
+
+EOF
+
+#sed -i.bak "s/FuseMountName=thinclient_drives/FuseMountName=remote_drives/g" /etc/xrdp/sesman.ini
 systemctl restart xrdp.service
+
+touch /home/ubuntu/alert4-xrdp-install-finished
 
 # Install specific fonts support
 # Japanese
@@ -64,9 +113,9 @@ sleep 2
 
 
 # pull the f5-super-netops images : base, jenkins, ansible
-#docker pull f5devcentral/f5-super-netops-container:base
-#docker pull f5devcentral/f5-super-netops-container:jenkins
-#docker pull f5devcentral/f5-super-netops-container:ansible
+docker pull f5devcentral/f5-super-netops-container:base
+docker pull f5devcentral/f5-super-netops-container:jenkins
+docker pull f5devcentral/f5-super-netops-container:ansible
 
 # Install Postman
 wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
@@ -90,12 +139,12 @@ sleep 5
 #Install Download Burp 1.7.36
 apt-get -y install openjdk-8-jre
 sleep 5
+mkdir -p /home/ubuntu/burpsuite/
 wget -O /home/ubuntu/burpsuite/burpsuite_community_linux.jar 'https://portswigger.net/burp/releases/download?product=community&version=1.7.36&type=jar'
-# Only need below if Burpsuite installer is part of Git clone
-##mkdir -p /home/ubuntu/burpsuite/
-##mv /home/ubuntu/...lab-directiry..../burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
+# Only need MOVE if Burpsuite JAR is bundled and part of Git clone
+##mv /home/ubuntu/F5-Lab/2.jumphost/client-files/burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
 chmod 755 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
-curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
+cp /home/ubuntu/F5-Lab/2.jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
 chmod 555 /home/ubuntu/burpsuite/burp.png
 cd ~
 sleep 1
@@ -106,10 +155,10 @@ mkdir -p /home/ubuntu/Desktop
 
 #Either get these pre-created Desktop shortcuts or create them at each build below
 
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/Firefox.desktop > /home/ubuntu/Desktop/Firefox.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/Chrome.desktop > /home/ubuntu/Desktop/Chrome.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/Postman.desktop > /home/ubuntu/Desktop/Postman.desktop
-#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/BurpSuite.desktop > /home/ubuntu/Desktop/BurpSuite.desktop						  
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Firefox.desktop > /home/ubuntu/Desktop/Firefox.desktop
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Chrome.desktop > /home/ubuntu/Desktop/Chrome.desktop
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/Postman.desktop > /home/ubuntu/Desktop/Postman.desktop
+#curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/client-files/BurpSuite.desktop > /home/ubuntu/Desktop/BurpSuite.desktop						  
 
 #chmod 755 /home/ubuntu/Desktop/Firefox.desktop
 #chmod 755 /home/ubuntu/Desktop/Chrome.desktop
@@ -190,12 +239,6 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
-sleep 1
-
-# Things are created as root, need to transfer ownership
-chown -R ubuntu:ubuntu /home/ubuntu/Desktop
-#Not needed if not clonning.... chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
-
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping
 #      <property name="&lt;Super&gt;Tab" type="string" value="switch_window_key"/>
@@ -203,14 +246,46 @@ chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 #     <property name="&lt;Super&gt;Tab" type="string" value="empty"/>
 #
 # Probabely easier just to copy a file already done
-curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/xfce4-keyboard-shortcuts.xml
-sleep 2
-cat /home/ubuntu/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+rm /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+touch /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 chmod 775 /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
-chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
+chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce-perchannel-xml
 sleep 2
-#If above does not work put a script on Desktop to run manually
-curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/2.jumphost/client-files/make-tab-complete-work.sh > /home/ubuntu/Desktop/make-tab-complete-work.sh
-chmod 775 /home/ubuntu/Desktop/make-tab-complete-work.sh
+#If above does not work put a script link on the Desktop to run manually
+chmod 775 /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh
+ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/ubuntu/Desktop/make-tab-complete-work.sh
+# Create lab files shortcut
+ln -s /home/ubuntu/F5-Lab/lab-files/ /home/ubuntu/Desktop/lab-files
 
+#Create new lab users
+# quietly add user without passwords
+adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
+# set passwords
+echo "f5student:f5DEMOs4u!" | chpasswd
+
+# Things are created as root, need to transfer ownership
+chown -R ubuntu:ubuntu /home/ubuntu/Desktop
+chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
+chown -R ubuntu:ubuntu /home/ubuntu/set-nics-and-hosts.sh
+
+
+# Initilise NIC on every reboot -- need to figure out cloud-init with /etc/network/interfaces.d
+# Also to avoid lab running and costing money, shutdown daily :
+# Use 'shutdown -c ' to cancel
+cat << 'EOF' >> /etc/rc.local
+#!/bin/sh -e
+shutdown -h 23:59
+EOF
+
+
+touch /home/ubuntu/alert5-daily-autoshutdown-configured
+sleep 2
+
+# Ensure NICs are set and persit reboot
+cat /home/ubuntu/interfaces > /etc/network/interfaces
+
+touch /home/ubuntu/alert6-setup-finished-reboot-in-30s
+sleep 30
+reboot
 

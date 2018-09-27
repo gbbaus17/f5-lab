@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Ubuntu 16.04 LTS Jumpbox for use with F5 labs https://clouddocs.f5.com/training/community/",
+    "Description": "Ubuntu 16.04 LTS JumpHost for use with F5 labs https://clouddocs.f5.com/training/community/",
     "Parameters": {
         "VPC": {
             "Description": "Existing F5 Lab VPC",
@@ -9,7 +9,7 @@
         },
         "UbuntuPassword": {
             "Default": "SuperSecret01!",
-            "Description": "ubuntu User password for Jumpbox RDP access",
+            "Description": "ubuntu User password for JumpHost RDP access",
             "Type": "String"
         },
         "InstanceType": {
@@ -19,7 +19,7 @@
                 "m3.medium",
                 "m3.large"
             ],
-            "ConstraintDescription": "Subset of valid EC2 instance types for Lab Jumpbox",
+            "ConstraintDescription": "Subset of valid EC2 instance types for Lab JumpHost",
             "Default": "t2.large",
             "Description": "Size of the Ubuntu Instance |'t2.large' has 2 cores, 8Gb RAM @~11cents/hour",
             "Type": "String"
@@ -49,10 +49,10 @@
         },
         "ExternalSubnet": {
             "ConstraintDescription": "The subnet ID must be within an existing VPC",
-            "Description": "External Subnet: To access the Jumpbox/Client",
+            "Description": "External Subnet: To access the JumpHost/Client",
             "Type": "AWS::EC2::Subnet::Id"
         },
-        "JumphostLandingPrivateIP": {
+        "JumpHostLandingPrivateIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in External / Access Subnet",
             "Default": "10.1.10.51",
@@ -61,11 +61,11 @@
             "MinLength": 9,
             "Type": "String"
         },
-        "JumphostMngmtAccessIP": {
+        "JumpHostMngmtAccessIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in Manangement Subnet",
             "Default": "10.1.1.51",
-            "Description": "Jumphost Mngmt vlan address - Lab Default is 10.1.1.51",
+            "Description": "JumpHost Mngmt vlan address - Lab Default is 10.1.1.51",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
@@ -130,7 +130,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "JumphostSecuriytGroup"
+                        "Value": "JumpHostSecuriytGroup"
                     }
                 ]
             },
@@ -182,7 +182,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "JumphostSecuriytGroup"
+                        "Value": "JumpHostSecuriytGroup"
                     }
                 ]
             },
@@ -192,7 +192,7 @@
                 }
             }
         },
-        "JumpBoxEipAddress": {
+        "JumpHostEipAddress": {
             "Properties": {
                 "Domain": "VPC"
             },
@@ -203,7 +203,7 @@
                 }
             }
         },
-        "JumpBoxEth0Interface": {
+        "JumpHostEth0Interface": {
             "Type": "AWS::EC2::NetworkInterface",
             "Properties": {
                 "SubnetId": {
@@ -218,7 +218,7 @@
 				"PrivateIpAddresses": [
 					{
 						"PrivateIpAddress": {
-							"Ref": "JumphostLandingPrivateIP"
+							"Ref": "JumpHostLandingPrivateIP"
 						},
 						"Primary": "true"
 					}
@@ -237,17 +237,17 @@
                 }
             }
         },
-        "JumpBoxEipAssociation": {
+        "JumpHostEipAssociation": {
             "Type": "AWS::EC2::EIPAssociation",
             "Properties": {
                 "AllocationId": {
                     "Fn::GetAtt": [
-                        "JumpBoxEipAddress",
+                        "JumpHostEipAddress",
                         "AllocationId"
                     ]
                 },
                 "NetworkInterfaceId": {
-                    "Ref": "JumpBoxEth0Interface"
+                    "Ref": "JumpHostEth0Interface"
                 }
             },
             "Metadata": {
@@ -270,24 +270,24 @@
 							   "#!/bin/bash\n",
 								"ifconfig eth0 ",
 								{
-									"Ref": "JumphostLandingPrivateIP"
+									"Ref": "JumpHostLandingPrivateIP"
 								},
 								" netmask 255.255.255.0\n",
 								"ifconfig eth1 ",
 								{
-									"Ref": "JumphostMngmtAccessIP"
+									"Ref": "JumpHostMngmtAccessIP"
 								},
 								" netmask 255.255.255.0\n",
 								"MYVARIP1=\"",
 								{
-									"Ref": "JumphostMngmtAccessIP"
+									"Ref": "JumpHostMngmtAccessIP"
 								},
 								"\"\n",
 								"MYVAR1=$(sed 's/\\./-/g' <<< ${MYVARIP1})\n",
 								"echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
 								"MYVARIP2=\"",
 								{
-									"Ref": "JumphostLandingPrivateIP"
+									"Ref": "JumpHostLandingPrivateIP"
 								},
 								"\"\n",
 								"MYVAR2=$(sed 's/\\./-/g' <<< ${MYVARIP2})\n",
@@ -298,7 +298,45 @@
 						"group": "root",
 						"mode": "000755",
 						"owner": "root"
-					   }
+					   },
+					   "/home/ubuntu/interfaces": {
+							"content": {
+								"Fn::Join": [
+									"",
+									[
+										"# By default cfn-init uses /etc/network/interfaces.d/50-cloud-init.cfg\n",
+										"# we need to overide this and set our static addresses\n",
+										"\n",
+										"auto lo\n",
+										"iface lo inet loopback\n",
+										"\n",
+										"auto eth0\n",
+										"iface eth0 inet static\n",
+										"        address ",
+										{
+											"Ref": "JumpHostLandingPrivateIP"
+										},
+										"\n",
+										"        netmask 255.255.255.255\n",
+										"        gateway 10.1.10.1\n",
+										"        dns-nameservers 8.8.8.8 8.8.4.4\n",
+										"\n",
+										"auto eth1\n",
+										"iface eth1 inet static\n",
+										"        address ",
+										{
+											"Ref": "JumpHostMngmtAccessIP"
+										},
+										"\n",
+										"        netmask 255.255.255.255\n",
+										"\n"
+									]
+								]
+							},
+							"group": "root",
+							"mode": "000444",
+							"owner": "root"
+						}					   
 				   },
 					"commands": {
                             "000-just-cheching": {
@@ -319,10 +357,13 @@
 									  ]
 								   }
 							 },
-							"003-update-apt": { 
+                            "004-execute-nics-and-hosts": {
+                                "command": "/home/ubuntu/set-nics-and-hosts.sh"
+                            },							 
+							"006-update-apt": { 
 								"command": "apt-get -y update" 
 							},
-							"004-setup-ubuntu-password": {
+							"008-setup-ubuntu-password": {
 									"command": { 
 									"Fn::Join": [
 									  "", 
@@ -334,19 +375,22 @@
 									  ]
 									}
 							  },							
-                            "005_install_git": {
+                            "010_install_git": {
                                 "command": "apt-get -y install git"
                             },
-                            "006-clone-repo": {
+                            "012-clone-repo": {
                                 "command": "git clone -b master https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab"
                             },
-                            "010-execute-nics-and-hosts": {
-                                "command": "/home/ubuntu/set-nics-and-hosts.sh"
+                            "014-sleep-30": {
+                                "command": "sleep 30"
                             },
-                            "011-change-mod-setup-script": {
+                            "016-change-mod-setup-script": {
                                 "command": "chmod 755 /home/ubuntu/F5-Lab/jumphost/f5lab-jumphost-setup-latest.sh"
                             },
-                            "012-execute-jumphost-setup": {
+                            "018-sleep-5": {
+                                "command": "sleep 5"
+                            },							
+                            "020-execute-jumphost-setup": {
                                 "command": "/home/ubuntu/F5-Lab/jumphost/f5lab-jumphost-setup-latest.sh"
                             }							
                         }
@@ -379,13 +423,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "f5labsJumphost"
-                    }
-                ],
-                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "f5labsJumphost"
+                        "Value": "F5LabJumpHost"
                     },
                     {
                         "Key": "Connectivity",
@@ -395,7 +433,7 @@
 								[
 									"ssh -i your-aws-key.pem ubuntu@",
 									{
-										"Ref": "Server1EipAddress"
+										"Ref": "JumpHostEipAddress"
 									}
 								]
 							]
@@ -431,7 +469,7 @@
                 "NetworkInterfaces": [
                     {
                         "NetworkInterfaceId": {
-                            "Ref": "JumpBoxEth0Interface"
+                            "Ref": "JumpHostEth0Interface"
                         },
                         "DeviceIndex": "0"
                     },
@@ -459,7 +497,7 @@
 				"PrivateIpAddresses": [
 					{
 						"PrivateIpAddress": {
-							"Ref": "JumphostMngmtAccessIP"
+							"Ref": "JumpHostMngmtAccessIP"
 						},
 						"Primary": "true"
 					}
@@ -472,7 +510,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "JumpBox:ManagementAccess"
+                        "Value": "JumpHost:ManagementAccess"
                     }
                 ]
             },
@@ -487,7 +525,7 @@
         "JumpHostPublicIP": {
             "Description": "RDP Public IP - recommended to restrict access with Securty Group",
             "Value": {
-                "Ref": "JumpBoxEipAddress"
+                "Ref": "JumpHostEipAddress"
             }
         },
         "UbuntuRdpPassword": {
@@ -496,15 +534,15 @@
                 "Ref": "UbuntuPassword"
             }
         },
-        "JumpBoxSSH": {
-            "Description": "ssh access to Ubuntu Jumpbox",
+        "JumpHostSSH": {
+            "Description": "ssh access to Ubuntu JumpHost",
             "Value": {
                 "Fn::Join": [
                     "",
                     [
                         "ssh -i your-aws-key.pem ubuntu@",
                         {
-                            "Ref": "JumpBoxEipAddress"
+                            "Ref": "JumpHostEipAddress"
                         }
                     ]
                 ]
@@ -518,14 +556,14 @@
                     [
                         "mstsc.exe /f /v:",
                         {
-                            "Ref": "JumpBoxEipAddress"
+                            "Ref": "JumpHostEipAddress"
                         }
                     ]
                 ]
             }
         },
         "AutoShutDown": {
-            "Description": "Jumpbox set to shutdown daily at 23h59 via rc.local",
+            "Description": "JumpHost set to shutdown daily at 23h59 via rc.local",
             "Value": "Daily"
         },		
         "Region": {
@@ -558,7 +596,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Run this template AFTER you have run the F5 Lab TOPOLOGY template. Jumpbox Build takes ~10 min"
+                        "default": "Run this template AFTER you have run the F5 Lab TOPOLOGY template. JumpHost Build takes ~10 min"
                     },
                     "Parameters": []
                 },
@@ -570,7 +608,7 @@
                 },
                 {
                     "Label": {
-                        "default": "JUMPBOX CONFIGURATION"
+                        "default": "JUMPHOST CONFIGURATION"
                     },
                     "Parameters": [
                         "VPC",
@@ -581,9 +619,9 @@
                         "restrictedSrcAddress",
                         "UbuntuPassword",
                         "ExternalSubnet",
-                        "JumphostLandingPrivateIP",
+                        "JumpHostLandingPrivateIP",
                         "ManagementSubnet",
-                        "JumphostMngmtAccessIP",
+                        "JumpHostMngmtAccessIP",
 						"TimeZone"						
                     ]
                 }
@@ -607,13 +645,13 @@
                 "ManagementSubnet": {
                     "default": "F5Lab Mgmt subnet"
                 },
-                "JumphostMngmtAccessIP": {
+                "JumpHostMngmtAccessIP": {
                     "default": "F5Lab Mgmt subnet IP"
                 },
                 "ExternalSubnet": {
                     "default": "External subnet"
                 },
-                "JumphostLandingPrivateIP": {
+                "JumpHostLandingPrivateIP": {
                     "default": "External subnet IP"
                 },
                 "restrictedSrcAddress": {
