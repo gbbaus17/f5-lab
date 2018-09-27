@@ -239,6 +239,7 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
+sleep 20
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping
 #      <property name="&lt;Super&gt;Tab" type="string" value="switch_window_key"/>
@@ -246,12 +247,10 @@ chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 #     <property name="&lt;Super&gt;Tab" type="string" value="empty"/>
 #
 # Probabely easier just to copy a file already done
+chmod 664 /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml
 rm /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-touch /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-chmod 775 /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml
-chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce-perchannel-xml
-sleep 2
+cp /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+chown -R ubuntu:ubuntu /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 #If above does not work put a script link on the Desktop to run manually
 chmod 775 /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh
 ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/ubuntu/Desktop/make-tab-complete-work.sh
@@ -267,24 +266,21 @@ echo "f5student:f5DEMOs4u!" | chpasswd
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
-chown -R ubuntu:ubuntu /home/ubuntu/set-nics-and-hosts.sh
 
 
-# Initilise NIC on every reboot -- need to figure out cloud-init with /etc/network/interfaces.d
-# Also to avoid lab running and costing money, shutdown daily :
+# To avoid lab running and costing money, shutdown daily :
 # Use 'shutdown -c ' to cancel
 cat << 'EOF' >> /etc/rc.local
 #!/bin/sh -e
+sudo cat /home/ubuntu/F5-Lab/jumphost/client-files/xfce4-keyboard-shortcuts.xml > /home/ubuntu/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 shutdown -h 23:59
 EOF
-
 
 touch /home/ubuntu/alert5-daily-autoshutdown-configured
 sleep 2
 
 # Ensure NICs are set and persit reboot
 cat /home/ubuntu/interfaces > /etc/network/interfaces
-
 touch /home/ubuntu/alert6-setup-finished-reboot-in-30s
 sleep 30
 reboot
