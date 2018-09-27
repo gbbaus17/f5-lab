@@ -423,8 +423,18 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "F5LabJumpHost"
-                    },
+                        "Value": {
+                            "Fn::Join": [
+                                "",
+                                [
+								"F5Lab:",
+                                    {
+                                        "Ref": "AWS::StackName"
+                                    }
+                                ]
+                            ]
+                        }
+                    },				
                     {
                         "Key": "SSHConnectivity",
 						"Value": {

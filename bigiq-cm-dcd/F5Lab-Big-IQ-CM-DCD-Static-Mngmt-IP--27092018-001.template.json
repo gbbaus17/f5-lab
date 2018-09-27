@@ -435,8 +435,9 @@
                         "Key": "Name",
                         "Value": {
                             "Fn::Join": [
-                                " ",
+                                "",
                                 [
+								"F5Lab:",
                                     {
                                         "Ref": "AWS::StackName"
                                     },
@@ -668,9 +669,10 @@
                         "Key": "Name",
                         "Value": {
                             "Fn::Join": [
-                                " ",
+                                "",
                                 [
-                                    {
+                                 "F5Lab:",
+								 {
                                         "Ref": "AWS::StackName"
                                     },
                                     ":DCD"									

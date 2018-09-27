@@ -940,10 +940,10 @@
                             "Fn::Join": [
                                 "",
                                 [
+								"F5Lab:",
                                     {
                                         "Ref": "AWS::StackName"
-                                    },
-                                    ":Big-IP"
+                                    }
                                 ]
                             ]
                         }
