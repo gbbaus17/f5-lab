@@ -142,9 +142,9 @@ sleep 5
 mkdir -p /home/ubuntu/burpsuite/
 wget -O /home/ubuntu/burpsuite/burpsuite_community_linux.jar 'https://portswigger.net/burp/releases/download?product=community&version=1.7.36&type=jar'
 # Only need MOVE if Burpsuite JAR is bundled and part of Git clone
-##mv /home/ubuntu/F5-Lab/2.jumphost/client-files/burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
+##mv /home/ubuntu/F5-Lab/jumphost/client-files/burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
 chmod 755 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
-cp /home/ubuntu/F5-Lab/2.jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
+cp /home/ubuntu/F5-Lab/jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
 chmod 555 /home/ubuntu/burpsuite/burp.png
 cd ~
 sleep 1
