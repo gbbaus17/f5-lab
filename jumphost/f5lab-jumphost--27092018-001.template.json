@@ -426,12 +426,26 @@
                         "Value": "F5LabJumpHost"
                     },
                     {
-                        "Key": "Connectivity",
+                        "Key": "SSHConnectivity",
 						"Value": {
 							"Fn::Join": [
 								"",
 								[
 									"ssh -i your-aws-key.pem ubuntu@",
+									{
+										"Ref": "JumpHostEipAddress"
+									}
+								]
+							]
+						}
+                    },
+                    {
+                        "Key": "RDPConnectivity",
+						"Value": {
+							"Fn::Join": [
+								"",
+								[
+									"mstsc.exe /f /v:",
 									{
 										"Ref": "JumpHostEipAddress"
 									}
