@@ -649,8 +649,8 @@
                                 }
                             },
                             "061-custom-auto-shutdown-daily": {
-                                "command": "cat #To avoid costly lab bills shutdown daily\nshutdown -h 23:59 >> /etc/rc.local"
-                            },							
+                                "command": "echo \"shutdown -h 23:59\" >> /etc/rc.local"
+                            },
                             "065-cluster": {
                                 "command": {
                                     "Fn::Join": [
@@ -957,7 +957,7 @@
 							"Fn::Join": [
 								"",
 								[
-									"ssh -i your-aws-key.pem ubuntu@",
+									"ssh -i your-aws-key.pem admin@",
 									{
 										"Ref": "BigIp1ManagementEipAddress"
 									}

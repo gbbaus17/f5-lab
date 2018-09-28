@@ -648,9 +648,6 @@
                                     ]
                                 }
                             },
-                            "061-custom-auto-shutdown-daily": {
-                                "command": "cat #To avoid costly lab bills shutdown daily\nshutdown -h 23:59 >> /etc/rc.local"
-                            },							
                             "065-cluster": {
                                 "command": {
                                     "Fn::Join": [
@@ -957,7 +954,7 @@
 							"Fn::Join": [
 								"",
 								[
-									"ssh -i your-aws-key.pem ubuntu@",
+									"ssh -i your-aws-key.pem admin@",
 									{
 										"Ref": "BigIp1ManagementEipAddress"
 									}
@@ -1393,10 +1390,6 @@
         }
     },
     "Outputs": {
-        "AutoShutDown": {
-            "Description": "Big-IP set to shutdown daily at 23h59 via rc.local",
-            "Value": "Daily"
-        },	
         "BigIp1ExternalInterfacePrivateIp": {
             "Description": "Internally routable IP of the public interface on BIG-IP",
             "Value": {

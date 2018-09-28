@@ -648,9 +648,6 @@
                                     ]
                                 }
                             },
-                            "061-custom-auto-shutdown-daily": {
-                                "command": "cat #To avoid costly lab bills shutdown daily\nshutdown -h 23:59 >> /etc/rc.local"
-                            },							
                             "065-cluster": {
                                 "command": {
                                     "Fn::Join": [
@@ -711,8 +708,8 @@
                                             "\"tmsh modify sys dns name-servers add { ${NAME_SERVER} }\"\n",
                                             "\"tmsh modify sys global-settings gui-setup disabled\"\n",
                                             "\"tmsh modify sys global-settings hostname ${HOSTNAME}\"\n",
-                                            "\"tmsh modify auth user admin password \"${BIGIP_ADMIN_PASSWORD}\"\"\n",
-                                            "\"tmsh save /sys config\")\n",
+                                            "\"tmsh modify auth user admin password ${BIGIP_ADMIN_PASSWORD}\"\n",
+                                            "\"tmsh save sys config\")\n",
                                             "for CMD in \"${tmsh[@]}\"\n",
                                             "do\n",
                                             "  \"/config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/waitForMcp.sh\"\n",
@@ -957,7 +954,7 @@
 							"Fn::Join": [
 								"",
 								[
-									"ssh -i your-aws-key.pem ubuntu@",
+									"ssh -i your-aws-key.pem admin@",
 									{
 										"Ref": "BigIp1ManagementEipAddress"
 									}
@@ -1193,10 +1190,18 @@
                         "CidrIp": {
                             "Ref": "restrictedSrcAddressApp"
                         },
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "restrictedSrcAddressApp"
+                        },
                         "FromPort": "80",
                         "IpProtocol": "tcp",
                         "ToPort": "80"
-                    },
+                    },					
                     {
                         "CidrIp": {
                             "Ref": "restrictedSrcAddressApp"
@@ -1393,10 +1398,6 @@
         }
     },
     "Outputs": {
-        "AutoShutDown": {
-            "Description": "Big-IP set to shutdown daily at 23h59 via rc.local",
-            "Value": "Daily"
-        },	
         "BigIp1ExternalInterfacePrivateIp": {
             "Description": "Internally routable IP of the public interface on BIG-IP",
             "Value": {
