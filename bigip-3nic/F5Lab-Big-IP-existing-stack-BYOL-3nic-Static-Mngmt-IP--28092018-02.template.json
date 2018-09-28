@@ -125,7 +125,7 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "For First Accept BIG-IP Terms and Conditions and note Image ID [v13 or v14 BEST]"
+                        "default": "For First Accept BIG-IP Terms and Conditions and note Image ID [v13 or v14]"
                     },
                     "Parameters": []
                 },
@@ -699,7 +699,9 @@
                                             "}\n",
                                             "declare -a tmsh=()\n",
                                             "echo 'starting custom-config.sh'\n",
-											"echo 'shutdown -h 23:59' >> /etc/rc.local\n",
+											"echo '#!/bin/bash' > /config/startup\n",
+											"echo '#This file is called by rc.local' >> /config/startup\n",
+											"echo 'shutdown -h 23:59' >> /config/startup\n",
                                             "tmsh+=(\n",
                                             "\"tmsh load sys application template /config/cloud/aws/f5.service_discovery.tmpl\"\n",
                                             "\"tmsh load sys application template /config/cloud/aws/f5.cloud_logger.v1.0.0.tmpl\"\n",
@@ -766,7 +768,7 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "PROGNAME=$(basename $0)\n",
+											"PROGNAME=$(basename $0)\n",
                                             "function error_exit {\n",
                                             "echo \"${PROGNAME}: ${1:-\"Unknown Error\"}\" 1>&2\n",
                                             "exit 1\n",
