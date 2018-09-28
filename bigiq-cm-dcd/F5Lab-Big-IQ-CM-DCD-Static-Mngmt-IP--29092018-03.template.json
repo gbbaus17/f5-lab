@@ -169,7 +169,7 @@
             "Type": "String"
         },
 		"BigIqAdminPassword": {
-			"Default": "MySuperSecret01!",
+			"Default": "f5DEMOs4u!",
 			"Description": "Big-IQ setup Admin password for GUI/Web Access",
 			"Type": "String"
 		},
@@ -199,8 +199,8 @@
 		"CmManagementIP": {
 			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-            "Default": "10.1.1.244",
-            "Description": "CM Management IP - Lab Default is 10.1.1.244",
+            "Default": "10.1.1.249",
+            "Description": "CM Management IP - Lab Default is 10.1.1.249",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
@@ -208,8 +208,8 @@
 		"CmDataPlaneIP": {
 			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-            "Default": "10.1.20.244",
-            "Description": "CM DataPlane IP - Lab Default is 10.1.20.244",
+            "Default": "10.1.20.249",
+            "Description": "CM DataPlane IP - Lab Default is 10.1.20.249",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
@@ -217,8 +217,8 @@
 		"DcdManagementIP": {
 			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-            "Default": "10.1.1.243",
-            "Description": "DCD Management IP - Lab Default is 10.1.1.243",
+            "Default": "10.1.1.248",
+            "Description": "DCD Management IP - Lab Default is 10.1.1.248",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
@@ -226,8 +226,8 @@
 		"DcdDataPlaneIP": {
 			"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-            "Default": "10.1.20.243",
-            "Description": "DCD DataPlane IP - Lab Default is Internal vlan 10.1.20.243",
+            "Default": "10.1.20.248",
+            "Description": "DCD DataPlane IP - Lab Default is Internal vlan 10.1.20.248",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"

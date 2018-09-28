@@ -56,8 +56,11 @@ sleep 2
 #Create new lab users
 # quietly add user without passwords
 adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
+adduser --quiet --disabled-password --shell /bin/bash --home /home/external_user --gecos "external_user" f5student
+sleep 5
 # set passwords
 echo "f5student:f5DEMOs4u!" | chpasswd
+echo "external_user:f5DEMOs4u!" | chpasswd
 
 # Start the f5-demo-httpd container
 cat << 'EOF' > /etc/rc.local

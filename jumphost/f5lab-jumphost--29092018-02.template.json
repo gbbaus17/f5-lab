@@ -8,7 +8,7 @@
             "ConstraintDescription": "Run the F5 Lab Topology template first if it does not exist."
         },
         "UbuntuPassword": {
-            "Default": "MySuperSecret01!",
+            "Default": "f5DEMOs4u!",
             "Description": "ubuntu User password for JumpHost RDP access",
             "Type": "String"
         },

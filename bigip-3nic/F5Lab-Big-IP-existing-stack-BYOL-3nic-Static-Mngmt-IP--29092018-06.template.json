@@ -7,7 +7,7 @@
             "Type": "AWS::EC2::VPC::Id"
         },
         "BigIpAdminPassword": {
-            "Default": "MySuperSecret01!",
+            "Default": "f5DEMOs4u!",
             "Description": "Admin password for Web Access",
             "Type": "String"
         },
@@ -699,7 +699,7 @@
                                             "}\n",
                                             "declare -a tmsh=()\n",
                                             "echo 'starting custom-config.sh'\n",
-											"echo '#!/bin/bash' > /config/startup\n",
+											"echo '#!/bin/sh' > /config/startup\n",
 											"echo '#This file is called by rc.local' >> /config/startup\n",
 											"echo 'shutdown -h 23:59' >> /config/startup\n",
                                             "tmsh+=(\n",
@@ -723,7 +723,8 @@
                                             "    fi\n",
                                             "done\n",
                                             "date\n",
-                                            "### START CUSTOM CONFIGURTION\n",
+											"#We need to reboot after first run to ensure daily shutdown is invoked\n",
+                                            "shutdown -r +5\n",
                                             "### END CUSTOM CONFIGURATION"
                                         ]
                                     ]

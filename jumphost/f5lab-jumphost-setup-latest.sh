@@ -265,8 +265,11 @@ ln -s /home/ubuntu/F5-Lab/lab-files/ /home/ubuntu/Desktop/lab-files
 #Create new lab users
 # quietly add user without passwords
 adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
+adduser --quiet --disabled-password --shell /bin/bash --home /home/external_user --gecos "external_user" f5student
+sleep 5
 # set passwords
 echo "f5student:f5DEMOs4u!" | chpasswd
+echo "external_user:f5DEMOs4u!" | chpasswd
 
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop

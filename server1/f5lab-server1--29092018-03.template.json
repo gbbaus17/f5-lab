@@ -7,7 +7,7 @@
             "Type": "AWS::EC2::VPC::Id"
         },
         "Server1Password": {
-            "Default": "SuperSecret01!",
+            "Default": "f5DEMOs4u!",
             "Description": "ubuntu User password for Server1 RDP access",
             "Type": "String"
         },
@@ -92,6 +92,15 @@
             "MinLength": 9,
             "Type": "String"
         },
+        "Server1Eth11PrivateIP": {
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP in External / Access Subnet",
+            "Default": "10.1.1.15",
+            "Description": "Server vlan address- Lab Default is 10.1.1.15",
+            "MaxLength": 18,
+            "MinLength": 9,
+            "Type": "String"
+        },
         "TimeZone": {
             "Default": "Australia/NSW",
             "Description": "Olson TimeZone string from /usr/share/zoneinfo eg: America/Los_Angeles",
@@ -157,17 +166,18 @@
                 "AWS::CloudFormation::Init": {
                     "config": {
                         "files": {
-                            "/home/ubuntu/set-nics-and-hosts.sh": {
+                            "/home/ubuntu/set-nics-for-runtime.sh": {
                                 "content": {
                                     "Fn::Join": [
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "#ifconfig eth0 10.1.20.100 netmask 255.255.255.0\n",
-                                            "#ifconfig eth0:1 10.1.20.101 netmask 255.255.255.0\n",
-                                            "#ifconfig eth0:2 10.1.20.102 netmask 255.255.255.0\n",
-                                            "#ifconfig eth0:3 10.1.20.103 netmask 255.255.255.0\n",
-                                            "#ifconfig eth1 10.1.1.250 netmask 255.255.255.0\n",
+                                            "# eth0 10.1.20.100 netmask 255.255.255.0\n",
+                                            "# eth0:1 10.1.20.101 netmask 255.255.255.0\n",
+                                            "# eth0:2 10.1.20.102 netmask 255.255.255.0\n",
+                                            "# eth0:3 10.1.20.103 netmask 255.255.255.0\n",
+                                            "# eth1 10.1.1.250 netmask 255.255.255.0\n",
+                                            "# eth1:1 10.1.1.15 netmask 255.255.255.0\n",
                                             "ifconfig eth0 ",
                                             {
                                                 "Ref": "Server1Eth0PrivateIP"
@@ -193,13 +203,24 @@
                                                 "Ref": "Server1Eth1PrivateIP"
                                             },
                                             " netmask 255.255.255.0\n",
-                                            "MYVARIP1=\"",
+                                            "ifconfig eth1:1 ",
                                             {
-                                                "Ref": "Server1Eth1PrivateIP"
+                                                "Ref": "Server1Eth11PrivateIP"
                                             },
-                                            "\"\n",
-                                            "MYVAR1=$(sed 's/\\./-/g' <<< ${MYVARIP1})\n",
-                                            "echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
+                                            " netmask 255.255.255.0\n"											
+                                        ]
+                                    ]
+                                },
+                                "group": "root",
+                                "mode": "000755",
+                                "owner": "root"
+                            },						
+                            "/home/ubuntu/set-hosts.sh": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
                                             "MYVARIP0=\"",
                                             {
                                                 "Ref": "Server1Eth0PrivateIP"
@@ -227,7 +248,21 @@
                                             },
                                             "\"\n",
                                             "MYVAR03=$(sed 's/\\./-/g' <<< ${MYVARIP03})\n",
-                                            "echo \"${MYVARIP03} ip-${MYVAR03}\" >> /etc/hosts\n"
+                                            "echo \"${MYVARIP03} ip-${MYVAR03}\" >> /etc/hosts\n",
+                                            "MYVARIP1=\"",
+                                            {
+                                                "Ref": "Server1Eth1PrivateIP"
+                                            },
+                                            "\"\n",
+                                            "MYVAR1=$(sed 's/\\./-/g' <<< ${MYVARIP1})\n",
+                                            "echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
+                                            "MYVARIP11=\"",
+                                            {
+                                                "Ref": "Server1Eth11PrivateIP"
+                                            },
+                                            "\"\n",
+                                            "MYVAR11=$(sed 's/\\./-/g' <<< ${MYVARIP11})\n",
+                                            "echo \"${MYVARIP11} ip-${MYVAR11}\" >> /etc/hosts\n"
                                         ]
                                     ]
                                 },
@@ -235,20 +270,97 @@
                                 "mode": "000755",
                                 "owner": "root"
                             },
+                            "/home/ubuntu/interfaces": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "# eth0 10.1.20.100 netmask 255.255.255.0\n",
+                                            "# eth0:1 10.1.20.101 netmask 255.255.255.0\n",
+                                            "# eth0:2 10.1.20.102 netmask 255.255.255.0\n",
+                                            "# eth0:3 10.1.20.103 netmask 255.255.255.0\n",
+                                            "# eth1 10.1.1.250 netmask 255.255.255.0\n",
+                                            "# eth1:1 10.1.1.15 netmask 255.255.255.0\n",
+                                            "#\n",
+                                            "# By default cfn-init uses /etc/network/interfaces.d/50-cloud-init.cfg\n",
+                                            "# we need to overide this and set our static addresses\n",
+                                            "\n",
+                                            "auto lo\n",
+                                            "iface lo inet loopback\n",
+                                            "\n",
+                                            "auto eth0\n",
+                                            "iface eth0 inet static\n",
+                                            "        address ",
+                                            {
+                                                "Ref": "Server1Eth0PrivateIP"
+                                            },
+                                            "\n",
+                                            "        netmask 255.255.255.255\n",
+                                            "        gateway 10.1.20.1\n",
+                                            "        dns-nameservers 8.8.8.8 8.8.4.4\n",
+                                            "\n",
+                                            "auto eth0:1\n",
+                                            "iface eth0:1 inet static\n",
+                                            "        address ",
+                                            {
+                                                "Ref": "Server1Eth01PrivateIP"
+                                            },
+                                            "\n",
+                                            "        netmask 255.255.255.255\n",
+                                            "\n",
+                                            "auto eth0:2\n",
+                                            "iface eth0:2 inet static\n",
+                                            "        address ",
+                                            {
+                                                "Ref": "Server1Eth02PrivateIP"
+                                            },
+                                            "\n",
+                                            "        netmask 255.255.255.255\n",
+                                            "\n",
+                                            "auto eth0:3\n",
+                                            "iface eth0:3 inet static\n",
+                                            "        address ",
+                                            {
+                                                "Ref": "Server1Eth03PrivateIP"
+                                            },
+                                            "\n",
+                                            "        netmask 255.255.255.255\n",
+                                            "\n",
+                                            "auto eth1\n",
+                                            "iface eth1 inet static\n",
+                                            "        address ",
+                                            {
+                                                "Ref": "Server1Eth1PrivateIP"
+                                            },
+                                            "\n",
+                                            "        netmask 255.255.255.255\n",
+                                            "\n",
+                                            "auto eth1:1\n",
+                                            "iface eth1:1 inet static\n",
+                                            "        address ",
+                                            {
+                                                "Ref": "Server1Eth11PrivateIP"
+                                            },
+                                            "\n",
+                                            "        netmask 255.255.255.255\n",
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "group": "root",
+                                "mode": "000444",
+                                "owner": "root"
+                            },							
                             "/home/ubuntu/f5lab-dns-masq.sh": {
                                 "content": {
                                     "Fn::Join": [
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "# Install dnsmasq later - need these entries in /etc/dnsmasq.d/f5lab",
-                                            "mkdir -p /etc/dnsmasq.d",
-                                            "touch /etc/dnsmasq.d/f5lab",
+                                            "# Install dnsmasq later - need these entries in /etc/dnsmasq.d/f5lab\n",
+                                            "mkdir -p /etc/dnsmasq.d\n",
+                                            "touch /etc/dnsmasq.d/f5lab\n",
                                             "echo \"listen-address=127.0.0.1,",
-                                            {
-                                                "Ref": "Server1Eth1PrivateIP"
-                                            },
-                                            ",",
                                             {
                                                 "Ref": "Server1Eth0PrivateIP"
                                             },
@@ -264,9 +376,17 @@
                                             {
                                                 "Ref": "Server1Eth03PrivateIP"
                                             },
+                                            ",",
+                                            {
+                                                "Ref": "Server1Eth1PrivateIP"
+                                            },
+                                            ",",
+                                            {
+                                                "Ref": "Server1Eth11PrivateIP"
+                                            },
                                             "\" >> /etc/dnsmasq.d/f5lab",
                                             "\n",
-                                            "echo \"no-dhcp-interface=lo0,eth1,eth0,eth0:1,eth0:2,eth0:3\" >> /etc/dnsmasq.d/f5lab",
+                                            "echo \"no-dhcp-interface=lo0,eth0,eth0:1,eth0:2,eth0:3,eth1,eth1:1\" >> /etc/dnsmasq.d/f5lab",
                                             "\n"
                                         ]
                                     ]
@@ -297,6 +417,9 @@
                                     ]
                                 }
                             },
+                            "003-execute-nics": {
+                                "command": "/home/ubuntu/set-nics-for-runtime.sh"
+                            },
                             "005-update-apt": {
                                 "command": "apt-get -y update"
                             },
@@ -314,22 +437,28 @@
                                     ]
                                 }
                             },
-                            "009-install-git": {
-                                "command": "apt-get -y install git"
+                            "010-execute-nics-hosts": {
+                                "command": "/home/ubuntu/set-hosts.sh"
                             },
-                            "010-clone-repo": {
-                                "command": "git clone -b master https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab"
-                            },
-                            "015-execute-nics-hosts": {
-                                "command": "/home/ubuntu/set-nics-and-hosts.sh"
-                            },
-                            "016-execute-dns-masq": {
+                            "012-execute-dns-masq": {
                                 "command": "/home/ubuntu/f5lab-dns-masq.sh"
                             },
-                            "020-chmod-script": {
-                                "command": "chmod 755 /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
+                            "014-install-git": {
+                                "command": "apt-get -y install git"
                             },
-                            "020-execute-script": {
+                            "016-clone-repo": {
+                                "command": "git clone -b master https://github.com/gbbaus17/F5-Lab /home/ubuntu/F5-Lab"
+                            },
+                            "018-sleep-30": {
+                                "command": "sleep 30"
+                            },
+                            "025-chmod-setup-script": {
+                                "command": "chmod 775 /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
+                            },
+                            "026-sleep-5": {
+                                "command": "sleep 5"
+                            },
+                            "028-execute-script": {
                                 "command": "sh /home/ubuntu/F5-Lab/server1/f5lab-server1-setup-latest.sh"
                             }
                         }
@@ -361,24 +490,48 @@
                 },
                 "Tags": [
                     {
-                        "Key": "Server Instance",
-                        "Value": {
-                            "Ref": "AWS::StackId"
-                        }
-                    },
-                    {
                         "Key": "Name",
-                        "Value": "F5LabServer1"
-                    }
-                ],
+                        "Value": {
+                            "Fn::Join": [
+                                "",
+                                [
+								"F5Lab:",
+                                    {
+                                        "Ref": "AWS::StackName"
+                                    }
+                                ]
+                            ]
+                        }
+                    },				
+                    {
+                        "Key": "Connectivity",
+						"Value": {
+							"Fn::Join": [
+								"",
+								[
+									"ssh ubuntu@",
+									{
+										"Ref": "Server1EipAddress"
+									}
+								]
+							]
+						}
+                    }					
+                ],					
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [
                             "",
                             [
                                 "#!/bin/bash -xe\n",
-                                "# Install the files and packages from the metadata\n",
                                 "touch /home/ubuntu/alert1-started-cloudinit-userdata\n",
+                                "# Install the files and packages from the metadata\n",
+                                "# ensure static eth0 is working so we can get cfn-init and dont error out too early\n",
+                                "ifconfig eth0 ",
+                                {
+                                    "Ref": "Server1Eth0PrivateIP"
+                                },
+                                " netmask 255.255.255.0\n",
                                 "apt-get -y update\n",
                                 "apt-get -y install python-setuptools\n",
                                 "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
@@ -487,6 +640,12 @@
                             "Ref": "Server1Eth1PrivateIP"
                         },
                         "Primary": "true"
+                    },
+                    {
+                        "PrivateIpAddress": {
+                            "Ref": "Server1Eth11PrivateIP"
+                        },
+                        "Primary": "false"
                     }
                 ],
                 "SourceDestCheck": "true",
@@ -511,7 +670,12 @@
             "Properties": {
                 "Domain": "VPC"
             },
-            "Type": "AWS::EC2::EIP"
+            "Type": "AWS::EC2::EIP",
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "27425d08-38fb-4d9f-8532-792a646c3a49"
+                }
+            }
         },
         "Server1EipAssociation": {
             "Type": "AWS::EC2::EIPAssociation",
@@ -525,14 +689,19 @@
                 "NetworkInterfaceId": {
                     "Ref": "Server1Eth0Interface"
                 }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "b6e46123-79d2-4c97-9e53-e7d65f368636"
+                }
             }
-        }		
+        }
     },
     "Outputs": {
         "Server1IP": {
             "Description": "SSH from Jumpbox to Server1 internal IP",
             "Value": {
-                "Ref": "Server1Eth1PrivateIP"
+                "Ref": "Server1Eth0PrivateIP"
             }
         },
         "Server1Password": {
@@ -541,6 +710,24 @@
                 "Ref": "Server1Password"
             }
         },
+        "Server1SSH": {
+            "Description": "ssh access to Server1",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "ssh -i your-aws-key.pem ubuntu@",
+                        {
+                            "Ref": "Server1EipAddress"
+                        }
+                    ]
+                ]
+            }
+        },
+        "EipRelease": {
+            "Description": "After Server1 setup you can release the EIP address",
+            "Value": "AfterSetup"
+        },		
         "AutoShutDown": {
             "Description": "Server1 set to shutdown daily at 23h59 via rc.local",
             "Value": "Daily"
@@ -602,7 +789,8 @@
                         "Server1Eth02PrivateIP",
                         "Server1Eth03PrivateIP",
                         "ManagementSubnet",
-                        "Server1Eth1PrivateIP"
+                        "Server1Eth1PrivateIP",
+                        "Server1Eth11PrivateIP"
                     ]
                 }
             ],
@@ -628,9 +816,6 @@
                 "InternalSubnet": {
                     "default": "Internal subnet"
                 },
-                "Server1Eth1PrivateIP": {
-                    "default": "Management subnet Primary IP"
-                },
                 "Server1Eth0PrivateIP": {
                     "default": "Internal subnet Primary IP"
                 },
@@ -642,6 +827,12 @@
                 },
                 "Server1Eth03PrivateIP": {
                     "default": "Internal additional lab IP"
+                },
+                "Server1Eth1PrivateIP": {
+                    "default": "Mngmt subnet Primary IP"
+                },
+                "Server1Eth11PrivateIP": {
+                    "default": "Mngmt additional lab IP"
                 },
                 "Server1Password": {
                     "default": "Server1 password"
@@ -655,8 +846,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 30,
-                    "y": 80
+                    "x": 120,
+                    "y": 290
                 },
                 "z": 1,
                 "embeds": [],
@@ -671,8 +862,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 180,
-                    "y": 80
+                    "x": 110,
+                    "y": 190
                 },
                 "z": 1,
                 "embeds": []
@@ -683,8 +874,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 190,
-                    "y": 170
+                    "x": 280,
+                    "y": 290
                 },
                 "z": 1,
                 "embeds": [],
@@ -698,14 +889,34 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 190,
-                    "y": -10
+                    "x": -50,
+                    "y": 290
                 },
                 "z": 1,
                 "embeds": [],
                 "isassociatedwith": [
                     "338ed0c0-42ec-4829-bb22-b51d294686a4"
                 ]
+            },
+            "27425d08-38fb-4d9f-8532-792a646c3a49": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -190,
+                    "y": 290
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "b6e46123-79d2-4c97-9e53-e7d65f368636": {
+                "source": {
+                    "id": "27425d08-38fb-4d9f-8532-792a646c3a49"
+                },
+                "target": {
+                    "id": "81113191-81e4-4c1b-b3bb-a1f32a0012e3"
+                }
             }
         }
     }
