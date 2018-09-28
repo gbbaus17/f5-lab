@@ -7,7 +7,7 @@
             "Type": "AWS::EC2::VPC::Id"
         },
         "BigIpAdminPassword": {
-            "Default": "SuperSecret01!",
+            "Default": "MySuperSecret01!",
             "Description": "Admin password for Web Access",
             "Type": "String"
         },
@@ -656,6 +656,9 @@
                                     ]
                                 }
                             },
+                            "067-custom-auto-shutdown-daily": {
+                                "command": "echo 'shutdown -h 23:59' >> /etc/rc.local"
+                            },								
                             "070-rm-password": {
                                 "command": {
                                     "Fn::Join": [
@@ -1390,6 +1393,10 @@
         }
     },
     "Outputs": {
+        "AutoShutDown": {
+            "Description": "Big-IP set to shutdown daily at 23h59 via rc.local",
+            "Value": "Daily"
+        },	
         "BigIp1ExternalInterfacePrivateIp": {
             "Description": "Internally routable IP of the public interface on BIG-IP",
             "Value": {

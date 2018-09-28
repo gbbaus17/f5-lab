@@ -7,7 +7,7 @@
             "Type": "AWS::EC2::VPC::Id"
         },
         "BigIpAdminPassword": {
-            "Default": "SuperSecret01!",
+            "Default": "MySuperSecret01!",
             "Description": "Admin password for Web Access",
             "Type": "String"
         },
