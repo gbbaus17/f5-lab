@@ -100,7 +100,7 @@
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
             "Default": "10.1.10.245",
-            "Description": "Public or External subnet IP - Lab Default is 10.1.10.245",
+            "Description": "Public or External Self-IP - Lab Default is 10.1.10.245",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
@@ -109,16 +109,16 @@
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
             "Default": "10.1.20.245",
-            "Description": "Private or Internal subnet IP - Lab Default is 10.1.20.245",
+            "Description": "Private or Internal Self-IP - Lab Default is 10.1.20.245",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
         },
-        "BigipFpsLabAddress": {
+        "BigipFpsLabSelfIP": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
             "Default": "10.1.20.240",
-            "Description": "Additional FPS Lab subnet IP - Lab Default is 10.1.20.240",
+            "Description": "Additional FPS Lab Self-IP - Lab Default is 10.1.20.240",
             "MaxLength": 18,
             "MinLength": 9,
             "Type": "String"
@@ -218,7 +218,11 @@
                     "Parameters": [
                         "BigIpManagementIP",
                         "BigIpExternalSubnetIP",
-                        "BigIpInternalSubnetIP"
+                        "BigIpInternalSubnetIP",
+						"BigipFpsLabSelfIP"
+					
+					
+					
                     ]
                 }
             ],
@@ -281,11 +285,14 @@
                     "default": "BigIp Management IP"
                 },
                 "BigIpExternalSubnetIP": {
-                    "default": "BigIp External IP"
+                    "default": "BigIp External Self-IP"
                 },
                 "BigIpInternalSubnetIP": {
-                    "default": "BigIp Internal IP"
-                }
+                    "default": "BigIp Internal Self-IP"
+                },
+                "BigipFpsLabSelfIP": {
+                    "default": "BigIp FPS Lab Self-IP"
+                }				
             }
         },
         "Version": "3.3.0",
@@ -578,7 +585,7 @@
                                                     "BigIp1InternalInterface",
                                                     "PrimaryPrivateIpAddress"
                                                 ]
-                                            },
+                                            },											
                                             "/${GATEWAY_PREFIX2},vlan:internal ",
                                             "&>> /var/log/cloud/aws/install.log < /dev/null &"
                                         ]
@@ -700,15 +707,13 @@
                                             {
                                                 "Ref": "BigIpAdminPassword"
                                             },
+											"\n",
                                             "BIGIP_FPS_LAB_ADDRESS=",
                                             {
-                                                "Ref": "BigipFpsLabAddress"
+                                                "Ref": "BigipFpsLabSelfIP"
                                             },
-                                            "BIGIP_INTERNAL_VLAN=",
-                                            {
-                                                "Ref": "InternalSubnet"
-                                            },
-                                            "\n",
+											"\n",
+                                            "BIGIP_INTERNAL_VLAN=internal\n",
                                             "PROGNAME=$(basename $0)\n",
                                             "function error_exit {\n",
                                             "echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
@@ -726,7 +731,7 @@
                                             "\"tmsh modify sys global-settings gui-setup disabled\"\n",
                                             "\"tmsh modify sys global-settings hostname ${HOSTNAME}\"\n",
                                             "\"tmsh modify auth user admin password ${BIGIP_ADMIN_PASSWORD}\"\n",
-											"\"create net self fps_lab_selfip { address ${BIGIP_FPS_LAB_ADDRESS}/24 vlan ${BIGIP_INTERNAL_VLAN} allow-service default description \"FPS Lab guide selfip address\" }\"\n",
+											"\"tmsh create net self fps_lab_selfip { address ${BIGIP_FPS_LAB_ADDRESS}/24 vlan ${BIGIP_INTERNAL_VLAN} allow-service default description \"FPS Lab guide selfip address\" }\"\n",
                                             "\"tmsh save sys config\")\n",
                                             "for CMD in \"${tmsh[@]}\"\n",
                                             "do\n",
@@ -1021,6 +1026,18 @@
                             "Ref": "BigIpInternalSubnetIP"
                         },
                         "Primary": "true"
+                    },
+                    {
+                        "PrivateIpAddress": {
+                            "Ref": "BigipFpsLabSelfIP"
+                        },
+                        "Primary": "false"
+                    }					
+                ],
+				"Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "F5Labs:BigIp:InternalNIC"
                     }
                 ]
             },
@@ -1083,7 +1100,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "F5Labs:BigIp:Management"
+                        "Value": "F5Labs:BigIp:ManagementNIC"
                     }
                 ]
             },
@@ -1153,6 +1170,12 @@
                             "Ref": "BigIpExternalSubnetIP"
                         },
                         "Primary": "true"
+                    }
+                ],
+				"Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "F5Labs:BigIp:ExternalNIC"
                     }
                 ]
             },
