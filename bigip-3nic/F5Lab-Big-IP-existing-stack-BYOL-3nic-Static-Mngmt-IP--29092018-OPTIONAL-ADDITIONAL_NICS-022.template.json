@@ -1341,15 +1341,7 @@
                     "Ref": "BigIp1ExternalSubnetInterface"
                 },
                 "PrivateIpAddress": {
-                    "Fn::Select": [
-                        "0",
-                        {
-                            "Fn::GetAtt": [
-                                "BigIp1ExternalSubnetInterface",
-                                "SecondaryPrivateIpAddresses"
-                            ]
-                        }
-                    ]
+				    "Ref": "AdditionalVipAddr01"
                 }
             },
             "Type": "AWS::EC2::EIPAssociation",
@@ -1370,35 +1362,31 @@
                 "SubnetId": {
                     "Ref": "ExternalSubnet"
                 },
-			    "Fn::If": [ "OnlySingleVipAddr",
-						{  
-						"PrivateIpAddresses": [
-							{ "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr01" }, "Primary": "false" }
-						 ]
-						},
-						{ 
-						"PrivateIpAddresses": [
-							{ "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr01" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr02" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr03" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr04" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr05" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr06" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr07" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr08" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr09" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr10" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr11" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr12" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr13" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr14" }, "Primary": "false" },
-							{ "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" }
-						 ]
-					}
-				 ],
-				"Tags": [
+
+			"PrivateIpAddresses" : [ {
+		      "Fn::If" : [ 
+				"OnlySingleVipAddr"	, 
+				{  { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr01" }, "Primary": "false" } } , 
+				{  { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr01" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr02" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr03" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr04" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr05" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr06" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr07" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr08" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr09" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr10" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr11" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr12" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr13" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr14" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" } }   
+			    ] 
+			    } ],		   
+	        "Tags": [
                     {
                         "Key": "Name",
                         "Value": "F5Labs:BigIp:ExternalNIC"
