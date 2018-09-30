@@ -4,6 +4,5 @@
 	"vlan":"/Common/VLAN1_NAME_VAR",
 	"description":"",
 	"fullPath":"/Common/VLAN1_NAME_VAR_selfip",
-	"allow-service":"default"
-	
+	"allow-service":["igmp:0","ospf:0","pim:0","tcp:snmp","tcp:ssh","tcp:f5-iquery","tcp:https","tcp:domain","udp:domain","udp:snmp","udp:f5-iquery","udp:520","udp:1026","tcp:8008","tcp:8514","tcp:9997","tcp:9300","tcp:27017","tcp:28015","tcp:29015"]
 }
