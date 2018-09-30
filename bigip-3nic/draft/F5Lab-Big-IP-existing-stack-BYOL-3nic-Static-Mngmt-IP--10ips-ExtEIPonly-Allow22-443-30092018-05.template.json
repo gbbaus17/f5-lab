@@ -128,7 +128,7 @@
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
             "Default": "10.1.10.16",
-            "Description": "First/Single EC2 address to be used as VIP address eg: 10.1.10.16",
+            "Description": "First/Single EC2 address to be used as VIP address for FPS Lab eg: 10.1.10.16",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
@@ -214,51 +214,6 @@
             "MinLength": 7,
             "Type": "String"
         },		
-		"AdditionalVipAddr11": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.26",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.26",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr12": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.27",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.27",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr13": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.28",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.28",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr14": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.29",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.29",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },		
-		"AdditionalVipAddr15": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.30",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.30",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
         "TimeZone": {
             "Default": "Australia/NSW",
             "Description": "Olson TimeZone string from /usr/share/zoneinfo eg: America/Los_Angeles",
@@ -372,12 +327,7 @@
 						"AdditionalVipAddr07",
 						"AdditionalVipAddr08",
 						"AdditionalVipAddr09",
-						"AdditionalVipAddr10",
-						"AdditionalVipAddr11",
-						"AdditionalVipAddr12",
-						"AdditionalVipAddr13",
-						"AdditionalVipAddr14",
-						"AdditionalVipAddr15"
+						"AdditionalVipAddr10"
                     ]
                 }
             ],
@@ -480,21 +430,6 @@
                 },
                 "AdditionalVipAddr10": {
                     "default": "Additional VIP 10"
-                },	
-                "AdditionalVipAddr11": {
-                    "default": "Additional VIP 11"
-                },	
-                "AdditionalVipAddr12": {
-                    "default": "Additional VIP 12"
-                },	
-                "AdditionalVipAddr13": {
-                    "default": "Additional VIP 13"
-                },	
-                "AdditionalVipAddr14": {
-                    "default": "Additional VIP 14"
-                },	
-                "AdditionalVipAddr15": {
-                    "default": "Additional VIP 15"
                 }				
             }
         },
@@ -1174,18 +1109,9 @@
                         }
                     },
                     {
-                        "Key": "SSHConnectivity",
-						"Value": {
-							"Fn::Join": [
-								"",
-								[
-									"ssh -i your-aws-key.pem admin@",
-									{
-										"Ref": "BigIp1ManagementEipAddress"
-									}
-								]
-							]
-						}
+                        "Key": "MngmtConnectivity",
+						"Value": "Go via Jumpbox or Assign ElasticIP to 10.1.1.245"
+
                     }					
                 ],
                 "UserData": {
@@ -1241,36 +1167,6 @@
                 }
             }
         },
-        "BigIp1ManagementEipAddress": {
-            "Properties": {
-                "Domain": "VPC"
-            },
-            "Type": "AWS::EC2::EIP",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "92bf51aa-a0d8-4f4d-8276-9824f1f5efd3"
-                }
-            }
-        },
-        "BigIp1ManagementEipAssociation": {
-            "Properties": {
-                "AllocationId": {
-                    "Fn::GetAtt": [
-                        "BigIp1ManagementEipAddress",
-                        "AllocationId"
-                    ]
-                },
-                "NetworkInterfaceId": {
-                    "Ref": "BigIp1ManagementInterface"
-                }
-            },
-            "Type": "AWS::EC2::EIPAssociation",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "fca1b086-33f2-4c46-9971-07db313b647b"
-                }
-            }
-        },
         "BigIp1ManagementInterface": {
             "Properties": {
                 "Description": "Management Interface for the BIG-IP",
@@ -1304,39 +1200,6 @@
                 }
             }
         },
-        "BigIp1VipEipAddress": {
-            "Properties": {
-                "Domain": "VPC"
-            },
-            "Type": "AWS::EC2::EIP",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
-                }
-            }
-        },
-        "BigIp1VipEipAssociation": {
-            "Properties": {
-                "AllocationId": {
-                    "Fn::GetAtt": [
-                        "BigIp1VipEipAddress",
-                        "AllocationId"
-                    ]
-                },
-                "NetworkInterfaceId": {
-                    "Ref": "BigIp1ExternalSubnetInterface"
-                },
-                "PrivateIpAddress": {
-				    "Ref": "AdditionalVipAddr01"
-                }
-            },
-            "Type": "AWS::EC2::EIPAssociation",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "d7468fd4-001a-4f2b-b0df-cac0767611bc"
-                }
-            }
-        },
         "BigIp1ExternalSubnetInterface": {
             "Properties": {
                 "Description": "External Interface for the BIG-IP",
@@ -1359,12 +1222,7 @@
 				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr07" }, "Primary": "false" },
 				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr08" }, "Primary": "false" },
 				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr09" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr10" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr11" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr12" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr13" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr14" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" }    
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr10" }, "Primary": "false" }    
 			     ],		   
 	        "Tags": [
                     {
@@ -1639,12 +1497,6 @@
                 "Ref": "BigIp1Instance"
             }
         },
-        "BigIp1InternalInterface": {
-            "Description": "Internal interface ID on BIG-IP",
-            "Value": {
-                "Ref": "BigIp1InternalInterface"
-            }
-        },
         "BigIp1InternalInterfacePrivateIp": {
             "Description": "Internally routable IP of internal interface on BIG-IP",
             "Value": {
@@ -1652,12 +1504,6 @@
                     "BigIp1InternalInterface",
                     "PrimaryPrivateIpAddress"
                 ]
-            }
-        },
-        "BigIp1ManagementInterface": {
-            "Description": "Management interface ID on BIG-IP",
-            "Value": {
-                "Ref": "BigIp1ManagementInterface"
             }
         },
         "BigIp1ManagementInterfacePrivateIp": {
@@ -1675,36 +1521,9 @@
                 "Ref": "BigIpAdminPassword"
             }
         },
-        "BigIp1MngmtUrl": {
-            "Description": "BIG-IP Management GUI",
-            "Value": {
-                "Fn::Join": [
-                    "",
-                    [
-                        "https://",
-                        {
-                            "Fn::GetAtt": [
-                                "BigIp1Instance",
-                                "PublicIp"
-                            ]
-                        }
-                    ]
-                ]
-            }
-        },
-        "BigIp1VipEipAddress": {
-            "Description": "Future EIP address for VIP",
-            "Value": {
-                "Fn::Join": [
-                    "",
-                    [
-                        "https://",
-                        {
-                            "Ref": "BigIp1VipEipAddress"
-                        }
-                    ]
-                ]
-            }
+        "BigIpPublicMngmtAccess": {
+            "Description": "By default Public Mngmt Access dsabled",
+            "Value": "Connect via Jumphost"
         },
         "BigIp1ExternalSubnetInterface": {
             "Description": "External interface Id on BIG-IP",
@@ -1725,24 +1544,6 @@
                     "BigIp1Instance",
                     "AvailabilityZone"
                 ]
-            }
-        },
-        "BigIpExternalSecurityGroup": {
-            "Description": "Public or External Security Group",
-            "Value": {
-                "Ref": "BigIpExternalSecurityGroup"
-            }
-        },
-        "BigIpInternalSecurityGroup": {
-            "Description": "Private or Internal Security Group",
-            "Value": {
-                "Ref": "BigIpInternalSecurityGroup"
-            }
-        },
-        "BigIpManagementSecurityGroup": {
-            "Description": "Management Security Group",
-            "Value": {
-                "Ref": "BigIpManagementSecurityGroup"
             }
         }
     }
