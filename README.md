@@ -26,40 +26,30 @@ Befor eyou begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x
 <br><br>
 
 
-
-
-**Standalone BIG-IP VE - 3 NICs**
+**Lab setup**
 - *Existing Stack* which includes an external IP address (typical)
   
-  - <a href="https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/a.topology">**Topology**</a>, which builds 3 Subnets: Mngmt, external, Internal, inside a new VPC 
-    <a href="https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/a.topology/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW--27092018-01.template.json">  
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/a.topology">**Topology**</a>, which builds 3 Subnets: Mngmt, external, Internal, inside a new VPC 
+    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
-  - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/byol">**BYOL**</a> (bring your own license), which allows you to use an existing BIG-IP license.  
-    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5-cft/f5-existing-stack-byol-3nic-bigip.template">
-    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
-	
-  - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/bigiq">**BIG-IQ for licensing**</a>, which allows you to launch the template using an existing BIG-IQ device with a pool of licenses to license the BIG-IP VE(s).  <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BIGIQ&templateURL=https://s3.amazonaws.com/f5-cft/f5-existing-stack-bigiq-3nic-bigip.template">  
-    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
+    - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/jumphost">**Jumphost**</a>, Linux xRDP Jumphost with Utils for Labs 
+    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
+   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
 
-
-	
-Topology  
-https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/a.topology/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW--27092018-01.template.json
-
-1) Jumphost with utils(External)
-https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/f5lab-jumphost--29092018-03.template.json
-
-
-2) LAMP Server (Internal)
-https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/server1/f5lab-server1-4IPs--30092018-06.template.json
-
-3) Big-IP v14.0 
-https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/bigip-3nic/F5Lab-Big-IP-existing-stack-BYOL-3nic-Static-Mngmt-IP--10ips--30092018-07.template.json
-
-4) Big-IQ v6.0.1
-https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/bigiq-cm-dcd/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-30092018-14.template.json
-
+   - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/server1">**Jumphost**</a>, LAMP Server with Lab Utils
+    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
+   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
+   
+   - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, Standalone Big-IPwith 10 IPs for lab use 
+    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-BYOL-3nic-Static-Mngmt-IP-10ips-latest.template">  
+   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
+   
+     - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigiq-cm-dcd">**Big-IQ_CM+DCD**</a>, Big-IQ Central Manager with a DCD for log collection. NOTE: After launch you need to run setup scripts on DCD then CM
+    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-latest.template">  
+   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
+   
+   
   
 ---
 
