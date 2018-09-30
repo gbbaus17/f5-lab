@@ -399,10 +399,7 @@
                     "default": "BigIp FPS Lab Self-IP"
                 },
                 "AdditionalVipAddr01": {
-                    "default": "VIP Address 1"
-                },
-				"AdditionalExtVipAddr": {
-                    "default": "Additional VIPs ?"
+                    "default": "FPS Lab VIP Addr"
                 },
                 "AdditionalVipAddr02": {
                     "default": "Additional VIP 2"

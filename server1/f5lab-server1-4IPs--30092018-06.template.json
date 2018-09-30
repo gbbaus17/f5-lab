@@ -868,7 +868,7 @@
                     "default": "Internal additional lab IP"
                 },
                 "Server1Eth04PrivateIP": {
-                    "default": "Internal additional FPS Lab IP"
+                    "default": "Internal FPS Lab LAMP IP"
                 },				
                 "Server1Eth1PrivateIP": {
                     "default": "Mngmt subnet Primary IP"
