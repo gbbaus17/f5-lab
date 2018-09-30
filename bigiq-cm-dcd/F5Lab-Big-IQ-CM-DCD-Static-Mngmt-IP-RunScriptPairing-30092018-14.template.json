@@ -6,7 +6,7 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "For First Accept BIG-IQ BYOL Terms and Conditions and note Image ID [v6.x.latest]"
+                        "default": "For First Accept BIG-IQ BYOL Terms and Conditions and note Image ID [v6.0.1]"
                     },
                     "Parameters": []
                 },
@@ -392,17 +392,9 @@
                 "AWS::CloudFormation::Init": {
                     "config": {
                         "commands": {
-                            "00-create-symbolic-link": {
-                                "command": {
-                                    "Fn::Join": [
-                                        " ",
-                                        [
-                                            "ln /config/cloud/setup-cm-runme-second.sh /home/admin/setup-cm-runme-second.sh --symbolic;",
-                                            "tmsh modify auth user admin shell bash"
-                                        ]
-                                    ]
-                                }
-                            }
+						   "00-create-symbolic-link": {
+							"command": "ln /config/cloud/setup-cm-runme-second.sh /home/admin/setup-cm-runme-second.sh --symbolic"
+							}
                         },
                         "files": {
                             "/config/cloud/setup-cm-runme-second.sh": {
@@ -755,17 +747,9 @@
                 "AWS::CloudFormation::Init": {
                     "config": {
                         "commands": {
-                            "00-create-symbolic-link": {
-                                "command": {
-                                    "Fn::Join": [
-                                        " ",
-                                        [
-                                            "ln /config/cloud/setup-dcd-runme-first.sh /home/admin/setup-dcd-runme-first.sh --symbolic;",
-                                            "tmsh modify auth user admin shell bash"
-                                        ]
-                                    ]
-                                }
-                            }
+						   "00-create-symbolic-link": {
+							"command": "ln /config/cloud/setup-dcd-runme-first.sh /home/admin/setup-dcd-runme-first.sh --symbolic"
+							}
                         },
                         "files": {
                             "/config/cloud/setup-dcd-runme-first.sh": {
