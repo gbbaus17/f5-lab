@@ -15,7 +15,7 @@ To deploy this CFT in AWS, complete the following steps.
 
 
 
-1. To get a BIG-IQ trial license, go to [F5 Cloud Edition Trial](https://f5.com/products/trials/product-trials).
+1. Have 2 x BYOL Eval licences avaliable from your local SE, or you can get some through a BIG-IQ trial license, go to [F5 Cloud Edition Trial](https://f5.com/products/trials/product-trials).
 
 2. Subscribe and accept the Terms and Conditions :
 
