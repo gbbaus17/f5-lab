@@ -7,7 +7,7 @@ This GitHub repository allows you to quickly create a Lab environment in AWS to 
 For information on getting started using F5's CFT templates on GitHub, see [Amazon Web Services: Solutions 101](http://clouddocs.f5.com/cloud/public/v1/aws/AWS_solutions101.html) and the README files in each directory.  
 
 
-Templates exsit for
+Templates exists for
 0) Topology  (3 lab subnets) 
 1) Jumphost with utils(External)
 2) LAMP Server (Internal)
@@ -33,23 +33,36 @@ Befor eyou begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x
   - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/payg">**Hourly**</a>, which uses pay-as-you-go hourly billing 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-PAYG&templateURL=https://s3.amazonaws.com/f5-cft/f5-existing-stack-payg-3nic-bigip.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
-  - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/byol">**BYOL**</a> (bring your own license), which allows you to use an existing BIG-IP license.  
+  - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/byol"
+  
+  >**BYOL**</a> (bring your own license), which allows you to use an existing BIG-IP license.  
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BYOL&templateURL=https://s3.amazonaws.com/f5-cft/f5-existing-stack-byol-3nic-bigip.template">
     <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
-  - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/bigiq">**BIG-IQ for licensing**</a>, which allows you to launch the template using an existing BIG-IQ device with a pool of licenses to license the BIG-IP VE(s).  <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BIGIQ&templateURL=https://s3.amazonaws.com/f5-cft/f5-existing-stack-bigiq-3nic-bigip.template">  
+  - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/standalone/3nic/existing-stack/bigiq"
+  
+  
+  >**BIG-IQ for licensing**</a>, which allows you to launch the template using an existing BIG-IQ device with a pool of licenses to license the BIG-IP VE(s).  <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIp-3nic-BIGIQ&templateURL=https://s3.amazonaws.com/f5-cft/f5-existing-stack-bigiq-3nic-bigip.template">  
     <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
 
 
+	
+Topology  
+https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/a.topology/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW--27092018-01.template.json
+
+1) Jumphost with utils(External)
+https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/jumphost/f5lab-jumphost--29092018-03.template.json
 
 
-- *Frontend via DNS*
-    - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/autoscale/waf/via-dns/1nic/existing-stack/payg">**Hourly**</a>, which uses pay-as-you-go hourly billing   
-      <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5-Hourly-BIGIP-WAF-Autoscale-Dns&templateURL=https://s3.amazonaws.com/f5-cft/f5-payg-autoscale-bigip-waf-dns.template"><img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a> 
-    - <a href="https://github.com/F5Networks/f5-aws-cloudformation/tree/master/supported/autoscale/ltm/via-dns/1nic/existing-stack/bigiq">**BIG-IQ for licensing**</a>, which allows you to launch the template using an existing BIG-IQ device with a pool of licenses to license the BIG-IP VE(s).    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5-BYOL-BIGIP-WAF-Autoscale-Dns&templateURL=https://s3.amazonaws.com/f5-cft/f5-bigiq-autoscale-bigip-waf-dns.template">  
-      <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>  
+2) LAMP Server (Internal)
+https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/server1/f5lab-server1-4IPs--30092018-06.template.json
 
+3) Big-IP v14.0 
+https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/bigip-3nic/F5Lab-Big-IP-existing-stack-BYOL-3nic-Static-Mngmt-IP--10ips--30092018-07.template.json
 
-   
+4) Big-IQ v6.0.1
+https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/bigiq-cm-dcd/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-30092018-14.template.json
+
+  
 ---
 
 
