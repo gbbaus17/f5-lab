@@ -246,16 +246,8 @@
                     "config": {
 						"commands": {
 						   "00-create-symbolic-link": {
-							"command": {
-							 "Fn::Join": [
-							  " ",
-							  [
-							   "ln /config/cloud/setup-cm-runme-second.sh /home/admin/setup-cm-runme-second.sh --symbolic;",
-							   "tmsh modify auth user admin shell bash"
-							  ]
-							 ]
+							"command": "ln /config/cloud/setup-cm-runme-second.sh /home/admin/setup-cm-runme-second.sh --symbolic"
 							}
-						   }						   
 						},
                         "files": {
 						   "/config/cloud/setup-cm-runme-second.sh": {
@@ -539,16 +531,8 @@
                     "config": {
 						"commands": {
 						   "00-create-symbolic-link": {
-							"command": {
-							 "Fn::Join": [
-							  " ",
-							  [
-							   "ln /config/cloud/setup-dcd-runme-first.sh /home/admin/setup-dcd-runme-first.sh --symbolic;",
-							   "tmsh modify auth user admin shell bash"
-							  ]
-							 ]
-							}
-						   }							   
+							"command": "ln /config/cloud/setup-dcd-runme-first.sh /home/admin/setup-dcd-runme-first.sh --symbolic"
+							}						
 						 },  
                         "files": {
 						   "/config/cloud/setup-dcd-runme-first.sh": {
