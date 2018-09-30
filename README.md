@@ -26,8 +26,7 @@ Befor eyou begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x
 <br><br>
 
 
-**Lab setup**
-- *Existing Stack* which includes an external IP address (typical)
+- *Lab Setup* which includes an external IP address
   
   - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/a.topology">**Topology**</a>, which builds 3 Subnets: Mngmt, external, Internal, inside a new VPC 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5LabTopology&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW-latest.template">  
