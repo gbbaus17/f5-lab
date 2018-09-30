@@ -44,7 +44,7 @@ To deploy this CFT in AWS, complete the following steps.
 
    ```
    # bash
-   # /config/cloud/setup-dcd-xxxxx.sh
+   # setup-dcd-runme-first.sh
    ```
 
   * Let the scripts finish before moving to the next step.
@@ -55,7 +55,7 @@ To deploy this CFT in AWS, complete the following steps.
 
    ```
    # bash
-   # /config/cloud/setup-cm-xxxxx.sh
+   # setup-cm-runme-second.sh
    ```
 
    * Let the scripts finish before moving to the next step.
