@@ -1156,7 +1156,7 @@
                 }
             }
         },
-        "SGBaseIngress": {
+        "SecurityGroupTcpAll": {
             "DependsOn": "SecurityGroup",
             "Properties": {
                 "GroupId": {
@@ -1229,7 +1229,7 @@
         "IngressSecurityGroup": {
             "Description": "Big-IQ Security Group",
             "Value": {
-                "Ref": "SGBaseIngress"
+                "Ref": "SecurityGroupTcpAll"
             }
         },
         "NextSteps": {
