@@ -457,7 +457,7 @@
                                             "mkdir -p /config/cloud",
                                             "cd /config/cloud/",
                                             "mount -o remount,rw /usr",
-                                            "# Pull down scripts, vlan and selfip templates",
+                                            "#PULL DOWN SCRIPTS, VLAN AND SELFIP TEMPLATES",
                                             "curl https://raw.githubusercontent.com/gbbaus17/F5-Lab/master/bigiq-cm-dcd/bigiq-scripts/bigiq-scripts.tar > bigiq-scripts.tar",
                                             "tar -xvf bigiq-scripts.tar",
                                             "chmod 777 *.py",
@@ -543,6 +543,17 @@
                                                     ]
                                                 ]
                                             },
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "DCD_MANAGEMENT_IP=",
+                                                        {
+                                                            "Ref": "DcdManagementIP"
+                                                        }
+                                                    ]
+                                                ]
+                                            },											
                                             "mkdir -p /config/cloud",
                                             "cd /config/cloud/",
                                             "mount -o remount,rw /usr",
@@ -554,21 +565,23 @@
                                                         {
                                                             "Ref": "licenseKey1"
                                                         },
-                                                        "--MASTER_PASSPHRASE ValidPassphrase1234567812345678!",
+                                                        "--ADMIN_USERNAME ${BIGIQ_ADMIN_USER}", 
+														"--ADMIN_PWD ${BIGIQ_PWD}",
+														"--MASTER_PASSPHRASE ValidPassphrase1234567812345678!",
                                                         "--TIMEOUT_SEC 1200",
                                                         "--DCD_DISCOVER_ADDR",
                                                         {
-                                                            "Ref": "DcdDataPlaneIP"
+                                                            "Ref": "DcdManagementIP"
                                                         }
                                                     ]
                                                 ]
                                             },
-                                            "sleep 5",
+                                            "sleep 20",
                                             {
                                                 "Fn::Join": [
                                                     " ",
                                                     [
-                                                        "/config/cloud/add-dcd.py --DCD_IP_ADDRESS ${DCD_DATAPLANE_IP}",
+                                                        "/config/cloud/add-dcd.py --DCD_IP_ADDRESS ${DCD_MANAGEMENT_IP}",
                                                         {
                                                             "Fn::Join": [
                                                                 " ",
@@ -581,7 +594,8 @@
                                                     ]
                                                 ]
                                             },
-                                            "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_DATAPLANE_IP}"
+											"sleep 10",
+                                            "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_MANAGEMENT_IP}"
                                         ]
                                     ]
                                 },
@@ -848,6 +862,8 @@
                                             "sleep 5",
                                             "#SAVE",
                                             "curl -X POST -sk -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${BIGIQ_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' -d '{\"command\":\"save\"}'",
+                                            "echo \"#\"",
+											"echo \"#\"",
                                             "echo \"Done setting selfip\"",
                                             "#LICENSE#",
                                             {
@@ -863,7 +879,7 @@
                                                         "--NODE_TYPE DCD",
                                                         "--DCD_DISCOVER_ADDR",
                                                         {
-                                                            "Ref": "DcdDataPlaneIP"
+                                                            "Ref": "DcdManagementIP"
                                                         }
                                                     ]
                                                 ]

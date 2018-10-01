@@ -554,7 +554,9 @@
                                                         {
                                                             "Ref": "licenseKey1"
                                                         },
-                                                        "--MASTER_PASSPHRASE ValidPassphrase1234567812345678!",
+                                                        "--ADMIN_USERNAME ${BIGIQ_ADMIN_USER}", 
+														"--ADMIN_PWD ${BIGIQ_PWD}",
+														"--MASTER_PASSPHRASE ValidPassphrase1234567812345678!",
                                                         "--TIMEOUT_SEC 1200",
                                                         "--DCD_DISCOVER_ADDR",
                                                         {
@@ -563,7 +565,7 @@
                                                     ]
                                                 ]
                                             },
-                                            "sleep 5",
+                                            "sleep 20",
                                             {
                                                 "Fn::Join": [
                                                     " ",
@@ -581,6 +583,7 @@
                                                     ]
                                                 ]
                                             },
+											"sleep 10",
                                             "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_DATAPLANE_IP}"
                                         ]
                                     ]

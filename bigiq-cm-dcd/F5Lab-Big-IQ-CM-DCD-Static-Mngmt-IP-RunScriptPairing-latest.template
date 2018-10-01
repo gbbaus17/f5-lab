@@ -492,7 +492,9 @@
                                             "##SAVE##",
                                             "curl -X POST -sk -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${BIGIQ_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' -d '{\"command\":\"save\"}'",
                                             "sleep 5",
-                                            "echo \"Done setting Vlan, selfIP - Starting DCD Add\"",
+                                            "echo \"#\"",
+											"echo \"#\"",
+											"echo \"Done setting Vlan, selfIP - Starting DCD Add\"",
                                             "/config/cloud/background-setup-cm.sh ${BIGIQ_PWD}"
                                         ]
                                     ]
