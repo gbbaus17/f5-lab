@@ -1,5 +1,4 @@
 #! /usr/local/bin/python2.7
-# Modified - added seperate Transport address
 
 import argparse
 import requests
@@ -25,12 +24,6 @@ def parse_args ():
         type=str,
         required=True,
         help="IP of the BIG-IQ DCD instance. This must already be configured with the logging_node personality"
-    )
-    parser.add_argument(
-        "--DCD_TRANSPORT_ADDRESS",
-        type=str,
-        required=True,
-        help="Collection Address of BIG-IQ DCD instance - typically internal self-ip"
     )
     parser.add_argument(
         "--DCD_USERNAME",
@@ -68,7 +61,7 @@ def get_environment (address, username=None, pwd=None):
     return util.get_environment(address, username, pwd)
 
 # Returns UUID of new node
-def add_node (env, ip_address, t_ip_address, username, password):
+def add_node (env, ip_address, username, password):
     # POST
     # https://18.232.246.131/mgmt/cm/shared/esmgmt/add-node
     # {"address":"35.173.117.194","bigIqUsername":"admin","bigIqPassword":"P@$$Word!","httpPort":9200,"transportAddress":"10.1.1.230","transportPort":9300,"zone":"default"}
@@ -83,7 +76,7 @@ def add_node (env, ip_address, t_ip_address, username, password):
             "bigIqUsername": username,
             "bigIqPassword": password,
             "httpPort": 9200,
-            "transportAddress": t_ip_address,
+            "transportAddress": ip_address,
             "transportPort":9300,
             "zone":"default"
         }
@@ -144,7 +137,8 @@ def main ():
     # Wait for DCD available and assume basic auth is enabled
     util.poll_for_system_setup(
         args.DCD_IP_ADDRESS,
-        auth=requests.auth.HTTPBasicAuth(args.DCD_USERNAME, args.DCD_PWD),
+        auth=requests.auth.HTTPBasicAuth(args.DCD_USERNAME,
+        args.DCD_PWD),
         timeout=args.TIMEOUT_SEC
     )
     util.complete()
@@ -156,7 +150,7 @@ def main ():
 
     # post to add node
     util.print_partial("Adding node...")
-    node_uuid = add_node(environment, args.DCD_IP_ADDRESS, args.DCD_TRANSPORT_ADDRESS, args.DCD_USERNAME, args.DCD_PWD)
+    node_uuid = add_node(environment, args.DCD_IP_ADDRESS, args.DCD_USERNAME, args.DCD_PWD)
     util.complete()
 
     # poll add until success or failure

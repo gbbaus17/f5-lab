@@ -1,7 +1,7 @@
 #! /usr/local/bin/python2.7
 # Run a BIG IQ through the licensing and configuration wizard without any user interaction
 # Return control when the BIG IQ is fully configured
-# Modified 
+# Modified - removed Discovery Address from script
 import sys
 import argparse
 import requests

@@ -572,9 +572,9 @@
 											"curl https://${CM_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"restart\":true}'",
 											"sleep 60",
                                             "#ADD DCD TO CM",
-											"/config/cloud/add-dcd.py --DCD_IP_ADDRESS ${DCD_SELFIP_ADDR} --DCD_TRANSPORT_ADDRESS ${DCD_SELFIP_ADDR} --DCD_PWD ${BIGIQ_PWD} --DCD_USERNAME ${BIGIQ_ADMIN_USER}"
+											"/config/cloud/add-dcd-2.py --DCD_IP_ADDRESS ${DCD_SELFIP_ADDR} --DCD_TRANSPORT_ADDRESS ${DCD_SELFIP_ADDR} --DCD_PWD ${BIGIQ_PWD} --DCD_USERNAME ${BIGIQ_ADMIN_USER}",
                                             "sleep 60",
-                                            "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_SELFIP_ADDR}"
+                                            "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_SELFIP_ADDR}",
 											"sleep 10",
                                             "echo \"#\"",
 											"set-basic-auth off",
@@ -892,7 +892,90 @@
                                 "group": "root",
                                 "mode": "000755",
                                 "owner": "root"
-                            }
+                            },
+						  "/config/cloud/example-firstrun-function-loops.sh": {
+							"content": {
+							  "Fn::Join": [
+								"",
+								[
+								  "#!/bin/bash\n",
+								  "FILE=/tmp/firstrun.log\n",
+								  "if [ ! -e $FILE ]\n",
+								  " then\n",
+								  "     touch $FILE\n",
+								  "     nohup $0 0<&- &>/dev/null &\n",
+								  "     exit\n",
+								  "fi\n",
+								  "#################################\n",
+								  "function checkF5Ready {\n",
+								  "     sleep 5\n",
+								  "     while [[ ! -e '/var/prompt/ps1' ]]\n",
+								  " do\n",
+								  "     echo -n '.'\n",
+								  "     sleep 5\n",
+								  "done \n",
+								  "sleep 5\n",
+								  "STATUS=`cat /var/prompt/ps1`\n",
+								  "while [[ ${STATUS}x != 'NO LICENSE'x ]]\n",
+								  " do\n",
+								  "     echo -n '.'\n",
+								  "     sleep 5\n",
+								  "     STATUS=`cat /var/prompt/ps1`\n",
+								  "done\n",
+								  "echo -n ' '\n",
+								  "while [[ ! -e '/var/prompt/cmiSyncStatus' ]]\n",
+								  " do\n",
+								  "     echo -n '.'\n",
+								  "     sleep 5\n",
+								  "done \n",
+								  "STATUS=`cat /var/prompt/cmiSyncStatus`\n",
+								  "while [[ ${STATUS}x != 'Standalone'x ]]\n",
+								  " do\n",
+								  "     echo -n '.'\n",
+								  "     sleep 5\n",
+								  "     STATUS=`cat /var/prompt/cmiSyncStatus`\n",
+								  "done\n",
+								  "}\n",
+								  "\n",
+								  "\n",                      
+								  "function checkStatusnoret {\n",
+								  "sleep 10\n",
+								  "STATUS=`cat /var/prompt/ps1`\n",
+								  "while [[ ${STATUS}x != 'Active'x ]]\n",
+								  " do\n",
+								  "     echo -n '.'\n",
+								  "     sleep 5\n",
+								  "     STATUS=`cat /var/prompt/ps1`\n",
+								  "done\n",
+								  "}\n",
+								  "#################################\n",      
+								  "exec 1<&-\n",
+								  "exec 2<&-\n",
+								  "exec 1<>$FILE\n",
+								  "exec 2>&1\n",
+								  
+								  "checkF5Ready\n",
+								  "sleep 20\n",
+								  
+								  "tmsh modify auth user admin password $ADMIN_PASSWORD\n",
+								  "tmsh modify sys dns name-servers add {10.0.0.2}\n",
+								  "sleep 20\n",
+								  "tmsh save /sys config\n",
+								  "checkStatusnoret\n",
+								  "echo \"Setting hostname: $HOSTNAME\"\n",
+								  "tmsh modify /sys global-settings hostname $HOSTNAME\n",
+								  "tmsh mv cm device bigip1 $HOSTNAME\n",
+								  "tmsh modify sys ntp timezone \"$TZ\"\n",
+								  "tmsh modify sys db setup.run value false\n",
+								  "tmsh save /sys config\n"
+								]
+							  ]
+							},
+							"mode": "000755",
+							"owner": "root",
+							"group": "root"
+						  }
+	
                         }
                     }
                 },
