@@ -1,6 +1,6 @@
 {
 	"name":"VLAN1_NAME_VAR_selfip",
-	"address":"DCD_DATAPLANE_IP_VAR/24",
+	"address":"DCD_SELFIP_VAR/24",
 	"vlan":"/Common/VLAN1_NAME_VAR",
 	"description":"",
 	"fullPath":"/Common/VLAN1_NAME_VAR_selfip",

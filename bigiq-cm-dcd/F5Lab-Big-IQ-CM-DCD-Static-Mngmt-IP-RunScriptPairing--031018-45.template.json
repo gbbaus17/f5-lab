@@ -428,7 +428,7 @@
                                             "echo \"CM - About to License, Set password, Create vlan and set Self-ip, and connect to DCD\"",
                                             "HOSTNAME=`curl --silent --fail --retry 20 http://169.254.169.254/latest/meta-data/hostname`",
                                             "ETH1_MAC=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`",
-                                            "CM_SelfIP_MASK=`curl --silent --fail --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${ETH1_MAC}/subnet-ipv4-cidr-block  | cut -d \"/\" -f2`",
+                                            "CM_SELFIP_MASK=`curl --silent --fail --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${ETH1_MAC}/subnet-ipv4-cidr-block  | cut -d \"/\" -f2`",
                                             {
                                                 "Fn::Join": [
                                                     "",
@@ -456,7 +456,7 @@
                                                 "Fn::Join": [
                                                     "",
                                                     [
-                                                        "CM_SelfIP_IP=",
+                                                        "CM_SELFIP_ADDR=",
                                                         {
                                                             "Ref": "CmSelfIPAddr"
                                                         }
@@ -470,6 +470,17 @@
                                                         "DCD_MGMT_ADDR=",
                                                         {
                                                             "Ref": "DcdManagementIP"
+                                                        }
+                                                    ]
+                                                ]
+                                            },
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "DCD_SELFIP_ADDR=",
+                                                        {
+                                                            "Ref": "DcdSelfIPAddr"
                                                         }
                                                     ]
                                                 ]
@@ -514,7 +525,7 @@
                                             "#tmsh modify sys ntp TimeZone ${TZ}",
                                             "#tmsh modify sys ntp servers add { 0.pool.ntp.org }",
                                             "#tmsh create net vlan ${VLAN_NAME} interfaces add {1.1}",
-                                            "#tmsh create net self ${CM_SelfIP_IP}/${CM_SelfIP_MASK} vlan ${VLAN_NAME}",
+                                            "#tmsh create net self ${CM_SELFIP_ADDR}/${CM_SELFIP_MASK} vlan ${VLAN_NAME}",
                                             "#tmsh modify sys global-settings hostname ${HOSTNAME}",
                                             "tmsh save sys config",
                                             "sleep 5",
@@ -532,12 +543,12 @@
                                             "sleep 2",
                                             "##PREP DOWNLOADED INPUT TEMPLATE FILE AND CREATE SELFIP##",
                                             "##SELF-IP PORTS AS PER SUPPORT ARTICLE K15612##",
-                                            "sed -i \"s/CM_SelfIP_IP_VAR/${CM_SelfIP_IP}/g;s/VLAN1_NAME_VAR/${VLAN1_NAME}/g\" selfip1_cm_create.json",
+                                            "sed -i \"s/CM_SELFIP_VAR/${CM_SELFIP_ADDR}/g;s/VLAN1_NAME_VAR/${VLAN1_NAME}/g\" selfip1_cm_create.json",
                                             "sleep 2",
                                             "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${CM_MGMT_ADDR}/mgmt/tm/net/self?ver=12.1.1 -H 'Content-Type: application/json' --data @selfip1_cm_create.json",
                                             "sleep 5",
 											"#SET IP AND MANAGEMENT ROUTES",
-											"curl https://${CM_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' --insecure --data '{\"hostname\":\"ip-10-1-1-249.ec2.internal\",\"managementIpAddress\":\"10.1.1.249/24\",\"managementRouteAddress\":\"10.1.1.1\"}'",
+											"curl https://${CM_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' --insecure --data '{\"hostname\":\"${HOSTNAME}\",\"managementIpAddress\":\"${CM_MGMT_ADDR}/24\",\"managementRouteAddress\":\"10.1.1.1\"}'",
 											"sleep 2",
 											"#DNS",
 											"curl https://${CM_MGMT_ADDR}/mgmt/tm/sys/dns -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'",
@@ -549,7 +560,7 @@
 											"curl https://${CM_MGMT_ADDR}/mgmt/cm/shared/secure-storage/masterkey -X POST --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}'",
 											"sleep 10",
 											"#SET DISCOVERY ADDRESS",
-											"curl https://${CM_MGMT_ADDR}/mgmt/shared/identified-devices/config/discovery -X PUT --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"discoveryAddress\":\"10.1.1.249\"}'",
+											"curl https://${CM_MGMT_ADDR}/mgmt/shared/identified-devices/config/discovery -X PUT --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"discoveryAddress\":\"${CM_SELFIP_ADDR}\"}'",
 											"sleep 10",
 											"#SYSTEM SETUP WIZARD FLAG",
 											"curl https://${CM_MGMT_ADDR}/mgmt/shared/system/setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"isSystemSetup\":true}'",
@@ -560,116 +571,14 @@
 											"#RESTART",
 											"curl https://${CM_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"restart\":true}'",
 											"sleep 60",
-											"#ADDING A DATA COLLECTION DEVICE - FROM CM",
-											"curl https://${CM_MGMT_ADDR}/mgmt/cm/shared/esmgmt/add-node -X POST --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"address\":\"10.1.1.248\",\"bigIqUsername\":\"admin\",\"bigIqPassword\":\"f5DEMOs4u!\",\"httpPort\":9200,\"transportAddress\":\"10.1.20.248\",\"transportPort\":9300,\"zone\":\"default\"}'",
+                                            "#ADD DCD TO CM",
+											"/config/cloud/add-dcd.py --DCD_IP_ADDRESS ${DCD_SELFIP_ADDR} --DCD_TRANSPORT_ADDRESS ${DCD_SELFIP_ADDR} --DCD_PWD ${BIGIQ_PWD} --DCD_USERNAME ${BIGIQ_ADMIN_USER}"
                                             "sleep 60",
-											"##SAVE##",
-                                            "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${CM_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' -d '{\"command\":\"save\"}'",
-                                            "sleep 5",
+                                            "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_SELFIP_ADDR}"
+											"sleep 10",
                                             "echo \"#\"",
-                                            "echo \"#Done\"",
-                                            "#echo \"Done setting Vlan, selfIP - Starting DCD Add\"",
-                                            "#/config/cloud/background-setup-cm.sh ${BIGIQ_PWD}"
-                                        ]
-                                    ]
-                                },
-                                "group": "root",
-                                "mode": "000755",
-                                "owner": "root"
-                            },
-                            "/config/cloud/background-setup-cm.sh": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "\n",
-                                        [
-                                            "#!/usr/bin/env bash",
-                                            {
-                                                "Fn::Join": [
-                                                    "",
-                                                    [
-                                                        "CM_MGMT_ADDR=",
-                                                        {
-                                                            "Ref": "CmManagementIP"
-                                                        }
-                                                    ]
-                                                ]
-                                            },
-                                            "BIGIQ_ADMIN_USER=admin",
-                                            {
-                                                "Fn::Join": [
-                                                    "",
-                                                    [
-                                                        "BIGIQ_PWD=",
-                                                        {
-                                                            "Ref": "BigIqAdminPassword"
-                                                        }
-                                                    ]
-                                                ]
-                                            },
-                                            {
-                                                "Fn::Join": [
-                                                    "",
-                                                    [
-                                                        "DCD_SelfIP_IP=",
-                                                        {
-                                                            "Ref": "DcdSelfIPAddr"
-                                                        }
-                                                    ]
-                                                ]
-                                            },
-                                            {
-                                                "Fn::Join": [
-                                                    "",
-                                                    [
-                                                        "DCD_MGMT_ADDR=",
-                                                        {
-                                                            "Ref": "DcdManagementIP"
-                                                        }
-                                                    ]
-                                                ]
-                                            },											
-                                            "mkdir -p /config/cloud",
-                                            "cd /config/cloud/",
-                                            "mount -o remount,rw /usr",
-                                            {
-                                                "Fn::Join": [
-                                                    " ",
-                                                    [
-                                                        "/config/cloud/configure-bigiq.py --LICENSE_KEY",
-                                                        {
-                                                            "Ref": "licenseKey1"
-                                                        },
-                                                        "--ADMIN_USERNAME ${BIGIQ_ADMIN_USER}",
-                                                        "--ADMIN_PWD ${BIGIQ_PWD}",
-                                                        "--MASTER_PASSPHRASE ValidPassphrase1234567812345678!",
-                                                        "--TIMEOUT_SEC 1200",
-                                                        "--DCD_DISCOVER_ADDR",
-                                                        {
-                                                            "Ref": "DcdManagementIP"
-                                                        }
-                                                    ]
-                                                ]
-                                            },
-                                            "sleep 20",
-                                            {
-                                                "Fn::Join": [
-                                                    " ",
-                                                    [
-                                                        "/config/cloud/add-dcd.py --DCD_IP_ADDRESS ${DCD_MGMT_ADDR}",
-                                                        {
-                                                            "Fn::Join": [
-                                                                " ",
-                                                                [
-                                                                    "--DCD_PWD ${BIGIQ_PWD}",
-                                                                    "--DCD_USERNAME ${BIGIQ_ADMIN_USER}"
-                                                                ]
-                                                            ]
-                                                        }
-                                                    ]
-                                                ]
-                                            },
-                                            "sleep 10",
-                                            "/config/cloud/activate-dcd-services.py --SERVICES asm --DCD_IP_ADDRESS ${DCD_MGMT_ADDR}"
+											"set-basic-auth off",
+											"echo \"Done setup\""
                                         ]
                                     ]
                                 },
@@ -780,7 +689,7 @@
                 "Description": "BIG-IQ CM Management Interface",
                 "GroupSet": [
                     {
-                        "Ref": "BigIqAllowAllSecurityGroup"
+                        "Ref": "BigIqManagementSecurityGroup"
                     }
                 ],
                 "SubnetId": {
@@ -854,7 +763,7 @@
                                             "echo \"DCD - About to License, Set password, Create vlan and set Self-ip. Should take about 5 min\"",
                                             "HOSTNAME=`curl --silent --fail --retry 20 http://169.254.169.254/latest/meta-data/hostname`",
                                             "ETH1_MAC=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`",
-                                            "DCD_SelfIP_MASK=`curl --silent --fail --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${ETH1_MAC}/subnet-ipv4-cidr-block  | cut -d \"/\" -f2`",
+                                            "DCD_SELFIP_MASK=`curl --silent --fail --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${ETH1_MAC}/subnet-ipv4-cidr-block  | cut -d \"/\" -f2`",
                                             {
                                                 "Fn::Join": [
                                                     "",
@@ -882,7 +791,7 @@
                                                 "Fn::Join": [
                                                     "",
                                                     [
-                                                        "DCD_SelfIP_IP=",
+                                                        "DCD_SELFIP_ADDR=",
                                                         {
                                                             "Ref": "DcdSelfIPAddr"
                                                         }
@@ -927,7 +836,7 @@
 											"#tmsh modify sys ntp TimeZone ${TZ}",
                                             "#tmsh modify sys ntp servers add { 0.pool.ntp.org }",
                                             "#tmsh create net vlan ${VLAN_NAME} interfaces add {1.1}",
-                                            "#tmsh create net self ${DCD_SelfIP_IP_MASK} vlan ${VLAN_NAME}",
+                                            "#tmsh create net self ${DCD_SELFIP_MASK} vlan ${VLAN_NAME}",
                                             "#tmsh modify sys global-settings hostname ${HOSTNAME}",
                                             "tmsh save sys config",
                                             "sleep 5",
@@ -936,7 +845,7 @@
                                             "set-basic-auth on",
 											"sleep 5",											
 											"#SET IP AND MANAGEMENT ROUTES",
-											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' --insecure --data '{\"hostname\":\"ip-10-1-1-248.ec2.internal\",\"managementIpAddress\":\"10.1.1.248/24\",\"managementRouteAddress\":\"10.1.1.1\"}'",
+											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' --insecure --data '{\"hostname\":\"${HOSTNAME}\",\"managementIpAddress\":\"${DCD_MGMT_ADDR}/24\",\"managementRouteAddress\":\"10.1.1.1\"}'",
 											"sleep 2",
 											"#SET DNS",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/tm/sys/dns -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'",
@@ -951,18 +860,18 @@
                                             "sleep 5",
                                             "##PREP DOWNLOADED INPUT TEMPLATE FILE AND CREATE SELFIP##",
                                             "##SELF-IP PORTS AS PER SUPPORT ARTICLE K15612##",
-                                            "sed -i \"s/DCD_SelfIP_IP_VAR/${DCD_SelfIP_IP}/g;s/VLAN1_NAME_VAR/${VLAN1_NAME}/g\" selfip1_dcd_create.json",
+                                            "sed -i \"s/DCD_SELFIP_VAR/${DCD_SELFIP_ADDR}/g;s/VLAN1_NAME_VAR/${VLAN1_NAME}/g\" selfip1_dcd_create.json",
                                             "sleep 2",
                                             "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${DCD_MGMT_ADDR}/mgmt/tm/net/self?ver=12.1.1 -H 'Content-Type: application/json' --data @selfip1_dcd_create.json",
                                             "sleep 5",
 											"echo \"#\"",
                                             "echo \"#\"",
-                                            "echo \"Done setting selfip\"",
+                                            "echo \"Done basic setup\"",
 											"#SET DCD PERSONALITY#",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/cm/system/provisioning -X POST --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"systemPersonality\":\"logging_node\"}'",
 											"sleep 10",
 											"#SET DISCOVERY ADDRESS",
-											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/identified-devices/config/discovery -X PUT --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"discoveryAddress\":\"10.1.1.248\"}'",
+											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/identified-devices/config/discovery -X PUT --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"discoveryAddress\":\"${DCD_SELFIP_ADDR}\"}'",
 											"sleep 10",
 											"#SET MASTERKEY",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/cm/shared/secure-storage/masterkey -X POST --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}'",
@@ -974,7 +883,9 @@
 											"sleep 10",
 											"#RESTART SERVICES",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"restart\":true}'",
-											"sleep 45"
+											"sleep 45",
+											"set-basic-auth off",
+											"echo \"Done setup\""
                                         ]
                                     ]
                                 },
