@@ -143,8 +143,7 @@ def main ():
     # Wait for DCD available and assume basic auth is enabled
     util.poll_for_system_setup(
         args.DCD_IP_ADDRESS,
-        auth=requests.auth.HTTPBasicAuth(args.DCD_USERNAME,
-        args.DCD_PWD),
+        auth=requests.auth.HTTPBasicAuth(args.DCD_USERNAME, args.DCD_PWD),
         timeout=args.TIMEOUT_SEC
     )
     util.complete()
@@ -156,7 +155,7 @@ def main ():
 
     # post to add node
     util.print_partial("Adding node...")
-    node_uuid = add_node(environment, args.DCD_IP_ADDRESS, args.DCD_TRANSPORT_ADDRESS , args.DCD_USERNAME, args.DCD_PWD)
+    node_uuid = add_node(environment, args.DCD_IP_ADDRESS, args.DCD_TRANSPORT_ADDRESS, args.DCD_USERNAME, args.DCD_PWD)
     util.complete()
 
     # poll add until success or failure
