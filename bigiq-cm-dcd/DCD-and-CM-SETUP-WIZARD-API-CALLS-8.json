@@ -1,0 +1,305 @@
+
+LICENSE ACTIVATION
+
+
+/usr/local/bin/SOAPLicenseClient --verbose --basekey QGRPG-EQFBLE-RUX-WJFXRME-SHEQAQN
+
+
+
+SET DCD PERSONALITY
+
+curl https://10.1.1.248/mgmt/cm/system/provisioning -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"systemPersonality\":\"logging_node\"}'
+
+curl https://10.1.1.248/mgmt/cm/system/provisioning -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"systemPersonality":"logging_node"}'
+
+
+
+
+SET IP AND MANAGEMENT ROUTES
+
+curl https://10.1.1.248/mgmt/shared/system/easy-setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"hostname\":\"ip-10-1-1-248.ec2.internal\",\"managementIpAddress\":\"10.1.1.248/24\",\"managementRouteAddress\":\"10.1.1.1\"}'
+
+
+curl https://10.1.1.248/mgmt/shared/system/easy-setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"hostname":"ip-10-1-1-248.ec2.internal","managementIpAddress":"10.1.1.248/24","managementRouteAddress":"10.1.1.1"}'
+
+
+
+
+SET DISCOVERY ADDRESS
+
+curl https://10.1.1.248/mgmt/shared/identified-devices/config/discovery -X PUT -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"discoveryAddress\":\"10.1.1.248\"}'
+
+
+curl https://10.1.1.248/mgmt/shared/identified-devices/config/discovery -X PUT -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"discoveryAddress":"10.1.1.248"}'
+
+
+
+SET DNS
+
+
+curl https://10.1.1.248/mgmt/tm/sys/dns -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'
+
+
+curl https://10.1.1.248/mgmt/tm/sys/dns -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"nameServers":["8.8.8.8"],"search":["ec2.internal"]}'
+
+
+SET NTP
+
+curl https://10.1.1.248/mgmt/tm/sys/ntp -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"servers\":[\"pool.ntp.org\"],\"timezone\":\"Australia/NSW\"}'
+
+curl https://10.1.1.248/mgmt/tm/sys/ntp -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"servers":["pool.ntp.org"],"timezone":"Australia/NSW"}'
+
+
+
+SET MASTERKEY
+
+
+curl https://10.1.1.248/mgmt/cm/shared/secure-storage/masterkey -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}'
+
+curl https://10.1.1.248/mgmt/cm/shared/secure-storage/masterkey -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"passphrase":"ValidPassphrase1234567812345678!"}'
+
+
+CHANGE ROOT PASSWORD
+
+curl https://10.1.1.248/mgmt/shared/authn/root -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"oldPassword\":\"default\",\"newPassword\":\"SuperSecret01!\"}'
+
+curl https://10.1.1.248/mgmt/shared/authn/root -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"oldPassword":"default","newPassword":"SuperSecret01!"}'
+
+CHANGE ADMIN PASSWORD
+
+curl https://10.1.1.248/mgmt/shared/authz/users -X PUT -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"name\":\"admin\",\"displayName\":\"Admin User\",\"generation\":1,\"lastUpdateMicros\":1538440035763855,\"kind\":\"shared:authz:users:usersworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/users/admin\",\"oldPassword\":\"f5DEMOs4u!\",\"password\":\"SuperSecret01!\",\"password2\":\"SuperSecret01!\",\"encryptedPassword\":null}'
+
+
+curl https://10.1.1.248/mgmt/shared/authz/users -X PUT -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"name":"admin","displayName":"Admin User","generation":1,"lastUpdateMicros":1538440035763855,"kind":"shared:authz:users:usersworkerstate","selfLink":"https://localhost/mgmt/shared/authz/users/admin","oldPassword":"f5DEMOs4u!","password":"SuperSecret01!","password2":"SuperSecret01!","encryptedPassword":null}'
+
+
+SYSTEM SETUP WIZARD FLAG
+
+curl https://10.1.1.248/mgmt/shared/system/setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"isSystemSetup\":true}'
+
+curl https://10.1.1.248/mgmt/shared/system/setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"isSystemSetup":true}'
+
+RESTART SERVICES
+
+curl https://10.1.1.248/mgmt/shared/failover-state -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"restart\":true}'
+
+curl https://10.1.1.248/mgmt/shared/failover-state -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"restart":true}'
+
+
+
+
+
+CENTRAL MANAGER
+
+SET HOSTNAME
+
+curl https://10.1.1.249/mgmt/shared/system/easy-setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"hostname\":\"ip-10-1-1-249.ec2.internal\",\"managementIpAddress\":\"10.1.1.249/24\",\"managementRouteAddress\":\"10.1.1.1\"}'
+
+curl https://10.1.1.249/mgmt/shared/system/easy-setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"hostname":"ip-10-1-1-249.ec2.internal","managementIpAddress":"10.1.1.249/24","managementRouteAddress":"10.1.1.1"}'
+
+
+
+
+SET DISCOVERY ADDRESS
+
+curl https://10.1.1.249/mgmt/shared/identified-devices/config/discovery -X PUT -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"discoveryAddress\":\"10.1.1.249\"}'
+
+curl https://10.1.1.249/mgmt/shared/identified-devices/config/discovery -X PUT -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"discoveryAddress":"10.1.1.249"}'
+
+
+
+DNS
+
+curl https://10.1.1.249/mgmt/tm/sys/dns -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'
+
+
+curl https://10.1.1.249/mgmt/tm/sys/dns -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"nameServers":["8.8.8.8"],"search":["ec2.internal"]}'
+
+
+
+
+
+NTP
+curl https://10.1.1.249/mgmt/tm/sys/ntp -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"servers\":[\"pool.ntp.org\"],\"timezone\":\"Australia/NSW\"}'
+
+curl https://10.1.1.249/mgmt/tm/sys/ntp -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"servers":["pool.ntp.org"],"timezone":"Australia/NSW"}'
+
+SET MASTER KEY
+
+curl https://10.1.1.249/mgmt/cm/shared/secure-storage/masterkey -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}'
+
+curl https://10.1.1.249/mgmt/cm/shared/secure-storage/masterkey -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"passphrase":"ValidPassphrase1234567812345678!"}'
+
+
+
+CHECK SYSTEM UP
+
+curl https://10.1.1.249/mgmt/shared/system/setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"isSystemSetup\":true}'
+
+curl https://10.1.1.249/mgmt/shared/system/setup -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"isSystemSetup":true}'
+
+RESTART
+curl https://10.1.1.249/mgmt/shared/failover-state -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"restart\":true}'
+
+curl https://10.1.1.249/mgmt/shared/failover-state -X PATCH -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"restart":true}'
+
+
+
+======================
+
+
+ADDING A DATA COLLECTION DEVICE - FROM CM
+
+
+curl https://10.1.1.249/mgmt/cm/shared/esmgmt/add-node -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --insecure --data '{\"address\":\"10.1.1.248\",\"bigIqUsername\":\"admin\",\"bigIqPassword\":\"f5DEMOs4u!\",\"httpPort\":9200,\"transportAddress\":\"10.1.20.248\",\"transportPort\":9300,\"zone\":\"default\"}'
+
+
+
+curl https://10.1.1.249/mgmt/cm/shared/esmgmt/add-node -X POST -u admin:f5DEMOs4u! -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --insecure --data '{"address":"10.1.1.248","bigIqUsername":"admin","bigIqPassword":"f5DEMOs4u!","httpPort":9200,"transportAddress":"10.1.20.248","transportPort":9300,"zone":"default"}'
+
+
+
+
+
+
+==========  SETUP SCRIPTS WITH VARS ===================================================
+
+
+
+
+LICENSE ACTIVATION
+
+
+/usr/local/bin/SOAPLicenseClient --verbose --basekey QGRPG-EQFBLE-RUX-WJFXRME-SHEQAQN
+
+
+
+SET DCD PERSONALITY
+
+curl https://${DCD_MGMT_ADDR}/mgmt/cm/system/provisioning -X POST -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"systemPersonality\":\"logging_node\"}'
+
+
+
+
+SET IP AND MANAGEMENT ROUTES
+
+curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"hostname\":\"ip-10-1-1-248.ec2.internal\",\"managementIpAddress\":\"10.1.1.248/24\",\"managementRouteAddress\":\"10.1.1.1\"}'
+
+
+
+
+
+SET DISCOVERY ADDRESS
+
+curl https://${DCD_MGMT_ADDR}/mgmt/shared/identified-devices/config/discovery -X PUT -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"discoveryAddress\":\"10.1.1.248\"}'
+
+
+
+
+SET DNS
+
+
+curl https://${DCD_MGMT_ADDR}/mgmt/tm/sys/dns -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'
+
+
+SET NTP
+
+curl https://${DCD_MGMT_ADDR}/mgmt/tm/sys/ntp -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"servers\":[\"pool.ntp.org\"],\"timezone\":\"Australia/NSW\"}'
+
+
+
+
+SET MASTERKEY
+
+
+curl https://${DCD_MGMT_ADDR}/mgmt/cm/shared/secure-storage/masterkey -X POST -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}'
+
+CHANGE ROOT PASSWORD
+
+curl https://${DCD_MGMT_ADDR}/mgmt/shared/authn/root -X POST -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"oldPassword\":\"default\",\"newPassword\":\"SuperSecret01!\"}'
+
+CHANGE ADMIN PASSWORD
+
+curl https://${DCD_MGMT_ADDR}/mgmt/shared/authz/users -X PUT -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"name\":\"admin\",\"displayName\":\"Admin User\",\"generation\":1,\"lastUpdateMicros\":1538440035763855,\"kind\":\"shared:authz:users:usersworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/users/admin\",\"oldPassword\":\"f5DEMOs4u!\",\"password\":\"SuperSecret01!\",\"password2\":\"SuperSecret01!\",\"encryptedPassword\":null}'
+
+
+
+
+SYSTEM SETUP WIZARD FLAG
+
+curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/setup -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"isSystemSetup\":true}'
+
+
+RESTART SERVICES
+
+curl https://${DCD_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"restart\":true}'
+
+
+
+
+
+CENTRAL MANAGER
+
+SET HOSTNAME
+
+curl https://${CM_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"hostname\":\"ip-10-1-1-249.ec2.internal\",\"managementIpAddress\":\"10.1.1.249/24\",\"managementRouteAddress\":\"10.1.1.1\"}'
+
+
+
+
+SET DISCOVERY ADDRESS
+
+curl https://${CM_MGMT_ADDR}/mgmt/shared/identified-devices/config/discovery -X PUT -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"discoveryAddress\":\"10.1.1.249\"}'
+
+
+
+
+DNS
+
+curl https://${CM_MGMT_ADDR}/mgmt/tm/sys/dns -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'
+
+
+
+
+
+
+NTP
+curl https://${CM_MGMT_ADDR}/mgmt/tm/sys/ntp -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"servers\":[\"pool.ntp.org\"],\"timezone\":\"Australia/NSW\"}'
+
+
+SET MASTER KEY
+
+curl https://${CM_MGMT_ADDR}/mgmt/cm/shared/secure-storage/masterkey -X POST -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}'
+
+
+
+
+CHECK SYSTEM UP
+
+curl https://${CM_MGMT_ADDR}/mgmt/shared/system/setup -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"isSystemSetup\":true}'
+
+
+RESTART
+curl https://${CM_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"restart\":true}'
+
+
+
+
+======================
+
+
+ADDING A DATA COLLECTION DEVICE - FROM CM
+
+
+curl https://${CM_MGMT_ADDR}/mgmt/cm/shared/esmgmt/add-node -X POST -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --insecure --data '{\"address\":\"10.1.1.248\",\"bigIqUsername\":\"admin\",\"bigIqPassword\":\"f5DEMOs4u!\",\"httpPort\":9200,\"transportAddress\":\"10.1.20.248\",\"transportPort\":9300,\"zone\":\"default\"}'
+
+
+
+
+
+
+
+
+
+
+
