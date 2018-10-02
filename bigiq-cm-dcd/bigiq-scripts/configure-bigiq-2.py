@@ -1,6 +1,7 @@
 #! /usr/local/bin/python2.7
 # Run a BIG IQ through the licensing and configuration wizard without any user interaction
 # Return control when the BIG IQ is fully configured
+# Modified 
 import sys
 import argparse
 import requests
@@ -109,45 +110,17 @@ def set_management_address ():
         method="PATCH"
     )
 
-
     time.sleep(2)
-    print("Setting discovery address to " + management_addr)
+
+
+# Step 4 set discoverery address
+def set_discovery_address ():
+    print("Setting discovery address to " + DCD_DISCOVER_ADDR)
     req(
         BIGIQ_REST_URL + "shared/identified-devices/config/discovery",
-        json={"discoveryAddress":management_addr},
+        json={"discoveryAddress":DCD_DISCOVER_ADDR},
         method="PUT"
     )
-
-    # Suspicious of BIQ/TMOS interaction being fully atomic when this previous request returns
-    time.sleep(2)
-    disco_addr_res = req(
-        BIGIQ_REST_URL + "shared/identified-devices/config/discovery"
-    )
-
-    try:
-        if not disco_addr_res.json()['discoveryAddress'] == management_addr:
-            print("Discovery address could not be set")
-            sys.exit(1)
-    except KeyError:
-        print("Discovery address could not be set")
-        sys.exit(1)
-
-
-
-# Step 4 set the ntp and dns servers
-def configure_services ():
-    req(
-        BIGIQ_REST_URL + "tm/sys/dns",
-        json={"nameServers":["8.8.8.8"],"search":["localhost"]},
-        method="PATCH"
-    )
-
-    req(
-        BIGIQ_REST_URL + "tm/sys/ntp",
-        json={"servers":["time.nist.gov"],"timezone":"America/Los_Angeles"},
-        method="PATCH"
-    )
-
 
 # Step 5 set the master key. This can only be done once. This function is aware of that
 def set_master_key ():
@@ -310,10 +283,6 @@ def main():
     poll_for_services_available()
     complete()
 
-    print_partial("Configuring NTP/DNS services...")
-    configure_services()
-    complete()
-
     print_partial("Setting masterkey...")
     set_master_key()
     complete()
@@ -392,7 +361,12 @@ def generate_parser ():
         type=str,
         default="CM", help="Either 'CM' for central management or 'DCD' for data collection device"
     )
-
+    parser.add_argument(
+        "--DCD_DISCOVER_ADDR",
+        type=str,
+        default="10.1.20.234",
+        help="The IPv4 address of the DCD that the CM discovers"
+    )
     args = parser.parse_args()
 
     global BIGIQ_ADDR
@@ -403,6 +377,7 @@ def generate_parser ():
     global ADMIN_PWD
     global NODE_TYPE
     global TIMEOUT_SEC
+    global DCD_DISCOVER_ADDR
 
     BIGIQ_ADDR = args.BIGIQ_ADDR
     # Remember DeMorgan...
@@ -418,6 +393,7 @@ def generate_parser ():
     ADMIN_PWD = args.ADMIN_PWD
     NODE_TYPE = args.NODE_TYPE
     TIMEOUT_SEC = args.TIMEOUT_SEC
+    DCD_DISCOVER_ADDR = args.DCD_DISCOVER_ADDR
 
     return args
 
