@@ -1,0 +1,165 @@
+
+LICENSE ACTIVATION
+
+
+
+
+/usr/local/bin/SOAPLicenseClient --verbose --basekey QGRPG-EQFBLE-RUX-WJFXRME-SHEQAQN
+
+
+
+
+
+SET DCD PERSONALITY
+
+curl "https://52.3.125.79/mgmt/cm/system/provisioning" -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/feature" -H "Connection: keep-alive" --data-binary '{\"systemPersonality\":\"logging_node\"}' --compressed --insecure
+
+curl 'https://52.3.125.79/mgmt/cm/system/provisioning' -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/feature' -H 'Connection: keep-alive' --data-binary '{"systemPersonality":"logging_node"}' --compressed --insecure
+
+
+
+
+SET IP AND MANAGEMENT ROUTES
+
+curl "https://52.3.125.79/mgmt/shared/system/easy-setup" -X PATCH -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/address" -H "Connection: keep-alive" --data-binary '{\"hostname\":\"ip-10-1-1-248.ec2.internal\",\"managementIpAddress\":\"10.1.1.248/24\",\"managementRouteAddress\":\"10.1.1.1\"}' --compressed --insecure
+
+
+curl 'https://52.3.125.79/mgmt/shared/system/easy-setup' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/address' -H 'Connection: keep-alive' --data-binary '{"hostname":"ip-10-1-1-248.ec2.internal","managementIpAddress":"10.1.1.248/24","managementRouteAddress":"10.1.1.1"}' --compressed --insecure
+
+
+
+
+SET DISCOVERY ADDRESS
+
+curl "https://52.3.125.79/mgmt/shared/identified-devices/config/discovery" -X PUT -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/address" -H "Connection: keep-alive" --data-binary '{\"discoveryAddress\":\"10.1.1.248\"}' --compressed --insecure
+
+
+curl 'https://52.3.125.79/mgmt/shared/identified-devices/config/discovery' -X PUT -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/address' -H 'Connection: keep-alive' --data-binary '{"discoveryAddress":"10.1.1.248"}' --compressed --insecure
+
+
+
+SET DNS
+
+
+curl "https://52.3.125.79/mgmt/tm/sys/dns" -X PATCH -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/services" -H "Connection: keep-alive" --data-binary '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}' --compressed --insecure
+
+
+curl 'https://52.3.125.79/mgmt/tm/sys/dns' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/services' -H 'Connection: keep-alive' --data-binary '{"nameServers":["8.8.8.8"],"search":["ec2.internal"]}' --compressed --insecure
+
+
+SET NTP
+
+curl "https://52.3.125.79/mgmt/tm/sys/ntp" -X PATCH -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/services" -H "Connection: keep-alive" --data-binary '{\"servers\":[\"pool.ntp.org\"],\"timezone\":\"Australia/NSW\"}' --compressed --insecure
+
+curl 'https://52.3.125.79/mgmt/tm/sys/ntp' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/services' -H 'Connection: keep-alive' --data-binary '{"servers":["pool.ntp.org"],"timezone":"Australia/NSW"}' --compressed --insecure
+
+
+
+SET MASTERKEY
+
+
+curl "https://52.3.125.79/mgmt/cm/shared/secure-storage/masterkey" -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/master-key" -H "Connection: keep-alive" --data-binary '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}' --compressed --insecure
+
+curl 'https://52.3.125.79/mgmt/cm/shared/secure-storage/masterkey' -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/master-key' -H 'Connection: keep-alive' --data-binary '{"passphrase":"ValidPassphrase1234567812345678!"}' --compressed --insecure
+
+
+CHANGE ROOT PASSWORD
+
+curl "https://52.3.125.79/mgmt/shared/authn/root" -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/password" -H "Connection: keep-alive" --data-binary '{\"oldPassword\":\"default\",\"newPassword\":\"SuperSecret01!\"}' --compressed --insecure
+
+curl 'https://52.3.125.79/mgmt/shared/authn/root' -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/password' -H 'Connection: keep-alive' --data-binary '{"oldPassword":"default","newPassword":"SuperSecret01!"}' --compressed --insecure
+
+CHANGE ADMIN PASSWORD
+
+curl "https://52.3.125.79/mgmt/shared/authz/users" -X PUT -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/password" -H "Connection: keep-alive" --data-binary '{\"name\":\"admin\",\"displayName\":\"Admin User\",\"generation\":1,\"lastUpdateMicros\":1538440035763855,\"kind\":\"shared:authz:users:usersworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/users/admin\",\"oldPassword\":\"f5DEMOs4u!\",\"password\":\"SuperSecret01!\",\"password2\":\"SuperSecret01!\",\"encryptedPassword\":null}' --compressed --insecure
+
+
+curl 'https://52.3.125.79/mgmt/shared/authz/users' -X PUT -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/password' -H 'Connection: keep-alive' --data-binary '{"name":"admin","displayName":"Admin User","generation":1,"lastUpdateMicros":1538440035763855,"kind":"shared:authz:users:usersworkerstate","selfLink":"https://localhost/mgmt/shared/authz/users/admin","oldPassword":"f5DEMOs4u!","password":"SuperSecret01!","password2":"SuperSecret01!","encryptedPassword":null}' --compressed --insecure
+
+
+SYSTEM SETUP WIZARD FLAG
+
+curl "https://52.3.125.79/mgmt/shared/system/setup" -X PATCH -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/launch" -H "Connection: keep-alive" --data-binary '{\"isSystemSetup\":true}' --compressed --insecure
+
+curl 'https://52.3.125.79/mgmt/shared/system/setup' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/launch' -H 'Connection: keep-alive' --data-binary '{"isSystemSetup":true}' --compressed --insecure
+
+RESTART SERVICES
+
+curl "https://52.3.125.79/mgmt/shared/failover-state" -X PATCH -u admin:f5DEMOs4u! -H "Origin: https://52.3.125.79" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.3.125.79/ui/setup/wizard/launch" -H "Connection: keep-alive" --data-binary '{\"restart\":true}' --compressed --insecure
+
+curl 'https://52.3.125.79/mgmt/shared/failover-state' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.3.125.79' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.3.125.79/ui/setup/wizard/launch' -H 'Connection: keep-alive' --data-binary '{"restart":true}' --compressed --insecure
+
+
+
+
+
+CENTRAL MANAGER
+
+SET HOSTNAME AND 
+curl "https://52.44.177.173/mgmt/shared/system/easy-setup" -X PATCH -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/address" -H "Connection: keep-alive" --data-binary '{\"hostname\":\"ip-10-1-1-249.ec2.internal\",\"managementIpAddress\":\"10.1.1.249/24\",\"managementRouteAddress\":\"10.1.1.1\"}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/shared/system/easy-setup' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/address' -H 'Connection: keep-alive' --data-binary '{"hostname":"ip-10-1-1-249.ec2.internal","managementIpAddress":"10.1.1.249/24","managementRouteAddress":"10.1.1.1"}' --compressed --insecure
+
+
+
+
+SET DISCOVERY ADDRESS
+
+curl "https://52.44.177.173/mgmt/shared/identified-devices/config/discovery" -X PUT -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/address" -H "Connection: keep-alive" --data-binary '{\"discoveryAddress\":\"10.1.1.249\"}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/shared/identified-devices/config/discovery' -X PUT -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/address' -H 'Connection: keep-alive' --data-binary '{"discoveryAddress":"10.1.1.249"}' --compressed --insecure
+
+
+
+DNS
+
+curl "https://52.44.177.173/mgmt/tm/sys/dns" -X PATCH -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/services" -H "Connection: keep-alive" --data-binary '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}' --compressed --insecure
+
+
+curl 'https://52.44.177.173/mgmt/tm/sys/dns' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/services' -H 'Connection: keep-alive' --data-binary '{"nameServers":["8.8.8.8"],"search":["ec2.internal"]}' --compressed --insecure
+
+
+
+
+
+NTP
+curl "https://52.44.177.173/mgmt/tm/sys/ntp" -X PATCH -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/services" -H "Connection: keep-alive" --data-binary '{\"servers\":[\"pool.ntp.org\"],\"timezone\":\"Australia/NSW\"}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/tm/sys/ntp' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/services' -H 'Connection: keep-alive' --data-binary '{"servers":["pool.ntp.org"],"timezone":"Australia/NSW"}' --compressed --insecure
+
+SET MASTER KEY
+
+curl "https://52.44.177.173/mgmt/cm/shared/secure-storage/masterkey" -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/master-key" -H "Connection: keep-alive" --data-binary '{\"passphrase\":\"ValidPassphrase1234567812345678!\"}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/cm/shared/secure-storage/masterkey' -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/master-key' -H 'Connection: keep-alive' --data-binary '{"passphrase":"ValidPassphrase1234567812345678!"}' --compressed --insecure
+
+
+
+CHECK SYSTEM UP
+
+curl "https://52.44.177.173/mgmt/shared/system/setup" -X PATCH -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/launch" -H "Connection: keep-alive" --data-binary '{\"isSystemSetup\":true}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/shared/system/setup' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/launch' -H 'Connection: keep-alive' --data-binary '{"isSystemSetup":true}' --compressed --insecure
+
+RESTART
+curl "https://52.44.177.173/mgmt/shared/failover-state" -X PATCH -u admin:f5DEMOs4u!" -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/setup/wizard/launch" -H "Connection: keep-alive" --data-binary '{\"restart\":true}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/shared/failover-state' -X PATCH -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/setup/wizard/launch' -H 'Connection: keep-alive' --data-binary '{"restart":true}' --compressed --insecure
+
+
+
+======================
+
+
+ADDING A DATA COLLECTION DEVICE - FROM CM
+
+
+curl "https://52.44.177.173/mgmt/cm/shared/esmgmt/add-node" -u admin:f5DEMOs4u! -H "Origin: https://52.44.177.173" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -H "Referer: https://52.44.177.173/ui/system/bigiq-data-collection/devices/new-device" -H "Connection: keep-alive" --data-binary '{\"address\":\"10.1.1.248\",\"bigIqUsername\":\"admin\",\"bigIqPassword\":\"f5DEMOs4u!\",\"httpPort\":9200,\"transportAddress\":\"10.1.20.248\",\"transportPort\":9300,\"zone\":\"default\"}' --compressed --insecure
+
+curl 'https://52.44.177.173/mgmt/cm/shared/esmgmt/add-node' -u admin:f5DEMOs4u! -H 'Origin: https://52.44.177.173' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://52.44.177.173/ui/system/bigiq-data-collection/devices/new-device' -H 'Connection: keep-alive' --data-binary '{"address":"10.1.1.248","bigIqUsername":"admin","bigIqPassword":"f5DEMOs4u!","httpPort":9200,"transportAddress":"10.1.20.248","transportPort":9300,"zone":"default"}' --compressed --insecure
+
+
+
+
+
+
