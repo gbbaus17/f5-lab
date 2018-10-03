@@ -19,7 +19,7 @@
 #ifconfig eth1 10.1.1.250 netmask 255.255.255.0
 #ifconfig eth1:1 10.1.1.15 netmask 255.255.255.0
 
-touch /home/ubuntu/alert3-server-install-started-wait-about-7min
+touch /home/ubuntu/alert3-server-install-started-wait-about-10-15min
 
 # Allow ssh with passwords
 sudo sed -i 's/RSAAuthentication yes/RSAAuthentication no/g; s/PubkeyAuthentication yes/PubkeyAuthentication no/g; s/PasswordAuthentication no/PasswordAuthentication yes /g' /etc/ssh/sshd_config
@@ -81,4 +81,14 @@ cat /home/ubuntu/interfaces > /etc/network/interfaces
 touch /home/ubuntu/alert4-setup-finished-reboot-in-30s
 sleep 30
 reboot
+
+# Things are created as root, need to transfer ownership
+chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
+
+# Ensure NICs are set and persit reboot
+cat /home/ubuntu/interfaces > /etc/network/interfaces
+touch /home/ubuntu/alert5-setup-finished-reboot-in-30s
+sleep 30
+reboot
+
 

@@ -31,7 +31,7 @@ EOF
 # Option 2
 apt-get -y update
 sleep 10
-touch /home/ubuntu/alert3-xrdp-install-started-wait-about-7min
+touch /home/ubuntu/alert3-xrdp-install-started-wait-about-10-15min
 apt-get install -y ubuntu-desktop xrdp
 sleep 10
 service xrdp restart
