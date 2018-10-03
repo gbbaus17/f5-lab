@@ -560,7 +560,7 @@
                             "",
                             [
                                 "#!/bin/bash -xe\n",
-                                "touch /home/ubuntu/alert1-started-cloudinit-userdata\n",
+                                "touch /home/ubuntu/alert1-of-4-started-cloudinit-userdata\n",
                                 "# Install the files and packages from the metadata\n",
                                 "# ensure static eth0 is working so we can get cfn-init and dont error out too early\n",
                                 "ifconfig eth0 ",
