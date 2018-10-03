@@ -841,7 +841,7 @@
                     "default": "Server1 instance"
                 },
                 "CustomImageId": {
-                    "default": "Custom Image Id"
+                    "default": "AMI Image Id"
                 },
                 "EBSVolumeSize": {
                     "default": "EBS Volume Size"
