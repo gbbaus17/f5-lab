@@ -278,6 +278,7 @@ chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 # Ensure NICs are set and persit reboot
 cat /home/ubuntu/interfaces > /etc/network/interfaces
 touch /home/ubuntu/alert5-setup-finished-reboot-in-30s
+echo "alert5-setup-finished-reboot-in-30s"
 sleep 30
 reboot
 

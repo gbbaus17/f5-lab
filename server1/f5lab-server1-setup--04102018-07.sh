@@ -75,19 +75,15 @@ docker run -d -p 8003:80 --restart unless-stopped -e F5DEMO_APP=website -e F5DEM
 EOF
 
 sleep 2
-# Ensure NICs are set and persit reboot
-cat /home/ubuntu/interfaces > /etc/network/interfaces
 
-touch /home/ubuntu/alert4-setup-finished-reboot-in-30s
-sleep 30
-reboot
 
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
 
 # Ensure NICs are set and persit reboot
 cat /home/ubuntu/interfaces > /etc/network/interfaces
-touch /home/ubuntu/alert5-setup-finished-reboot-in-30s
+touch /home/ubuntu/alert4-setup-finished-reboot-in-30s
+echo "alert4-setup-finished-reboot-in-30s"
 sleep 30
 reboot
 
