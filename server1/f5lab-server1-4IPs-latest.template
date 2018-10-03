@@ -713,6 +713,14 @@
                 "Domain": "VPC"
             },
             "Type": "AWS::EC2::EIP",
+			"Properties" : {
+	                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "F5Lab:Server1:EIP"
+                    }
+                  ]	
+			 },			
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "27425d08-38fb-4d9f-8532-792a646c3a49"
