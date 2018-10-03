@@ -534,7 +534,7 @@
                                             "set-basic-auth on",
 											"sleep 5",
                                             "##SET DNS SERVER##",
-                                            "curl -X PATCH --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${CM_MGMT_ADDR}/mgmt/tm/sys/dns?ver=12.1.1 -H 'Content-Type: application/json' -d '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"localhost\"]}'",
+                                            "curl -X PATCH --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${CM_MGMT_ADDR}/mgmt/tm/sys/dns?ver=12.1.1 -H 'Content-Type: application/json' --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"localhost\"]}'",
                                             "sleep 2",
                                             "##PREP DOWNLOADED INPUT TEMPLATE FILE AND CREATE VLAN##",
                                             "sed -i \"s/VLAN1_NAME_VAR/${VLAN1_NAME}/g;s/VLAN1_TAG_VAR/${VLAN1_TAG}/g\" vlan1_create.json",
@@ -566,7 +566,7 @@
 											"curl https://${CM_MGMT_ADDR}/mgmt/shared/system/setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"isSystemSetup\":true}'",
 											"sleep 5",
 											"#SAVE",
-                                            "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${DCD_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' -d '{\"command\":\"save\"}'",
+                                            "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${DCD_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' --data '{\"command\":\"save\"}'",
 											"sleep 10",
 											"#RESTART",
 											"curl https://${CM_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"restart\":true}'",
@@ -754,7 +754,7 @@
                             }
                         },
                         "files": {
-                            "/config/cloud/setup-dcd-runme-first.sh": {
+                          "/config/cloud/setup-dcd-runme-first.sh": {
                                 "content": {
                                     "Fn::Join": [
                                         "\n",
@@ -845,7 +845,7 @@
                                             "set-basic-auth on",
 											"sleep 5",											
 											"#SET IP AND MANAGEMENT ROUTES",
-											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' --insecure --data '{\"hostname\":\"${HOSTNAME}\",\"managementIpAddress\":\"${DCD_MGMT_ADDR}/24\",\"managementRouteAddress\":\"10.1.1.1\"}'",
+											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/easy-setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' --insecure --data '{\"hostname\":\"${HOSTNAME}\",\"managementIpAddress\":\"${DCD_MGMT_ADDR}\"\"/24\",\"managementRouteAddress\":\"10.1.1.1\"}'",
 											"sleep 2",
 											"#SET DNS",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/tm/sys/dns -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"nameServers\":[\"8.8.8.8\"],\"search\":[\"ec2.internal\"]}'",
@@ -879,7 +879,7 @@
 											"#SYSTEM SETUP WIZARD FLAG",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/system/setup -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"isSystemSetup\":true}'",
 											"#SAVE",
-                                            "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${DCD_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' -d '{\"command\":\"save\"}'",
+                                            "curl -X POST --fail --silent --insecure --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} https://${DCD_MGMT_ADDR}/mgmt/tm/sys/config?ver=12.1.1 -H 'Content-Type: application/json' --data '{\"command\":\"save\"}'",
 											"sleep 10",
 											"#RESTART SERVICES",
 											"curl https://${DCD_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH --user ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json' --fail --silent --insecure --data '{\"restart\":true}'",

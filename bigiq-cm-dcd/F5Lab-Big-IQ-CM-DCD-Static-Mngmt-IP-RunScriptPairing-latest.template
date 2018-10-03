@@ -1079,7 +1079,7 @@
                 "Description": "BIG-IQ DCD Management Interface",
                 "GroupSet": [
                     {
-                        "Ref": "BigIqAllowAllSecurityGroup"
+                        "Ref": "BigIqManagementSecurityGroup"
                     }
                 ],
                 "SubnetId": {
