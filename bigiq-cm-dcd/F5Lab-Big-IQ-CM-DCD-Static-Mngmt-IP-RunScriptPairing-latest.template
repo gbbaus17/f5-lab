@@ -1313,7 +1313,7 @@
                 "Ref": "CmElasticIp"
             }
         },
-        "BigIqCmManagementInterfacePrivateIp": {
+        "BigIqCmManagementPrivateIp": {
             "Description": "Internal IP of Management Interfcae on BIG-IQ",
             "Value": {
                 "Fn::GetAtt": [
@@ -1322,10 +1322,19 @@
                 ]
             }
         },
-        "BigIqCmManagementInterface": {
-            "Description": "Management interface ID on BIG-IQ",
+        "BigIqDcdEipAddress": {
+            "Description": "IP address of the management port on BIG-IQ",
             "Value": {
-                "Ref": "BigIqCmMngmntInterfcae"
+                "Ref": "DcdElasticIp"
+            }
+        },
+        "BigIqDcdManagementPrivateIp": {
+            "Description": "Internal IP of Management Interfcae on BIG-IQ",
+            "Value": {
+                "Fn::GetAtt": [
+                    "BigIqDcdMngmntInterfcae",
+                    "PrimaryPrivateIpAddress"
+                ]
             }
         },
         "BigiqAdminPassword": {
