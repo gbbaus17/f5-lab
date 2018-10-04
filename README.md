@@ -16,6 +16,7 @@ Templates exists for
 4) Big-IQ v6.0.1
 
 **NOTE**
+
 For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to delete the assigned EIPs AFTER the BigIP has been created.
 
 Same for the 'LAMP Server'. 
