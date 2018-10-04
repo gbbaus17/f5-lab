@@ -197,14 +197,6 @@
                 "Domain": "VPC"
             },
             "Type": "AWS::EC2::EIP",
-			"Properties" : {
-	                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "F5Lab:JumpHost:EIP"
-                    }
-                  ]	
-			 },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "2d6ab2c0-0c12-40ac-9a74-5e3c65551098"
@@ -256,7 +248,13 @@
                 },
                 "NetworkInterfaceId": {
                     "Ref": "JumpHostEth0Interface"
-                }
+                },
+				"Tags": [
+				   {
+					"Key": "Name",
+					"Value": "F5Lab:JumpHost:EIP"
+				   }
+			   ]	
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {

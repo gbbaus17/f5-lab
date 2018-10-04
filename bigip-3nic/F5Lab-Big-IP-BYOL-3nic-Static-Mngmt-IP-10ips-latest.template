@@ -1178,14 +1178,6 @@
                 "Domain": "VPC"
             },
             "Type": "AWS::EC2::EIP",
-			"Properties" : {
-	                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "F5Lab:BigIP:Mngmt:EIP-Can:delete:after:setup"
-                    }
-                  ]	
-			 },			
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "92bf51aa-a0d8-4f4d-8276-9824f1f5efd3"
@@ -1202,8 +1194,14 @@
                 },
                 "NetworkInterfaceId": {
                     "Ref": "BigIp1ManagementInterface"
-                }
-            },
+                },
+				"Tags": [
+				   {
+					"Key": "Name",
+					"Value": "F5Lab:BigIP:Mngmt:EIP-Can:delete:after:setup"
+				   }
+				]	
+		    },
             "Type": "AWS::EC2::EIPAssociation",
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -1249,14 +1247,6 @@
                 "Domain": "VPC"
             },
             "Type": "AWS::EC2::EIP",
-			"Properties" : {
-	                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "F5Lab:BigIP:VIP1:EIP-Can:delete:after:setup"
-                    }
-                  ]	
-			 },			
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
@@ -1276,7 +1266,13 @@
                 },
                 "PrivateIpAddress": {
 				    "Ref": "AdditionalVipAddr01"
-                }
+                },
+				"Tags": [
+				   {
+					"Key": "Name",
+					"Value": "F5Lab:BigIP:VIP1:EIP-Can:delete:after:setup"
+				   }
+			   ]					
             },
             "Type": "AWS::EC2::EIPAssociation",
             "Metadata": {
@@ -1328,14 +1324,6 @@
                 "Domain": "VPC"
             },
             "Type": "AWS::EC2::EIP",
-			"Properties" : {
-	                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "F5Lab:BigIP:External:EIP-Can:delete:after:setup"
-                    }
-                  ]	
-			 },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "b3ef9593-6cef-4afd-85c6-d2f68144a251"
@@ -1358,7 +1346,13 @@
                         "BigIp1ExternalSubnetInterface",
                         "PrimaryPrivateIpAddress"
                     ]
-                }
+                },
+				"Tags": [
+				    {
+					"Key": "Name",
+					"Value": "F5Lab:BigIP:External:EIP-Can:delete:after:setup"
+				   }
+                ]					
             },
             "Type": "AWS::EC2::EIPAssociation",
             "Metadata": {
