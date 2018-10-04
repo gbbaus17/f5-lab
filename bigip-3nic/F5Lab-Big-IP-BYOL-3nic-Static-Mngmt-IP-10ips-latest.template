@@ -41,9 +41,9 @@
         "licenseKey1": {
             "AllowedPattern": "([\\x41-\\x5A][\\x41-\\x5A|\\x30-\\x39]{4})\\-([\\x41-\\x5A|\\x30-\\x39]{5})\\-([\\x41-\\x5A|\\x30-\\x39]{5})\\-([\\x41-\\x5A|\\x30-\\x39]{5})\\-([\\x41-\\x5A|\\x30-\\x39]{7})",
             "ConstraintDescription": "Verify your F5 BYOL regkey.",
-            "Description": "F5 BYOL license key",
-            "MaxLength": "255",
-            "MinLength": "1",
+            "Description": "F5 BYOL license key - For eval obtain from your F5 SE or use PAYG template",
+            "MaxLength": 255,
+            "MinLength": 1,
             "Type": "String"
         },
         "ManagementSubnet": {
@@ -61,8 +61,8 @@
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x/x.",
             "Default": "0.0.0.0/0",
             "Description": " The IP address range used to SSH and access managment GUI on the EC2 instances",
-            "MaxLength": "18",
-            "MinLength": "9",
+            "MaxLength": 18,
+            "MinLength": 9,
             "Type": "String"
         },
         "restrictedSrcAddressApp": {
@@ -70,8 +70,8 @@
             "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x/x.",
             "Default": "0.0.0.0/0",
             "Description": " The IP address range that can be used to access web traffic to the EC2 instances",
-            "MaxLength": "18",
-            "MinLength": "9",
+            "MaxLength": 18,
+            "MinLength": 9,
             "Type": "String"
         },
         "sshKey": {
