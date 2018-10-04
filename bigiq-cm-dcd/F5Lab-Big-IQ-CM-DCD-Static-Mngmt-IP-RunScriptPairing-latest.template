@@ -307,8 +307,8 @@
         },
         "CustomImageId": {
             "ConstraintDescription": "Must be a valid AMI Id",
-            "Default": "ami-075f269e21d926462",
-            "Description": "Please specify the a v6.x.latest AMI Id that you have Agreed to T&Cs [default=6.0.1 N.Virginia]",
+            "Default": "ami-06f4512c73253cfce",
+            "Description": "Please specify the a v6.x.latest AMI Id that you have Agreed to T&Cs [N.VA=ami-06f4512c73253cfce; SYD=ami-069b21b3347773840]",
             "MaxLength": 255,
             "MinLength": 1,
             "Type": "String"
