@@ -58,7 +58,8 @@ To deploy this CFT in AWS, complete the following steps.
    # setup-cm-runme-second.sh
    ```
 
-   * Let the scripts finish before moving to the next step.
-
    *Expected time: ~7 min*
    
+
+   Once done you can release the Public EIPs that you no longer need, especially if your environemnt is all contained in the Lab VPC and accessed from the JumpHost.
+ 
