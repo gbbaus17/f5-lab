@@ -16,7 +16,7 @@ Templates exists for
 4) Big-IQ v6.0.1
 
 ******NOTE******
-For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to delete some of the assigned EIPs AFTER the BigIP has been created.
+For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to delete the assigned EIPs AFTER the BigIP has been created.
 
 Same for the 'LAMP Server'. 
 It only needs a public IP during creation time. After that you can delete the EIP and access from the Jumphost

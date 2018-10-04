@@ -704,7 +704,6 @@
                                             "--wait-for ADMIN_CREATED ",
                                             "--signal NETWORK_CONFIG_DONE ",
                                             "--vlan name:external,nic:1.1 ",
-                                            "--default-gw ${GATEWAY} ",
                                             "--self-ip name:external-self,address:",
                                             {
                                                 "Fn::GetAtt": [
@@ -1236,39 +1235,6 @@
                 }
             }
         },
-        "BigIp1VipEipAddress": {
-            "Properties": {
-                "Domain": "VPC"
-            },
-            "Type": "AWS::EC2::EIP",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
-                }
-            }
-        },
-        "BigIp1VipEipAssociation": {
-            "Properties": {
-                "AllocationId": {
-                    "Fn::GetAtt": [
-                        "BigIp1VipEipAddress",
-                        "AllocationId"
-                    ]
-                },
-                "NetworkInterfaceId": {
-                    "Ref": "BigIp1ExternalSubnetInterface"
-                },
-                "PrivateIpAddress": {
-				    "Ref": "AdditionalVipAddr01"
-                }					
-            },
-            "Type": "AWS::EC2::EIPAssociation",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "d7468fd4-001a-4f2b-b0df-cac0767611bc"
-                }
-            }
-        },
         "BigIp1ExternalSubnetInterface": {
             "Properties": {
                 "Description": "External Interface for the BIG-IP",
@@ -1304,42 +1270,6 @@
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "3cbfa9c8-a6da-40fb-ba48-5a2c1aab08ae"
-                }
-            }
-        },
-        "BigIp1ExternalSubnetSelfEipAddress": {
-            "Properties": {
-                "Domain": "VPC"
-            },
-            "Type": "AWS::EC2::EIP",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "b3ef9593-6cef-4afd-85c6-d2f68144a251"
-                }
-            }
-        },
-        "BigIp1ExternalSubnetSelfEipAssociation": {
-            "Properties": {
-                "AllocationId": {
-                    "Fn::GetAtt": [
-                        "BigIp1ExternalSubnetSelfEipAddress",
-                        "AllocationId"
-                    ]
-                },
-                "NetworkInterfaceId": {
-                    "Ref": "BigIp1ExternalSubnetInterface"
-                },
-                "PrivateIpAddress": {
-                    "Fn::GetAtt": [
-                        "BigIp1ExternalSubnetInterface",
-                        "PrimaryPrivateIpAddress"
-                    ]
-                }					
-            },
-            "Type": "AWS::EC2::EIPAssociation",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "a0be736d-0240-476c-9eba-f9ea99d9d4da"
                 }
             }
         },
@@ -1619,39 +1549,10 @@
                 ]
             }
         },
-        "BigIp1VipEipAddress": {
-            "Description": "Future EIP address for VIP",
-            "Value": {
-                "Fn::Join": [
-                    "",
-                    [
-                        "https://",
-                        {
-                            "Ref": "BigIp1VipEipAddress"
-                        }
-                    ]
-                ]
-            }
-        },
         "BigIp1ExternalSubnetInterface": {
             "Description": "External interface Id on BIG-IP",
             "Value": {
                 "Ref": "BigIp1ExternalSubnetInterface"
-            }
-        },
-        "BigIp1ExternalSubnetSelfEipAddress": {
-            "Description": "IP Address of the External interface attached to BIG-IP",
-            "Value": {
-                "Ref": "BigIp1ExternalSubnetSelfEipAddress"
-            }
-        },
-        "availabilityZone1": {
-            "Description": "Availability Zone",
-            "Value": {
-                "Fn::GetAtt": [
-                    "BigIp1Instance",
-                    "AvailabilityZone"
-                ]
             }
         },
         "BigIpExternalSecurityGroup": {
