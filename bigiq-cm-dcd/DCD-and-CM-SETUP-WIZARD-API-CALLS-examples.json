@@ -283,6 +283,7 @@ RESTART
 curl https://${CM_MGMT_ADDR}/mgmt/shared/failover-state -X PATCH -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{\"restart\":true}'
 
 
+curl -X PUT https://${CM_MGMT_ADDR}/mgmt/shared/authz/users/admin/ui-preferences -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"key":"USERPREFS","value":{"navigation_lastlayout":"/ui/system/default"}}'
 
 
 ======================
@@ -298,6 +299,10 @@ curl https://${CM_MGMT_ADDR}/mgmt/cm/shared/esmgmt/add-node -X POST -u ${BIGIQ_A
 
 
 
+===========
+
+
+curl -X PUT https://${DCD_MGMT_ADDR}/mgmt/shared/authz/users/admin/ui-preferences -u ${BIGIQ_ADMIN_USER}:${BIGIQ_PWD} -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --insecure --data '{"key":"USERPREFS","value":{"navigation_lastlayout":"/ui/system/default"}}' 
 
 
 
