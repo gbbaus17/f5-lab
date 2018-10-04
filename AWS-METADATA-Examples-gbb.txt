@@ -1,0 +1,93 @@
+AWS
+
+ami-id
+placement/availability-zone/
+
+ami-launch-index
+ami-manifest-path
+block-device-mapping/
+
+instance-action
+instance-id
+instance-type
+
+mac
+network/interfaces/macs/
+x:x:x:x:x:x/
+	device-number
+	interface-id
+	ipv4-associations/
+	local-hostname
+	local-ipv4s
+	mac
+	owner-id
+	public-hostname
+	public-ipv4s
+	security-group-ids
+	security-groups
+	subnet-id
+	subnet-ipv4-cidr-block
+	vpc-id
+	vpc-ipv4-cidr-block
+
+
+product-codes
+profile
+
+hostname
+local-hostname
+local-ipv4
+public-hostname
+public-ipv4
+
+public-keys/
+reservation-id
+security-groups
+
+
+Examples:
+
+
+  "HOSTNAME= `curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/hostname`"		
+		   
+  
+   "GATEWAY_MAC=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`; ",
+   "GATEWAY_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC}/subnet-ipv4-cidr-block`; ",
+   
+      "GATEWAY_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/0a:e6:de:13:8e:4a/subnet-ipv4-cidr-block`; ",
+   
+   "GATEWAY_NET=${GATEWAY_CIDR_BLOCK%/*}; ",
+   "GATEWAY_PREFIX=${GATEWAY_CIDR_BLOCK#*/}; ",
+   "GATEWAY=`echo ${GATEWAY_NET} | awk -F. '{ print $1\".\"$2\".\"$3\".\"$4+1 }'`; ",
+   "GATEWAY_MAC2=`ifconfig eth2 | egrep HWaddr | awk '{print tolower($5)}'`; ",
+		   
+
+MYLOCALIP=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/local-ipv4`
+MYGATEWAY=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/local-ipv4 | awk -F. '{ print $1"."$2"."$3".1" }'`
+GATEWAY=`echo ${MYLOCALIP} | awk -F. '{ print $1"."$2"."$3".1" }'`
+
+
+		   
+  "GATEWAY_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC}/subnet-ipv4-cidr-block`"
+					  
+  "GATEWAY_CIDR_BLOCK2=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC2}/subnet-ipv4-cidr-block`"
+
+  "VPC_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${INTERFACE_MAC}/vpc-ipv4-cidr-block`"  
+  
+  
+    "SIMPLE_IP_ADDDR=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`; ",  cut -d "/"
+	
+	curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/local-ipv4
+	
+	
+	curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/0a:e6:de:13:8e:4a/subnet-ipv4-cidr-block | awk '{print tolower($2)}'; ",  cut -d "/"
+	
+	
+	"curl -X PATCH -sk -u admin:SuperSecret01! https://10.1.1.243/mgmt/tm/sys/ntp -H "Content-Type: application/json" -d "{"servers":["0.pool.ntp.org"],"timezone":"${TZ}"}"",
+	
+	curl -X POST -sk -u admin:SuperSecret01! https://10.1.1.243/mgmt/tm/sys/ntp -H 'Content-Type: application/json' -d '{"servers":["1.pool.ntp.org"],"timezone":"GMT"}'
+	
+	
+	
+
+	
