@@ -607,7 +607,7 @@
 										"sleep 5",
 										"echo \"Finished\"",
 										"set-basic-auth off",
-										"echo \"You can reboot\"",
+										"echo \"You can reboot\""
 										]
                                     ]
                                 },
