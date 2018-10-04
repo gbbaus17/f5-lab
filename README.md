@@ -15,12 +15,13 @@ Templates exists for
 3) Jumphost with utils(External)
 4) Big-IQ v6.0.1
 
-******NOTE******
+**NOTE**
 For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to delete the assigned EIPs AFTER the BigIP has been created.
 
 Same for the 'LAMP Server'. 
 It only needs a public IP during creation time. After that you can delete the EIP and access from the Jumphost
-***************
+
+********************************
 
 Each template has an OUTPUT section and the EC2 Tags also give connectivity info.
 Also default passwords (f5DEMOs4u!) are created and it is recommended you change these.
@@ -38,7 +39,7 @@ Before you begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5LabTopology&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
 
- - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, Standalone Big-IPwith 10 IPs for lab use 
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, Standalone Big-IPwith 10 IPs for lab use 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIP-byol-3nic&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-BYOL-3nic-Static-Mngmt-IP-10ips-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
