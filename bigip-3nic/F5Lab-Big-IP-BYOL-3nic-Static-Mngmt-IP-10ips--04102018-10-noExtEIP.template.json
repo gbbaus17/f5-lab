@@ -704,7 +704,6 @@
                                             "--wait-for ADMIN_CREATED ",
                                             "--signal NETWORK_CONFIG_DONE ",
                                             "--vlan name:external,nic:1.1 ",
-                                            "--default-gw ${GATEWAY} ",
                                             "--self-ip name:external-self,address:",
                                             {
                                                 "Fn::GetAtt": [
