@@ -730,13 +730,7 @@
                 },
                 "NetworkInterfaceId": {
                     "Ref": "Server1Eth0Interface"
-                },
-				"Tags": [
-				{
-					"Key": "Name",
-					"Value": "F5Lab:Server1:EIP"
-				}
-			  ]	
+                }	
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {

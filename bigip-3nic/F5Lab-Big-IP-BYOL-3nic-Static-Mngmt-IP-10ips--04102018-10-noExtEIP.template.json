@@ -1307,42 +1307,6 @@
                 }
             }
         },
-        "BigIp1ExternalSubnetSelfEipAddress": {
-            "Properties": {
-                "Domain": "VPC"
-            },
-            "Type": "AWS::EC2::EIP",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "b3ef9593-6cef-4afd-85c6-d2f68144a251"
-                }
-            }
-        },
-        "BigIp1ExternalSubnetSelfEipAssociation": {
-            "Properties": {
-                "AllocationId": {
-                    "Fn::GetAtt": [
-                        "BigIp1ExternalSubnetSelfEipAddress",
-                        "AllocationId"
-                    ]
-                },
-                "NetworkInterfaceId": {
-                    "Ref": "BigIp1ExternalSubnetInterface"
-                },
-                "PrivateIpAddress": {
-                    "Fn::GetAtt": [
-                        "BigIp1ExternalSubnetInterface",
-                        "PrimaryPrivateIpAddress"
-                    ]
-                }					
-            },
-            "Type": "AWS::EC2::EIPAssociation",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "a0be736d-0240-476c-9eba-f9ea99d9d4da"
-                }
-            }
-        },
         "BigIpExternalSecurityGroup": {
             "Properties": {
                 "GroupDescription": "Public or external interface rules",
@@ -1637,12 +1601,6 @@
             "Description": "External interface Id on BIG-IP",
             "Value": {
                 "Ref": "BigIp1ExternalSubnetInterface"
-            }
-        },
-        "BigIp1ExternalSubnetSelfEipAddress": {
-            "Description": "IP Address of the External interface attached to BIG-IP",
-            "Value": {
-                "Ref": "BigIp1ExternalSubnetSelfEipAddress"
             }
         },
         "availabilityZone1": {

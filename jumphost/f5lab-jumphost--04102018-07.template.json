@@ -248,13 +248,7 @@
                 },
                 "NetworkInterfaceId": {
                     "Ref": "JumpHostEth0Interface"
-                },
-				"Tags": [
-				   {
-					"Key": "Name",
-					"Value": "F5Lab:JumpHost:EIP"
-				   }
-			   ]	
+                }	
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {

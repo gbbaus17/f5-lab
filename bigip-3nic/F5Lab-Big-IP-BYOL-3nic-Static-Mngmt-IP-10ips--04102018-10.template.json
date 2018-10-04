@@ -1194,13 +1194,7 @@
                 },
                 "NetworkInterfaceId": {
                     "Ref": "BigIp1ManagementInterface"
-                },
-				"Tags": [
-				   {
-					"Key": "Name",
-					"Value": "F5Lab:BigIP:Mngmt:EIP-Can:delete:after:setup"
-				   }
-				]	
+                }	
 		    },
             "Type": "AWS::EC2::EIPAssociation",
             "Metadata": {
@@ -1266,13 +1260,7 @@
                 },
                 "PrivateIpAddress": {
 				    "Ref": "AdditionalVipAddr01"
-                },
-				"Tags": [
-				   {
-					"Key": "Name",
-					"Value": "F5Lab:BigIP:VIP1:EIP-Can:delete:after:setup"
-				   }
-			   ]					
+                }					
             },
             "Type": "AWS::EC2::EIPAssociation",
             "Metadata": {
@@ -1346,13 +1334,7 @@
                         "BigIp1ExternalSubnetInterface",
                         "PrimaryPrivateIpAddress"
                     ]
-                },
-				"Tags": [
-				    {
-					"Key": "Name",
-					"Value": "F5Lab:BigIP:External:EIP-Can:delete:after:setup"
-				   }
-                ]					
+                }					
             },
             "Type": "AWS::EC2::EIPAssociation",
             "Metadata": {
