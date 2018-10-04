@@ -5,7 +5,7 @@ With F5® BIG-IQ® Centralized Management (CM), you can securely manage traffic 
 
 From a centralized view, you can monitor the health and statistics of your applications as well as devices that are load balancing traffic and hosting applications. You can also set up alert thresholds to immediately notify you of certain events.
 
-This CloudFormation Template (CFT) creates  a BIG-IQ CM instance to configure and orchestrate instances of BIG-IP VE, and a BIG-IQ Data Collection Device (DCD) to store analytics data.  
+This CloudFormation Template (CFT) creates  a BIG-IQ CM and a BIG-IQ Data Collection Device (DCD) to store analytics data.  
 
 
 Instructions 
