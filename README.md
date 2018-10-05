@@ -7,7 +7,7 @@ This GitHub repository allows you to quickly create a Lab environment in AWS to 
 For information on getting started using F5's CFT templates on GitHub, see [Amazon Web Services: Solutions 101](http://clouddocs.f5.com/cloud/public/v1/aws/AWS_solutions101.html) and the README files in each directory.  
 
 
-In brief: Make sure you are logged into AWS, have AWS keys created and will need to agree to T&Cs on images before launch
+**In brief:** Make sure you are logged into AWS, have AWS keys created and will need to agree to T&Cs on images before launch
 
 
 Templates exists for 
