@@ -15,7 +15,7 @@
         "CustomImageId": {
             "ConstraintDescription": "Must be a valid AMI Id",
             "Default": "ami-04e893bab1e8b9b10",
-            "Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs [N.VA=ami-04e893bab1e8b9b10; SYD=ami-098d744be7a18d539]",
+            "Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs [N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
             "MaxLength": 255,
             "MinLength": 1,
             "Type": "String"
