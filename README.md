@@ -10,7 +10,7 @@ For information on getting started using F5's CFT templates on GitHub, see [Amaz
 **In brief:** Make sure you are logged into AWS, have AWS keys created and will need to agree to T&Cs on images before launch
 
 
-Templates exists for 
+Templates exists for  
 
 0) Topology  (3 lab subnets - run first) 
 1) Big-IP v14.0 (attaches to above topology) 
