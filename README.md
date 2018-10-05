@@ -27,8 +27,10 @@ It only needs a public IP during creation time. After that you can delete the EI
 
 ********************************
 
-Each template has an OUTPUT section and the EC2 Tags also give connectivity info.
-Also default passwords (f5DEMOs4u!) are created and it is recommended you change these.
+Each template has an **OUTPUT** section and the EC2 Tags also give connectivity info. 
+(Modify template in Desinger if you want to ammend 'Output')
+
+Also default passwords **(f5DEMOs4u!)** are created and it is recommended you change these.
 
 Before you begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x2:CM+DCD) 
 
