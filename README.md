@@ -2,18 +2,20 @@
 
 ## Introduction
 
-This GitHub repository allows you to quickly create a Lab environment in AWS to run through the labs at https://clouddocs.f5.com/training/community/
+This GitHub repository allows you to quickly create a Lab environment in AWS to run through the labs at https://clouddocs.f5.com/training/community/ 
 
 For information on getting started using F5's CFT templates on GitHub, see [Amazon Web Services: Solutions 101](http://clouddocs.f5.com/cloud/public/v1/aws/AWS_solutions101.html) and the README files in each directory.  
 
 
+In brief: Make sure you are logged into AWS, have AWS keys created and will need to agree to T&Cs on images before launch
 
-Templates exists for
-0) Topology  (3 lab subnets) 
-1) Big-IP v14.0 
-2) LAMP Server (Internal)
-3) Jumphost with utils(External)
-4) Big-IQ v6.0.1
+
+Templates exists for 
+0) Topology  (3 lab subnets - run first) 
+1) Big-IP v14.0 (attaches to above topology) 
+2) LAMP Server (Sits on Internal vlan) 
+3) Jumphost with utils(Sits on External vlan - this is the entry into Lab) 
+4) Big-IQ v6.0.1 (optional) 
 
 **NOTE**
 
