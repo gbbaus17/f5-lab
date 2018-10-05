@@ -61,7 +61,7 @@ Before you begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=BigIQ-60&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
-    - NOTE: After launch you need to run setup scripts on DCD then CM
+    - NOTE: For Big-IQ, After launch you need to connect/ssh and run setup scripts on DCD then CM
    
   
 ---
