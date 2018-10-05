@@ -27,8 +27,8 @@ It only needs a public IP during creation time. After that you can delete the EI
 
 ********************************
 
-Each template has an **OUTPUT** section and the EC2 Tags also give connectivity info.  
- - (Modify template in Desinger if you want to ammend 'Output')
+Each template has an **OUTPUT** section of Template and the **EC2 Tags** in Dashboard gives connectivity info.  
+ - (Tip: You can Modify the template in Desinger before launch if you want to remove the final 'Output' info and can edit the Tags in EC2 console if you dont want that info to show - put there for ease of use with Lab)
 
 Also default passwords **(f5DEMOs4u!)** are created and it is recommended you change these.
 
