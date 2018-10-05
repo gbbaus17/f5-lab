@@ -6,8 +6,6 @@
  - [Prerequisites](#prerequisites)
  - [Important Configuration Notes](#important-configuration-notes)
  - [Security](#security)
- - [Getting Help](#getting-help)
- - [Deploying the solution](#deploying-the-f5-3-nic-solution)
  - [Service Discovery](#service-discovery)
  - [Configuration Example](#configuration-example)
 
@@ -116,7 +114,7 @@ For assistance running the iApp template, once you open the iApp, from the *Do y
 ## Configuration Example
 
 The following is a simple configuration diagram for this 3-NIC deployment. In this diagram, the IP addresses are provided as examples.<br>
-![3-NIC configuration example](../../images/aws-3-nic.png)
+![3-NIC configuration example](/F5-Lab/bigip-3nic/picture/aws-3-nic.png)
 
 ### More documentation
 For more information on F5 solutions for AWS, including manual configuration instructions for many of our AWS templates, see our Cloud Docs site: http://clouddocs.f5.com/cloud/public/v1/.
