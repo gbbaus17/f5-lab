@@ -7,7 +7,7 @@
  - [Important Configuration Notes](#important-configuration-notes)
  - [Security](#security)
  - [Service Discovery](#service-discovery)
- - [Configuration Example](#configuration-example)
+ - [Logging iApp](#logging-iapp)
 
 ## Introduction
  
@@ -94,7 +94,7 @@ In order to pass traffic from your clients to the servers through the BIG-IP sys
 9. Repeat as necessary.
 
 
-### Logging iApp
+## Logging iApp
 
 F5 has created an iApp for configuring logging for BIG-IP modules to be sent to a specific set of cloud analytics solutions. The iApp creates logging profiles which can be attached to the appropriate objects (virtual servers, APM policy, and so on) which results in logs being sent to the selected cloud analytics solution, Azure in this case.
 
@@ -111,10 +111,6 @@ Use the following guidance using the iApp template (the iApp now is present on t
 
 For assistance running the iApp template, once you open the iApp, from the *Do you want to see inline help?* question, select **Yes, show inline help**.
 
-## Configuration Example
-
-The following is a simple configuration diagram for this 3-NIC deployment. In this diagram, the IP addresses are provided as examples.<br>
-![3-NIC configuration example](/picture/aws-3-nic.png)
 
 ### More documentation
 For more information on F5 solutions for AWS, including manual configuration instructions for many of our AWS templates, see our Cloud Docs site: http://clouddocs.f5.com/cloud/public/v1/.
