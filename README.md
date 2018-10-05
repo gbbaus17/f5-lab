@@ -5,7 +5,7 @@
 This GitHub repository allows you to quickly create a Lab environment in AWS to run through the labs at https://clouddocs.f5.com/training/community/ 
 
 
-The CFTs 'foundations' are from F5 and Community contributed sources. The CFT coupling and logic has been modified by me [g.boniface@f5.com] to allow a lab environemnt to be easily created
+The CFTs 'foundations' are from F5 and Community contributed sources. The CFT coupling and logic has been modified by me to allow a lab environemnt to be easily created [mailto: g.boniface AT f5.com]
 
 
 For information on getting started using F5's CFT templates on GitHub, see [Amazon Web Services: Solutions 101](http://clouddocs.f5.com/cloud/public/v1/aws/AWS_solutions101.html) and the README files in each directory.  
