@@ -35,7 +35,7 @@ Also default passwords **(f5DEMOs4u!)** are created and it is recommended you ch
 Before you begin you will need some demo/eval keys for Big-IP (x1) and Big-IQ (x2:CM+DCD) 
 
 
-**Important**: You may have to select the AWS region in which you want to deploy after clicking the Launch Stack button
+**Important**: You will have to select the **AWS region** (eg Sydney) in which you want to deploy after clicking the **Launch Stack** button
 <bra><br>
 
 
