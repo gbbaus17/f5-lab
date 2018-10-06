@@ -21,27 +21,25 @@
 
 touch /home/ubuntu/alert3-server-install-started-wait-about-10-15min
 
-# Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/ssh_config
+# MODIFY SSH
+SERVER_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
+sleep 2
 
-ListenAddress 0.0.0.0
+# Disable SSH Host Key Checking for hosts in the lab
+sudo cat << 'EOF' >> /etc/ssh/ssh_config
+    ListenAddress 0.0.0.0
 
 Host 10.*.*.*
-   StrictHostKeyChecking no
-   RSAAuthentication no
-   PubkeyAuthentication no
-   PasswordAuthentication yes   
-   LogLevel ERROR
+    StrictHostKeyChecking no
+    RSAAuthentication no
+    PubkeyAuthentication no
+    PasswordAuthentication yes
+    LogLevel ERROR
 
 EOF
 
-
-# Find ip address set on eth1
-SERVER_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
-sleep 2
 # Change ListenAddress
-sudo sed -i 's/0.0.0.0/${SERVER_ETH1}/g' /etc/ssh/sshd_config
-
+sudo sed -i "s/0\.0\.0\.0/$SERVER_ETH1/g" /etc/ssh/ssh_config
 
 # Install dnsmasq
 apt-get install -y dnsmasq
