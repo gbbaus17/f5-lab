@@ -1,0 +1,138 @@
+
+
+#Class 1: F5 WAF: Practical Intro to L7 Security
+#https://clouddocs.f5.com/training/community/waf/html/class1/module1/module1.html
+10.128.10.200 hackazon.f5demo.com_https_vs
+10.128.10.200 hackazon.f5demo.com
+10.128.10.200 hackazon.f5demo.com_http_vs
+10.128.10.210  ip_rep_target_https_vs
+10.1.10.150 app1.f5demo.com
+
+
+
+
+#Class 3: ASM 141 - Good WAF Security, Getting started with ASM
+#https://clouddocs.f5.com/training/community/waf/html/class3/class3.html
+10.1.10.145	webgoat.f5demo.com
+10.1.10.145	webgoat.f5demo.com_https_vs
+10.1.10.146	webgoat.f5demo.com_https_overlay_vs
+10.1.10.	webgoat.f5demo.com_http_vs
+10.1.10.	automation_vs
+10.1.10.150	automation_vs
+
+
+10.1.10.150 app1.f5demo.com
+
+
+
+
+Linux Client (client01)	10.1.1.51	10.1.10.51	N/A	https-ubuntu:ubuntu
+Bigip (bigip01)	10.1.1.245	10.1.10.245	10.1.20.245	https - admin:f5DEMOs4u! ssh - f5student:f5DEMOs4u!
+Linux Server & WebGOAT app (server01)	10.1.1.252	N/A	10.1.20.252	ssh - f5student:f5DEMOs4u
+
+
+
+LTM iRule: webgoat_irule
+
+when HTTP_REQUEST {
+   HTTP::header replace X-Forwarded-For "[expr (int(rand()*221)+1)].[expr int(rand()*254)].[expr int(rand()*254)].[expr int(rand()*254)]"
+}
+
+
+LTM iRule: webgoat_overlay 
+
+
+https://clouddocs.f5.com/training/community/waf/html/class4/class4.html
+
+
+
+Linux Client (client01)	10.1.1.51	10.1.10.51	N/A	https-f5student:f5DEMOs4u!
+Bigip (bigip01)	10.1.1.245	10.1.10.245	10.1.20.245	https - admin:password ssh - f5student:f5DEMOs4u!
+Linux Server (server01)	10.1.1.252	N/A	10.1.20.252	ssh - f5student:f5DEMOs4u!
+Kali (Kali-BaDOS)	10.1.1.245	10.1.10.100 / 10.1.10.200	N/A	ssh - f5student:password
+Linux Server (LAMPv4)	10.1.1.250	N/A	10.1.20.250	N/A
+
+
+10.1.10.51	client01
+10.1.1.245 	bigip01
+10.1.20.252	server01
+10.1.10.100 Kali-BaDOS
+10.1.10.200	Kali-BaDOS
+10.1.20.250	LAMPv4
+
+10.1.1.10 Kali client
+
+10.1.10.145:80 asm_vs
+ 
+ 
+
+
+
+Linux Client (Client01):
+
+Web Attack Tools:
+Burp Suite Community Edition - HTTP Request Manipulation
+iMacros - Web Scraping
+ab (Apache Bench) - HTTP Load Testing
+Kali Client (Kali-BaDOS):
+
+ab (Apache Bench) - HTTP Load Testing
+Linux Server (Server01):
+
+WebGoat 8 - deliberately insecure application
+LAMP Server (LAMPv4):
+
+Hackazon - deliberately insecure application
+BIG-IP (bigip01):
+
+Local Traffic Manager
+Application Security Manager / Advanced WAF
+
+
+
+
+https://f5-agility-labs-waf.readthedocs.io/en/latest/class5/labinfo/labinfo.html
+
+
+Linux client (client01):
+
+Web Attack Tools: (Only used in 141,241,341 classes)
+Goldeneye - HTTP DOS Tool
+Metasploit - Pen testing framework
+nmap/nping - Network mapper
+Slowhttptest - HTTP DOS Tool
+wapiti - web application auditor
+w3af - web application auditor
+Burp Suite Community Edition - HTTP Request Manipulation
+
+Api Tools: (Only used in 342 Programmability class)
+Ansible - Automation platform
+curl - command line webclient, will be used to interact with the iControl Rest API
+Postman - Graphical based Restful Client, will be used to interact with the iControl Rest API
+python - general programming language used to interact with the iControl Rest API
+
+
+Linux server (server01): (Only used in 141,241,341 classes)
+
+WebGoat 8 - deliberately insecure web application
+
+
+
+
+# FPS: https://clouddocs.f5.com/training/community/fps/html/class1/labinfo.html
+
+external_user / password.
+
+
+Client 10.1.10.199
+10.1.10.240 Bigip
+10.1.10.248 DCD
+10.1.10.249 CM
+10.1.10.252 LAMP -- running dvwa
+
+www.hackingsite.com
+
+ 10.1.10.16  bank.vlab.f5demos.com   demobank
+
+
+
