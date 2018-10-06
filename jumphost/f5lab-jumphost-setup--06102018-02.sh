@@ -16,12 +16,17 @@ set -x
 #ifconfig eth0 10.1.10.51 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
+# Find ip address set on eth1
+JUMPHOST_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
+
 # Disable SSH Host Key Checking for hosts in the lab
 cat << 'EOF' >> /etc/ssh/ssh_config
 
+ListenAddress ${JUMPHOST_ETH1}
+
 Host 10.*.*.*
    StrictHostKeyChecking no
-   UserKnownHostsFile /dev/null
+   PasswordAuthentication yes
    LogLevel ERROR
 
 EOF
