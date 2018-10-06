@@ -72,6 +72,12 @@ sleep 5
 echo "f5student:f5DEMOs4u!" | chpasswd
 echo "external_user:f5DEMOs4u!" | chpasswd
 
+
+#Download and install webgoat as per https://github.com/WebGoat/WebGoat
+curl https://raw.githubusercontent.com/WebGoat/WebGoat/develop/docker-compose.yml | docker-compose -f - up
+
+sleep 60
+
 # Start the f5-demo-httpd container
 cat << 'EOF' > /etc/rc.local
 #!/bin/sh -e
@@ -88,6 +94,9 @@ sleep 2
 
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
+
+# Allow ubuntu user to access docker images
+chmod 775 -R /var/lib/docker/image
 
 # Ensure NICs are set and persit reboot
 cat /home/ubuntu/interfaces > /etc/network/interfaces
