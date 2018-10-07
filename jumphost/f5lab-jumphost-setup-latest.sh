@@ -319,6 +319,22 @@ sleep 1
 chmod 755 /home/ubuntu/Desktop/SSH_Server1.desktop
 
 
+touch /home/ubuntu/Desktop/DSVM.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/WAF_attacks.desktop
+[Desktop Entry]
+Version=1.0
+Type=Link
+Name=DSVM WAF Attacks
+Comment=
+Icon=google-chrome
+URL=http://localhost:65412
+
+EOF
+
+sleep 1
+chmod 755 /home/ubuntu/Desktop/WAF_attacks.desktop
+
+
 #File to make 'tab complete' work
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping

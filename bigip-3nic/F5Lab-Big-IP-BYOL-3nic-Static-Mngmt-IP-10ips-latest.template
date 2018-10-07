@@ -124,92 +124,92 @@
             "MinLength": 7,
             "Type": "String"
         },
-		"AdditionalVipAddr01": {
+		"AdditionalVipAddr15": {
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+            "Default": "10.1.10.15",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.15",
+            "MaxLength": 15,
+            "MinLength": 7,
+            "Type": "String"
+        },		
+		"AdditionalVipAddr16": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
             "Default": "10.1.10.16",
-            "Description": "First/Single EC2 address to be used as VIP address eg: 10.1.10.16",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.16",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
         },
-		"AdditionalVipAddr02": {
+		"AdditionalVipAddr30": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.17",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.17",
+            "Default": "10.1.10.30",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.30",
+            "MaxLength": 15,
+            "MinLength": 7,
+            "Type": "String"
+        },
+		"AdditionalVipAddr32": {
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+            "Default": "10.1.10.32",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.32",
+            "MaxLength": 15,
+            "MinLength": 7,
+            "Type": "String"
+        },
+		"AdditionalVipAddr100": {
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+            "Default": "10.1.10.100",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.100",
+            "MaxLength": 15,
+            "MinLength": 7,
+            "Type": "String"
+        },		
+		"AdditionalVipAddr145": {
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+            "Default": "10.1.10.145",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.145",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
         },	
-		"AdditionalVipAddr03": {
+		"AdditionalVipAddr146": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.18",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.18",
+            "Default": "10.1.10.146",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.146",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
         },
-		"AdditionalVipAddr04": {
+		"AdditionalVipAddr150": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.19",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.19",
+            "Default": "10.1.10.150",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.150",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
         },
-		"AdditionalVipAddr05": {
+		"AdditionalVipAddr200": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.20",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.20",
+            "Default": "10.1.10.200",
+            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.200",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
         },
-		"AdditionalVipAddr06": {
+		"AdditionalVipAddr210": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
             "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.21",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.21",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr07": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.22",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.22",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr08": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.23",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.23",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr09": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.24",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.24",
-            "MaxLength": 15,
-            "MinLength": 7,
-            "Type": "String"
-        },
-		"AdditionalVipAddr10": {
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-            "ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-            "Default": "10.1.10.25",
-            "Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.25",
+            "Default": "10.1.10.210",
+            "Description": "Additional EC2 address to be used as VIP address: 10.1.10.210",
             "MaxLength": 15,
             "MinLength": 7,
             "Type": "String"
@@ -318,16 +318,16 @@
                         "default": "Avaliable Virtual server Addresses"
                     },
                     "Parameters": [
-						"AdditionalVipAddr01",
-						"AdditionalVipAddr02",
-						"AdditionalVipAddr03",
-						"AdditionalVipAddr04",
-						"AdditionalVipAddr05",
-						"AdditionalVipAddr06",
-						"AdditionalVipAddr07",
-						"AdditionalVipAddr08",
-						"AdditionalVipAddr09",
-						"AdditionalVipAddr10"
+						"AdditionalVipAddr15",
+						"AdditionalVipAddr16",
+						"AdditionalVipAddr30",
+						"AdditionalVipAddr32",
+						"AdditionalVipAddr100",
+						"AdditionalVipAddr145",
+						"AdditionalVipAddr146",
+						"AdditionalVipAddr150",
+						"AdditionalVipAddr200",
+						"AdditionalVipAddr210"
                     ]
                 }
             ],
@@ -398,36 +398,36 @@
                 "BigipFpsLabSelfIP": {
                     "default": "BigIp FPS Lab Self-IP"
                 },
-                "AdditionalVipAddr01": {
-                    "default": "FPS Lab VIP Addr"
+               "AdditionalVipAddr15": {
+                    "default": "Additional VIP .15"
                 },
-                "AdditionalVipAddr02": {
-                    "default": "Additional VIP 2"
+                "AdditionalVipAddr16": {
+                    "default": "FPS Lab VIP Addr .16"
+                },				
+                "AdditionalVipAddr30": {
+                    "default": "Additional VIP .30"
                 },
-                "AdditionalVipAddr03": {
-                    "default": "Additional VIP 3"
+                "AdditionalVipAddr32": {
+                    "default": "Additional VIP .32"
+                },	
+                "AdditionalVipAddr100": {
+                    "default": "DSVM Lab VIP .100"
                 },
-                "AdditionalVipAddr04": {
-                    "default": "Additional VIP 4"
-                },	
-                "AdditionalVipAddr05": {
-                    "default": "Additional VIP 5"
-                },	
-                "AdditionalVipAddr06": {
-                    "default": "Additional VIP 6"
-                },	
-                "AdditionalVipAddr07": {
-                    "default": "Additional VIP 7"
-                },	
-                "AdditionalVipAddr08": {
-                    "default": "Additional VIP 8"
-                },	
-                "AdditionalVipAddr09": {
-                    "default": "Additional VIP 9"
+                "AdditionalVipAddr145": {
+                    "default": "ASM Lab VIP Addr .145"
                 },
-                "AdditionalVipAddr10": {
-                    "default": "Additional VIP 10"
-                }				
+                "AdditionalVipAddr146": {
+                    "default": "ASM Lab VIP Addr .146"
+                },
+                "AdditionalVipAddr150": {
+                    "default": "ASM Lab VIP Addr .150"
+                },
+                "AdditionalVipAddr200": {
+                    "default": "ASM Lab VIP Addr .200"
+                },	
+                "AdditionalVipAddr210": {
+                    "default": "ASM Lab VIP Addr .210"
+               }					
             }
         },
         "Version": "3.3.0",
@@ -1248,16 +1248,16 @@
                 },
 			"PrivateIpAddresses" : [ 
 				   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr01" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr02" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr03" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr04" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr05" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr06" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr07" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr08" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr09" }, "Primary": "false" },
-				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr10" }, "Primary": "false" }    
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }   
 			     ],		   
 	        "Tags": [
                     {
