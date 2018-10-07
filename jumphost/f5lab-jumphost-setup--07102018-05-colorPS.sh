@@ -18,28 +18,21 @@ set -x
 
 
 # Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/ssh_config
+touch /home/ubuntu/.ssh/config
+cat << 'EOF' >> /home/ubuntu/.ssh/config
 
 Host 10.1.*.*
    StrictHostKeyChecking no
    PasswordAuthentication yes
+   PubkeyAuthentication no
    RSAAuthentication no
    UserKnownHostsFile /dev/null
    LogLevel ERROR
 
 EOF
+chown ubuntu:ubuntu /home/ubuntu/.ssh/config
+chmod 600 /home/ubuntu/.ssh/config
 
-
-#Host *
-#   StrictHostKeyChecking no
-#   PasswordAuthentication yes
-#   PubkeyAuthentication no
-#   RSAAuthentication no
-#   UserKnownHostsFile /dev/null
-#   LogLevel ERROR
-
-   
-   
 # Modify SSH to listen only on specific address (optional)
 #JUMPHOST_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
 #sleep 2
