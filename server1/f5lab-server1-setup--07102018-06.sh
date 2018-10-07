@@ -38,6 +38,15 @@ EOF
 # Change ListenAddress
 # sudo sed -i "s/0\.0\.0\.0/$SERVER_ETH1/g" /etc/ssh/ssh_config
 
+# Install some util or ensure latest version
+
+apt-get update
+apt-get -y install telnet
+apt-get -y instally curl
+#Install Apache Bench
+apt-get -y install apache2-utils
+sleep 2
+
 # Install dnsmasq
 apt-get install -y dnsmasq
 # these entries are added in template file
@@ -49,34 +58,17 @@ systemctl enable dnsmasq.service
 service dnsmasq start
 
 # Install ubuntu docker
-#apt-get update
 #apt-get install -y docker.io
 #sleep 2
 
 # Install official docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update
 apt-get install -y docker-ce
 sleep 2
 apt-get install -y docker-compose
 sleep 2
-
-
-
-              yum update -y
-              yum install -y docker
-              yum install -y telnet
-              yum install -y curl
-              yum install -y ab
-              /sbin/chkconfig --add docker
-              service docker start
-             
-              EOF
-			  
-			  
-			  
-			  
+		  
 #Create new lab users
 # quietly add user without passwords
 adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student
@@ -87,48 +79,32 @@ echo "f5student:f5DEMOs4u!" | chpasswd
 echo "external_user:f5DEMOs4u!" | chpasswd
 
 
-#Download and install webgoat as per https://github.com/WebGoat/WebGoat
-#curl https://raw.githubusercontent.com/WebGoat/WebGoat/develop/docker-compose.yml | docker-compose -f - up
-#apt-get -y install default-jre
-#sleep 5
-#mkdir -p /home/ubuntu/webgoat
-#cd /home/ubuntu/webgoat
-#wget https://github.com/WebGoat/WebGoat/releases/download/v8.0.0.M21/webgoat-server-8.0.0.M21.jar -o ./webgoat.log
-#nohup `java -jar /home/ubuntu/webgoat/webgoat-server-8.0.0.M21.jar --server.port=8081` &
-
-
 sleep 60
 
-# Start the f5-demo-httpd container
-#cat << 'EOF' > /etc/rc.local
+# Start the Docker containers
+cat << 'EOF' > /etc/rc.local
 #!/bin/sh -e
-docker run -d -p 80:80 --restart always -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' f5devcentral/f5-demo-httpd
-docker run -d -p 8000:80 --restart always -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' f5devcentral/f5-demo-httpd
-docker run -d -p 8001:80 --restart always -e F5DEMO_APP=website -e F5DEMO_COLOR=A0A0A0 -e F5DEMO_NODENAME='Gray' f5devcentral/f5-demo-httpd
-docker run -d -p 8002:80 --restart always -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' f5devcentral/f5-demo-httpd
-docker run -d -p 8003:80 --restart always -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' f5devcentral/f5-demo-httpd
-#nohup `java -jar /home/ubuntu/webgoat/webgoat-server-8.0.0.M21.jar --server.port=8081 --server.address=10.1.20.252` &
-
- sudo docker run -d -p 8004:80 --restart always -e F5DEMO_APP=website -e F5DEMO_NODENAME="Public Cloud Lab: AZ #1" chen23/f5-demo-app:latest
- 
- sudo docker pull danmx/docker-owasp-webgoat
-sudo docker run -d -p 81:80 --restart always danmx/docker-owasp-webgoat
- 
-
-sudo docker run -d -p 83:80 --restart always citizenstig/dvwa
-sudo docker run  -d -p 87:80 --restart always mutzel/all-in-one-hackazon
-
-#Start DVWA with random mysql password:
-#docker run  --restart=always -d -p 80:8000 -it appsecco/dsvw
-sudo docker run -d -p 85:8000  --restart always -it gaganld/dsvw-gagan
-#Port 8080 for DVWA
-docker run -d -p 8080:80 -p 3306:3306 --restart always -e MYSQL_PASS="Chang3ME" gaganld/dvwa-gagan
-			  
-			  
-			  
+## Add Web App firewall testing sites
+#DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
+#docker run  -d -p 8008:8000 --restart always -it appsecco/dsvw
+docker run -d -p 80:8000 --restart always --name dsvm_f5lab -it gbbaus17/dsvw
+#Webgoat
+docker run -d -p 81:80 --restart always --name webgoat_f5lab -it danmx/docker-owasp-webgoat
+#sudo docker run -d -p 8011:8080 --restart always --name webgoat_f5lab webgoat/webgoat-8.0
+#DVWA
+docker run -d -p 82:80 --restart always --name dvma_f5lab -e MYSQL_PASS="f5DEMOs4u!" -it citizenstig/dvwa
+#Hackazon
+docker run  -d -p 83:80 --restart always --name hackazon_f5lab -it mutzel/all-in-one-hackazon
+## Add Standard Websites for LB Tests
+docker run -d -p 8000:80 --restart always --name red_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8001:80 --restart always --name ornage_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' -it f5devcentral/f5-demo-httpd
+docker run -i -t -d -p 8002:80 --restart always --name grey_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=A0A0A0 -e F5DEMO_NODENAME='Gray' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8003:80 --restart always --name green_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8004:80 --restart always --name blue_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' -it f5devcentral/f5-demo-httpd
+		  
 EOF
 
-sleep 2
+sleep 5
 
 
 # Things are created as root, need to transfer ownership

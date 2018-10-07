@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Modified to have commands sent via predefined F5 ASM Virtual server
 import BaseHTTPServer, cgi, cStringIO, httplib, json, os, pickle, random, re, socket, SocketServer, sqlite3, string, sys, subprocess, time, traceback, urllib, xml.etree.ElementTree
 try:
     import lxml.etree
