@@ -28,6 +28,8 @@ cat << 'EOF' >> /home/ubuntu/.ssh/config
 Host 10.1.*.*
    StrictHostKeyChecking no
    PasswordAuthentication yes
+   PubkeyAuthentication no
+   RSAAuthentication no
    UserKnownHostsFile /dev/null
    LogLevel ERROR
 
