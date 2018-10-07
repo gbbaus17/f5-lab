@@ -45,12 +45,15 @@ chmod 600 /home/ubuntu/.ssh/config
 #   LogLevel ERROR
 
 
+# Disable SSH Host Key Checking for hosts in the lab
 touch /home/ubuntu/.ssh/authorized_keys
 cat << 'EOF' >> /home/ubuntu/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDah5XZB0Hqq4akWavsvanbGY19yhVDOkW6VGqr1+PvOmtAH5Wf+YBRyldBOoVDgybMX9Mqw6FAbRYlV9qOR5/HqnKmYuFYmtZmaqbi7fQGE5q0+1s1LVv6nKMHjhWdu39R3lmbDIV701Apt/PnEqmYLx7WlJd88imG86SZEZ79dMhgVwXNsGKdcbcWhyk20bCliTqv+M7gkqWs3ZhlfcA9i3OdGd27gOvtIF66YeOzNCfyQA3eAuGnGZ721e2THPpYCfB20iXHuqi5mRWUXp8VuZ4sTWsF6ZX6Ro6AEenezWP/2eQU6U2RlQfPkSQ2uLovkiYg7MQMis1LYIP9qtQB ubntuserver1
+ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAubXxr7apebM+68O1iDnlaN+pLY36D2yr02WSz0CZh2hu0kkZ9tcuz/VLp+rqAPagCe/c/LVejLoVXsEgGH/+JwqITf94DeJc4PNhNZ/Dg2R5szAftQAbHzhL9VJfx6LhyJK3pxfsjLquLysuCeFMeEVMV/SYMCvKcRoH8f7iJos= rsa-key-20181008
 EOF
 chown ubuntu:ubuntu /home/ubuntu/.ssh/authorized_keys
 chmod 600 /home/ubuntu/.ssh/authorized_keys
+
+
 
 
 # Modify SSH to listen only on specific address (optional)
