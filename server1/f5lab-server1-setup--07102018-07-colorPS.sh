@@ -82,7 +82,7 @@ sleep 1
 #Change the ubuntu user prompt
 sudo sed -i 's|# force_color_prompt|force_color_prompt|g' /home/ubuntu/.bashrc
 sleep 1
-sudo sed -i 's|01;32m|01;31m|g' /home/ubuntu/.bashrc
+sudo sed -i 's|01;32m|01;39m|g' /home/ubuntu/.bashrc
 sleep1
 sudo sed -i 's|\\u@\\h|\\u@server1_\\h|g' /home/ubuntu/.bashrc
 sleep 1
