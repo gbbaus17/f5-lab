@@ -16,15 +16,24 @@ set -x
 #ifconfig eth0 10.1.10.51 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
-# Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/ssh_config
 
+# Disable SSH Host Key Checking for hosts in the lab
+sudo cat << 'EOF' >> /etc/ssh/ssh_config
 Host 10.*.*.*
-   StrictHostKeyChecking no
-   UserKnownHostsFile /dev/null
-   LogLevel ERROR
+    StrictHostKeyChecking no
+    RSAAuthentication no
+    PubkeyAuthentication no
+    PasswordAuthentication yes
+    LogLevel ERROR
 
 EOF
+
+# Modify SSH to listen only on specific address (optional)
+#JUMPHOST_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
+#sleep 2
+# Change ListenAddress
+# sudo sed -i "s/0\.0\.0\.0/$JUMPHOST_ETH1/g" /etc/ssh/ssh_config
+
 
 # Install desktop environment
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
@@ -151,6 +160,18 @@ cp /home/ubuntu/F5-Lab/jumphost/client-files/burp.png /home/ubuntu/burpsuite/bur
 chmod 555 /home/ubuntu/burpsuite/burp.png
 cd ~
 sleep 1
+
+
+# Install ZAP
+wget https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2.7.0_Linux.tar.gz -O ZAP_2.7.0_Linux.tar.gz
+tar -xzf /opt/ZAP_2.7.0_Linux.tar.gz -C /opt
+rm /opt/ZAP_2.7.0_Linux.tar.gz
+ln -s /opt/ZAP_2.7.0/zap.sh /usr/bin/zap
+cp /home/ubuntu/F5-Lab/jumphost/client-files/zap.png /opt/ZAP_2.7.0/zap.png
+chmod 555 /opt/ZAP_2.7.0/zap.png
+cd ~
+sleep 5
+
    
 # Setup Desktop icons
 # Desktop folder probabely already exists
@@ -247,6 +268,45 @@ EOF
 sleep 1
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
+
+touch /home/ubuntu/Desktop/OWASP_ZAP.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/ZAP.desktop
+[Desktop Entry]
+Version=1.0
+Name=ZAP
+Comment=Run OWASP ZAP
+Exec=/opt/ZAP_2.7.0/zap.sh
+Icon=/opt/ZAP_2.7.0/zap.png
+Terminal=false
+Type=Application
+Path=/opt/ZAP_2.7.0
+StartupNotify=false
+
+EOF
+
+sleep 1
+chmod 755 /home/ubuntu/Desktop/ZAP.desktop
+
+
+touch /home/ubuntu/Desktop/SSH_Server1.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/SSH_Server1.desktop
+[Desktop Entry]
+Version=1.0
+Name=SSH Server1
+Comment=
+Exec=ssh -X ubuntu@10.1.20.100
+Icon=accessories-character-map
+Terminal=false
+Type=Application
+Path=
+StartupNotify=false
+
+EOF
+
+sleep 1
+chmod 755 /home/ubuntu/Desktop/SSH_Server1.desktop
+
+
 #File to make 'tab complete' work
 # XFCE Tab fix
 # Edit ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml file to unset the following mapping
@@ -274,6 +334,7 @@ echo "external_user:f5DEMOs4u!" | chpasswd
 # Things are created as root, need to transfer ownership
 chown -R ubuntu:ubuntu /home/ubuntu/Desktop
 chown -R ubuntu:ubuntu /home/ubuntu/F5-Lab
+chown -R ubuntu:ubuntu /opt
 
 # Ensure NICs are set and persit reboot
 cat /home/ubuntu/interfaces > /etc/network/interfaces

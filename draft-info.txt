@@ -1,0 +1,47 @@
+
+
+Class 3: ASM 141 - Good WAF Security, Getting started with ASM
+https://clouddocs.f5.com/training/community/waf/html/class3/class3.html
+
+
+
+Community Training Classes & Labs > F5 Web Application Firewall Solutions > Lab Environment & Topology
+Lab Environment & Topology¶
+Note
+
+All work is done from the Linux client/jumphost (client01), which can be accessed via RDP (Windows Remote Desktop) or ssh. No installation or interaction with your local system is required.
+
+Environment¶
+Linux client (client01):
+
+Web Attack Tools used in this lab:
+
+OWASP ZAP - DAST
+BURP Community Edition - Packet Crafting
+Api Tools:
+
+Ansible - Automation platform
+curl - command line webclient, will be used to interact with the iControl Rest API
+Postman - Graphical based Restful Client, will be used to interact with the iControl Rest API
+python - general programming language used to interact with the iControl Rest API
+
+Linux server (server01):
+
+WebGoat 8 : 
+
+Lab Topology¶
+The network topology implemented for this lab is very simple. The following components have been included in your lab environment:
+
+1 x Ubuntu Linux 16.04 client
+1 x F5 BIG-IP VE (v13.1.0.2) running ASM and LTM
+1 x Ubuntu Linux 16.04 server
+The following table lists VLANS, IP Addresses and Credentials for all components:
+
+COMPONENT	MGMTNET IP	CLIENTNET IP	SERVERNET IP	CREDENTIALS
+Linux Client (client01)	10.1.1.51	10.1.10.51	N/A	https-ubuntu:ubuntu
+Bigip (bigip01)	10.1.1.245	10.1.10.245	10.1.20.245	https - admin:f5DEMOs4u! ssh - f5student:f5DEMOs4u!
+Linux Server & WebGOAT app (server01)	10.1.1.252	N/A	10.1.20.252	ssh - f5student:f5DEMOs4u!
+A graphical representation of the lab:
+
+
+

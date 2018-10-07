@@ -16,20 +16,24 @@ set -x
 #ifconfig eth0 10.1.10.51 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.51 netmask 255.255.255.0
 
-# Find ip address set on eth1
-JUMPHOST_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
 
 # Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/ssh_config
-
-ListenAddress ${JUMPHOST_ETH1}
-
+sudo cat << 'EOF' >> /etc/ssh/ssh_config
 Host 10.*.*.*
-   StrictHostKeyChecking no
-   PasswordAuthentication yes
-   LogLevel ERROR
+    StrictHostKeyChecking no
+    RSAAuthentication no
+    PubkeyAuthentication no
+    PasswordAuthentication yes
+    LogLevel ERROR
 
 EOF
+
+# Modify SSH to listen only on specific address (optional)
+#JUMPHOST_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
+#sleep 2
+# Change ListenAddress
+# sudo sed -i "s/0\.0\.0\.0/$JUMPHOST_ETH1/g" /etc/ssh/ssh_config
+
 
 # Install desktop environment
 # Option 1:apt-get -y install ubuntu-desktop mate-core mate-desktop-environment mate-notification-daemon tightvncserver xrdp
@@ -282,6 +286,25 @@ EOF
 
 sleep 1
 chmod 755 /home/ubuntu/Desktop/ZAP.desktop
+
+
+touch /home/ubuntu/Desktop/SSH_Server1.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/SSH_Server1.desktop
+[Desktop Entry]
+Version=1.0
+Name=SSH Server1
+Comment=
+Exec=ssh -X ubuntu@10.1.20.100
+Icon=accessories-character-map
+Terminal=false
+Type=Application
+Path=
+StartupNotify=false
+
+EOF
+
+sleep 1
+chmod 755 /home/ubuntu/Desktop/SSH_Server1.desktop
 
 
 #File to make 'tab complete' work
