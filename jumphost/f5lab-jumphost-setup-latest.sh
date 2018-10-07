@@ -360,12 +360,15 @@ echo "f5student:f5DEMOs4u!" | chpasswd
 echo "external_user:f5DEMOs4u!" | chpasswd
 
 #Change the ubuntu user prompt
-sudo sed -i 's|# force_color_prompt|force_color_prompt|g' /home/ubuntu/.bashrc
-sleep 1
+sudo sed -i 's|#force_color_prompt|force_color_prompt|g' /home/ubuntu/.bashrc
+sleep 2
+sudo sed -i 's|01;31m|01;39m|g' /home/ubuntu/.bashrc
+sleep 2
 sudo sed -i 's|01;32m|01;39m|g' /home/ubuntu/.bashrc
-sleep1
+sleep 2
 sudo sed -i 's|\\u@\\h|\\u@jumphost_\\h|g' /home/ubuntu/.bashrc
-sleep 1
+sleep 2
+
 
 # Start 
 cat << 'EOF' > /etc/rc.local

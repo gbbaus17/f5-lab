@@ -80,12 +80,14 @@ echo "external_user:f5DEMOs4u!" | chpasswd
 sleep 1
 
 #Change the ubuntu user prompt
-sudo sed -i 's|# force_color_prompt|force_color_prompt|g' /home/ubuntu/.bashrc
-sleep 1
+sudo sed -i 's|#force_color_prompt|force_color_prompt|g' /home/ubuntu/.bashrc
+sleep 2
+sudo sed -i 's|01;31m|01;39m|g' /home/ubuntu/.bashrc
+sleep 2
 sudo sed -i 's|01;32m|01;39m|g' /home/ubuntu/.bashrc
-sleep1
+sleep 2
 sudo sed -i 's|\\u@\\h|\\u@server1_\\h|g' /home/ubuntu/.bashrc
-sleep 1
+sleep 2
 
 # Start the Docker containers
 cat << 'EOF' > /etc/rc.local
@@ -103,7 +105,7 @@ docker run -d -p 82:80 --restart always --name dvma_f5lab -e MYSQL_PASS="f5DEMOs
 docker run  -d -p 83:80 --restart always --name hackazon_f5lab -it mutzel/all-in-one-hackazon
 ## Add Standard Websites for LB Tests
 docker run -d -p 8000:80 --restart always --name red_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' -it f5devcentral/f5-demo-httpd
-docker run -d -p 8001:80 --restart always --name ornage_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8001:80 --restart always --name oranage_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' -it f5devcentral/f5-demo-httpd
 docker run -i -t -d -p 8002:80 --restart always --name grey_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=A0A0A0 -e F5DEMO_NODENAME='Gray' -it f5devcentral/f5-demo-httpd
 docker run -d -p 8003:80 --restart always --name green_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' -it f5devcentral/f5-demo-httpd
 docker run -d -p 8004:80 --restart always --name blue_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' -it f5devcentral/f5-demo-httpd
