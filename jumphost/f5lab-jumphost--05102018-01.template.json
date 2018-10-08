@@ -268,28 +268,12 @@
 							  "",
 							  [
 							   "#!/bin/bash\n",
-								"ifconfig eth0 ",
-								{
-									"Ref": "JumpHostLandingPrivateIP"
-								},
-								" netmask 255.255.255.0\n",
-								"ifconfig eth1 ",
-								{
-									"Ref": "JumpHostMngmtAccessIP"
-								},
-								" netmask 255.255.255.0\n",
-								"MYVARIP1=\"",
-								{
-									"Ref": "JumpHostMngmtAccessIP"
-								},
-								"\"\n",
+								"ifconfig eth0 ", { "Ref": "JumpHostLandingPrivateIP" }, " netmask 255.255.255.0\n",
+								"ifconfig eth1 ", {	"Ref": "JumpHostMngmtAccessIP" }, " netmask 255.255.255.0\n",
+								"MYVARIP1=\"", { "Ref": "JumpHostMngmtAccessIP"	}, "\"\n",
 								"MYVAR1=$(sed 's/\\./-/g' <<< ${MYVARIP1})\n",
 								"echo \"${MYVARIP1} ip-${MYVAR1}\" >> /etc/hosts\n",
-								"MYVARIP2=\"",
-								{
-									"Ref": "JumpHostLandingPrivateIP"
-								},
-								"\"\n",
+								"MYVARIP2=\"", { "Ref": "JumpHostLandingPrivateIP" }, "\"\n",
 								"MYVAR2=$(sed 's/\\./-/g' <<< ${MYVARIP2})\n",
 								"echo \"${MYVARIP2} ip-${MYVAR2}\" >> /etc/hosts\n"
 							  ]
@@ -299,6 +283,22 @@
 						"mode": "000755",
 						"owner": "root"
 					   },
+					   "/home/ubuntu/nics-ifconfig-to-startup.sh": {
+						"content": {
+							 "Fn::Join": [
+							  "",
+							  [
+							   "#!/bin/bash\n",
+							   "echo \"#!/bin/sh -e\" > /etc/rc.local\n"
+							   "echo \"ifconfig eth0 ", { "Ref": "JumpHostLandingPrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+							   "echo \"ifconfig eth1 ", { "Ref": "JumpHostMngmtAccessIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n"
+							  ]
+							 ]
+							},
+						"group": "root",
+						"mode": "000755",
+						"owner": "root"
+					   },					   
 					   "/home/ubuntu/interfaces": {
 							"content": {
 								"Fn::Join": [
@@ -359,7 +359,10 @@
 							 },
                             "004-execute-nics-and-hosts": {
                                 "command": "/home/ubuntu/set-nics-and-hosts.sh"
-                            },							 
+                            },
+                            "005-write-nics-ifconfig-to-startup": {
+                                "command": "/home/ubuntu/nics-ifconfig-to-startup.sh"
+                            },								
 							"006-update-apt": { 
 								"command": "apt-get -y update" 
 							},

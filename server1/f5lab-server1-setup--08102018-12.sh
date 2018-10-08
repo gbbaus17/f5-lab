@@ -102,8 +102,8 @@ sudo sed -i 's|\\u@\\h|\\u@server1_\\h|g' /home/ubuntu/.bashrc
 sleep 2
 
 # Start the Docker containers
-cat << 'EOF' > /etc/rc.local
-#!/bin/sh -e
+cat << 'EOF' >> /etc/rc.local
+
 ## Add Web App firewall testing sites
 #DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
 #docker run  -d -p 8008:8000 --restart always -it appsecco/dsvw

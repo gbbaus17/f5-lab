@@ -229,7 +229,28 @@
                                 "group": "root",
                                 "mode": "000755",
                                 "owner": "root"
-                            },						
+                            },
+					        "/home/ubuntu/nics-ifconfig-to-startup.sh": {
+						     "content": {
+							  "Fn::Join": [
+							   "",
+							   [
+							   "#!/bin/bash\n",
+							    "echo \"#!/bin/sh -e\" > /etc/rc.local\n"
+								"echo \"ifconfig eth0 ",{ "Ref": "Server1Eth0PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+								"echo \"ifconfig eth0:1 ",{ "Ref": "Server1Eth01PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+								"echo \"ifconfig eth0:2 ",{ "Ref": "Server1Eth02PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+								"echo \"ifconfig eth0:3 ",{ "Ref": "Server1Eth03PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+								"echo \"ifconfig eth0:4 ",{ "Ref": "Server1Eth04PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+								"echo \"ifconfig eth1 ",{ "Ref": "Server1Eth1PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
+								"echo \"ifconfig eth1:1 ",{ "Ref": "Server1Eth11PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n"
+							   ]
+							 ]
+							},
+						"group": "root",
+						"mode": "000755",
+						"owner": "root"
+					   },							
                             "/home/ubuntu/set-hosts.sh": {
                                 "content": {
                                     "Fn::Join": [
@@ -456,6 +477,9 @@
                             "003-execute-nics": {
                                 "command": "/home/ubuntu/set-nics-for-runtime.sh"
                             },
+                            "004-write-nics-ifconfig-to-startup": {
+                                "command": "/home/ubuntu/nics-ifconfig-to-startup.sh"
+                            },							
                             "005-update-apt": {
                                 "command": "apt-get -y update"
                             },

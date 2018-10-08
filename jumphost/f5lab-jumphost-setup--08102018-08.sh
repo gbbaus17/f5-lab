@@ -420,8 +420,8 @@ sleep 2
 
 
 # Start 
-cat << 'EOF' > /etc/rc.local
-#!/bin/sh -e
+cat << 'EOF' >> /etc/rc.local
+
 #DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
 nohup /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py &
 EOF
