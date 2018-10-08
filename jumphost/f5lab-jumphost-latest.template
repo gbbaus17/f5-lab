@@ -317,7 +317,7 @@
 											"Ref": "JumpHostLandingPrivateIP"
 										},
 										"\n",
-										"        netmask 255.255.255.255\n",
+										"        netmask 255.255.255.0\n",
 										"        gateway 10.1.10.1\n",
 										"        dns-nameservers 8.8.8.8 8.8.4.4\n",
 										"\n",
@@ -328,7 +328,7 @@
 											"Ref": "JumpHostMngmtAccessIP"
 										},
 										"\n",
-										"        netmask 255.255.255.255\n",
+										"        netmask 255.255.255.0\n",
 										"\n"
 									]
 								]
