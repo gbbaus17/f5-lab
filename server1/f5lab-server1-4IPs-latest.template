@@ -236,7 +236,7 @@
 							   "",
 							   [
 							   "#!/bin/bash\n",
-							    "echo \"#!/bin/sh -e\" > /etc/rc.local\n"
+							    "echo \"#!/bin/sh -e\" > /etc/rc.local\n",
 								"echo \"ifconfig eth0 ",{ "Ref": "Server1Eth0PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
 								"echo \"ifconfig eth0:1 ",{ "Ref": "Server1Eth01PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
 								"echo \"ifconfig eth0:2 ",{ "Ref": "Server1Eth02PrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",

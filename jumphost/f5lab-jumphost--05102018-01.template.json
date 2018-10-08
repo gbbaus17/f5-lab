@@ -289,7 +289,7 @@
 							  "",
 							  [
 							   "#!/bin/bash\n",
-							   "echo \"#!/bin/sh -e\" > /etc/rc.local\n"
+							   "echo \"#!/bin/sh -e\" > /etc/rc.local\n",
 							   "echo \"ifconfig eth0 ", { "Ref": "JumpHostLandingPrivateIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n",
 							   "echo \"ifconfig eth1 ", { "Ref": "JumpHostMngmtAccessIP" }, " netmask 255.255.255.0\" >> /etc/rc.local\n"
 							  ]
