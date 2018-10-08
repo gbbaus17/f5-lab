@@ -22,27 +22,18 @@
 touch /home/ubuntu/alert3-server-install-started-wait-about-10-15min
 
 # Disable SSH Host Key Checking for hosts in the lab
-touch /home/ubuntu/.ssh/config
-cat << 'EOF' >> /home/ubuntu/.ssh/config
-
-Host 10.1.*.*
-   StrictHostKeyChecking no
-   PasswordAuthentication yes
-   UserKnownHostsFile /dev/null
-   LogLevel ERROR
-
-EOF
-chown ubuntu:ubuntu /home/ubuntu/.ssh/config
-chmod 600 /home/ubuntu/.ssh/config
-
-
-#Host *
+#touch /home/ubuntu/.ssh/config
+#cat << 'EOF' >> /home/ubuntu/.ssh/config
+#
+#Host 10.1.*.*
 #   StrictHostKeyChecking no
 #   PasswordAuthentication yes
-#   PubkeyAuthentication no
-#   RSAAuthentication no
 #   UserKnownHostsFile /dev/null
 #   LogLevel ERROR
+#
+#EOF
+#chown ubuntu:ubuntu /home/ubuntu/.ssh/config
+#chmod 600 /home/ubuntu/.ssh/config
 
 
 touch /home/ubuntu/.ssh/authorized_keys

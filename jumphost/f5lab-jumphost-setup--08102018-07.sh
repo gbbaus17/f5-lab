@@ -18,24 +18,15 @@ set -x
 
 
 # Disable SSH Host Key Checking for hosts in the lab
-cat << 'EOF' >> /etc/ssh/ssh_config
-
-Host 10.1.*.*
-   StrictHostKeyChecking no
-   PasswordAuthentication yes
-   UserKnownHostsFile /dev/null
-   LogLevel ERROR
-
-EOF
-
-
-#Host *
+#cat << 'EOF' >> /etc/ssh/ssh_config
+#
+#Host 10.1.*.*
 #   StrictHostKeyChecking no
 #   PasswordAuthentication yes
-#   PubkeyAuthentication no
-#   RSAAuthentication no
 #   UserKnownHostsFile /dev/null
 #   LogLevel ERROR
+#
+#EOF
 
 
 touch /home/ubuntu/.ssh/id_rsa.pub
@@ -79,8 +70,13 @@ EOF
 chown ubuntu:ubuntu /home/ubuntu/.ssh/id_rsa
 chmod 600 /home/ubuntu/.ssh/id_rsa
  
+#touch /home/ubuntu/.ssh/known_hosts
+#sudo cat << 'EOF' >> /home/ubuntu/.ssh/known_hosts
+#|1|9uwFGB6NL5nzc2J0IwLOsrqrWgk=|XR3tuSvjjBax5Ad54bB6Jp5qcjg= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPPaeKtplkA9kTxTP6d3x5zBD9g1jWMPqQhWtY+2rqpCC3hDTcb6AmjTA2lBGEQcIbRaO62BNQXtuU48p+VPTGU=
+#EOF
+#chown ubuntu:ubuntu /home/ubuntu/.ssh/known_hosts
+#chmod 644 /home/ubuntu/.ssh/known_hosts
 
- 
    
 # Modify SSH to listen only on specific address (optional)
 #JUMPHOST_ETH1=`ifconfig eth1 | egrep 'inet addr' | awk '{print tolower($2)}' | awk -F: '{print tolower($2)}'`
