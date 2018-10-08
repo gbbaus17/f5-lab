@@ -369,20 +369,20 @@ sleep 2
 chmod 755 /home/ubuntu/Desktop/SSH_Server1.desktop
 
 
-touch /home/ubuntu/Desktop/WAF_attacks.desktop
-cat << 'EOF' >> /home/ubuntu/Desktop/WAF_attacks.desktop
+touch /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
 [Desktop Entry]
 Version=1.0
 Type=Link
 Name=DSVM WAF Attacks
 Comment=
-Icon=google-chrome
+Icon=invest-applet
 URL=http://localhost:65412
 
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/WAF_attacks.desktop
+chmod 755 /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
 
 
 #File to make 'tab complete' work
