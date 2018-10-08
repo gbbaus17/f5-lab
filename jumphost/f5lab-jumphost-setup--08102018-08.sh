@@ -225,13 +225,12 @@ sleep 2
 
 
 # Install ZAP
-wget https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2.7.0_Linux.tar.gz -O ZAP_2.7.0_Linux.tar.gz
-tar -xzf /opt/ZAP_2.7.0_Linux.tar.gz -C /opt
-rm /opt/ZAP_2.7.0_Linux.tar.gz
-ln -s /opt/ZAP_2.7.0/zap.sh /usr/bin/zap
-cp /home/ubuntu/F5-Lab/jumphost/client-files/zap.png /opt/ZAP_2.7.0/zap.png
-chmod 555 /opt/ZAP_2.7.0/zap.png
-cd ~
+cd /home/ubuntu
+wget -O ZAP_2.7.0_Linux.tar.gz https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2.7.0_Linux.tar.gz
+tar -xzf /home/ubuntu/ZAP_2.7.0_Linux.tar.gz -C /home/ubuntu
+rm /home/ubuntu/ZAP_2.7.0_Linux.tar.gz
+ln -s /home/ubuntu/ZAP_2.7.0/zap.sh /usr/bin/zap
+sudo chmod 555 /home/ubuntu/F5-Lab/jumphost/client-files/zap.png
 sleep 5
 
    
@@ -335,10 +334,10 @@ touch /home/ubuntu/Desktop/OWASP_ZAP.desktop
 cat << 'EOF' >> /home/ubuntu/Desktop/OWASP_ZAP.desktop
 [Desktop Entry]
 Version=1.0
-Name=ZAP
+Name=OWASP ZAP
 Comment=Run OWASP ZAP
-Exec=/opt/ZAP_2.7.0/zap.sh
-Icon=/opt/ZAP_2.7.0/zap.png
+Exec=/home/ubuntu/ZAP_2.7.0/zap.sh
+Icon=/home/ubuntu/F5-Lab/jumphost/client-files/zap.png
 Terminal=false
 Type=Application
 Path=/opt/ZAP_2.7.0
