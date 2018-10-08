@@ -147,7 +147,7 @@ EOF
 #sed -i.bak "s|FuseMountName=thinclient_drives|FuseMountName=remote_drives|g" /etc/xrdp/sesman.ini
 systemctl restart xrdp.service
 
-touch /home/ubuntu/alert4-xrdp-install-finished
+touch /home/ubuntu/alert4-xrdp-install-finished-starting-util-installs
 
 # Install specific fonts support
 # Japanese
@@ -221,7 +221,7 @@ chmod 755 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
 cp /home/ubuntu/F5-Lab/jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
 chmod 555 /home/ubuntu/burpsuite/burp.png
 cd ~
-sleep 1
+sleep 2
 
 
 # Install ZAP
@@ -255,7 +255,7 @@ StartupNotify=false
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/Firefox.desktop
 
 touch /home/ubuntu/Desktop/Chrome.desktop
@@ -273,7 +273,7 @@ StartupNotify=false
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/Chrome.desktop
 
 
@@ -289,7 +289,7 @@ URL=https://10.1.1.245
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/F5-BigIP.desktop
 
 
@@ -308,7 +308,7 @@ StartupNotify=false
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/Postman.desktop
 
 
@@ -327,7 +327,7 @@ StartupNotify=false
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
 
 
@@ -346,7 +346,7 @@ StartupNotify=false
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/OWASP_ZAP.desktop
 
 
@@ -358,14 +358,14 @@ Name=SSH Server1
 Comment=
 Exec=ssh -X ubuntu@10.1.20.100
 Icon=accessories-character-map
-Terminal=false
+Terminal=true
 Type=Application
 Path=
 StartupNotify=false
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/SSH_Server1.desktop
 
 
@@ -381,7 +381,7 @@ URL=http://localhost:65412
 
 EOF
 
-sleep 1
+sleep 2
 chmod 755 /home/ubuntu/Desktop/WAF_attacks.desktop
 
 
