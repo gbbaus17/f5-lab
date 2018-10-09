@@ -1,0 +1,13 @@
+Server installs
+
+apt-get install -y freeradius
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
+apt-get install -y
