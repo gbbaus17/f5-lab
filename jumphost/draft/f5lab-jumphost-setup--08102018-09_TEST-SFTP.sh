@@ -417,9 +417,6 @@ ln -s /home/ubuntu/F5-Lab/jumphost/client-files/make-tab-complete-work.sh /home/
 # Create lab files shortcut
 ln -s /home/ubuntu/F5-Lab/lab-files/ /home/ubuntu/Desktop/lab-files
 
-#Put a TXT link on the Desktop to enable SFTP
-ln -s /home/ubuntu/SFTP_Start_instructions.txt /home/ubuntu/Desktop/home/ubuntu/SFTP_Start_instructions.txt
-
 #Create new lab users
 # quietly add user without passwords
 adduser --quiet --disabled-password --shell /bin/bash --home /home/f5student --gecos "f5student" f5student

@@ -1229,6 +1229,7 @@
 			"SubnetId": {
 				"Ref": "InternalSubnet"
 			},
+			"SourceDestCheck" : "false",			
 			"PrivateIpAddresses": [
 				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" },
 				{ "PrivateIpAddress": { "Ref": "BigipFpsLabSelfIP" }, "Primary": "false" }					
@@ -1321,24 +1322,25 @@
 			"SubnetId": {
 				"Ref": "ExternalSubnet"
 			},
-		"PrivateIpAddresses" : [ 
-			   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
-			 ],		   
-		"Tags": [
-				{
-					"Key": "Name",
-					"Value": "F5Labs:BigIp:ExternalNIC"
-				}
+			"SourceDestCheck" : "false",			
+			"PrivateIpAddresses" : [ 
+				   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
+				   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
+				 ],		   
+			"Tags": [
+					{
+						"Key": "Name",
+						"Value": "F5Labs:BigIp:ExternalNIC"
+					}
 			]
 		},
 		"Type": "AWS::EC2::NetworkInterface",
