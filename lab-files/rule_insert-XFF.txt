@@ -1,0 +1,4 @@
+when HTTP_REQUEST {
+    set xff [expr int(rand()*100)].[expr int(rand()*100)].[expr int(rand()*100)].[expr int(rand()*100)]
+    HTTP::header insert X-Forwarded-For $xff
+}
