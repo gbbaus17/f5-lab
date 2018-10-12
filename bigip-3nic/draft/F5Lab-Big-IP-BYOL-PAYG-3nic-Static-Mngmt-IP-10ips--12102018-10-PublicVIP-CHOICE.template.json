@@ -2,7 +2,8 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "F5 BigIP 3nic Template for use with F5 labs https://clouddocs.f5.com/training/community/",
   "Conditions": {  
-	  "UsePaygImage": { "Fn::Equals": [ "Yes", {"Ref": "UsePAYG"} ] }
+	  "UsePaygImage": { "Fn::Equals": [ "Yes", {"Ref": "UsePAYG"} ] },
+	  "AssignExtraVips": { "Fn::Equals": [ "Yes", {"Ref": "AssignExtra"} ] }
 	 },
   "Parameters": {
 	"VPC": {
@@ -135,6 +136,15 @@
 		"MinLength": 7,
 		"Type": "String"
 	},
+	"AssignExtra": {
+	   "AllowedValues": [
+		"Yes",
+		"No"
+	   ],
+	   "Default": "Yes",
+	   "Description": "Assign/reserve extra EC2 addresses for VIPs ?",
+	   "Type": "String"
+	  },	
 	"AdditionalVipAddr15": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
@@ -329,15 +339,23 @@
                         "BigIpManagementIP",
                         "BigIpExternalSubnetIP",
                         "BigIpInternalSubnetIP",
-						"BigipFpsLabSelfIP"
+						"BigipFpsLabSelfIP",
+						"AdditionalVipAddr15"
                     ]
                 },
 				{
+				 "Label": {
+				  "default": "Assign Extra Addresses in EC2 for VIPs"
+				 },
+				 "Parameters": [
+				  "AssignExtra"
+				 ]
+				},
+				{
                     "Label": {
-                        "default": "Avaliable Virtual server Addresses"
+                        "default": "If 'YES' - Avaliable Addresses for Virtual servers"
                     },
                     "Parameters": [
-						"AdditionalVipAddr15",
 						"AdditionalVipAddr16",
 						"AdditionalVipAddr30",
 						"AdditionalVipAddr32",
@@ -750,7 +768,10 @@
 							}
 						},
 					  "050-onboard-BIG-IP": {
+					  
 						"command": {
+						
+						
 						 "Fn::If": [
 						  "UsePaygImage",
 						  {
@@ -854,7 +875,13 @@
 						   ]
 						  }
 						 ]
+						
+						
+						
 						}
+						
+						
+						
 					   },							
 						"060-custom-config": {
 							"command": {
@@ -1230,11 +1257,16 @@
 			"SubnetId": {
 				"Ref": "InternalSubnet"
 			},
+			"SourceDestCheck" : "false",
 			"PrivateIpAddresses": [
 				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" },
 				{ "PrivateIpAddress": { "Ref": "BigipFpsLabSelfIP" }, "Primary": "false" }					
 			],
 			"Tags": [
+				{
+					"Key": "Network",
+					"Value": "F5Labs:BigIp:InternalNIC"
+				},			
 				{
 					"Key": "Name",
 					"Value": "F5Labs:BigIp:InternalNIC"
@@ -1299,6 +1331,10 @@
 			],
 			"Tags": [
 				{
+					"Key": "Network",
+					"Value": "F5Labs:BigIp:ManagementNIC"
+				},			
+				{
 					"Key": "Name",
 					"Value": "F5Labs:BigIp:ManagementNIC"
 				}
@@ -1345,36 +1381,74 @@
 		}
 	},
 	"BigIp1ExternalSubnetInterface": {
-		"Properties": {
-			"Description": "External Interface for the BIG-IP",
-			"GroupSet": [
-				{
-					"Ref": "BigIpExternalSecurityGroup"
-				}
-			],
-			"SubnetId": {
-				"Ref": "ExternalSubnet"
-			},
-		"PrivateIpAddresses" : [ 
-			   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
-			 ],		   
-		"Tags": [
-				{
-					"Key": "Name",
-					"Value": "F5Labs:BigIp:ExternalNIC"
-				}
-			]
-		},
+		 "Fn::If": [
+		  "AssignExtraVips",
+		  {
+			"Properties": {
+				"Description": "External Interface for the BIG-IP",
+				"GroupSet": [
+					{
+						"Ref": "BigIpExternalSecurityGroup"
+					}
+				],
+				"SubnetId": {
+					"Ref": "ExternalSubnet"
+				},
+				"SourceDestCheck" : "false",
+				"PrivateIpAddresses" : [ 
+					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
+					 ],		   
+				"Tags": [
+						{
+							"Key": "Network",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						},			
+						{
+							"Key": "Name",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						}
+				]
+			}
+		  },
+		  {
+			"Properties": {
+				"Description": "External Interface for the BIG-IP",
+				"GroupSet": [
+					{
+						"Ref": "BigIpExternalSecurityGroup"
+					}
+				],
+				"SubnetId": {
+					"Ref": "ExternalSubnet"
+				},
+				"SourceDestCheck" : "false",
+				"PrivateIpAddresses" : [ 
+					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" }
+					 ],		   
+				"Tags": [
+						{
+							"Key": "Network",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						},			
+						{
+							"Key": "Name",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						}
+				]
+			}
+		  }
+		 ],
 		"Type": "AWS::EC2::NetworkInterface",
 		"Metadata": {
 			"AWS::CloudFormation::Designer": {
