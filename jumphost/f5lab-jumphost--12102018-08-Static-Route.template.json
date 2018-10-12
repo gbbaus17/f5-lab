@@ -140,13 +140,13 @@
                 }
             }
         },
-        "InternalPortControlSG": {
+        "AllowAllSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "VpcId": {
                     "Ref": "VPC"
                 },
-                "GroupDescription": "Enable neccessary protocols",
+                "GroupDescription": "Enable All protocols",
                 "SecurityGroupIngress": [
                     {
                         "IpProtocol": "icmp",
@@ -159,14 +159,30 @@
                         "FromPort": "1",
                         "ToPort": "65535",
                         "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "udp",
+                        "FromPort": "1",
+                        "ToPort": "65535",
+                        "CidrIp": "0.0.0.0/0"
                     }
                 ],
-                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "JumpHostSecuriytGroup"
-                    }
-                ]
+			"Tags": [
+				{
+					"Key": "Name",
+					"Value": {
+						"Fn::Join": [
+							"",
+							[
+								{
+									"Ref": "AWS::StackName"
+								},
+								":AllowAll_Security_Group"
+							]
+						]
+					}
+				}
+			]
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -527,7 +543,7 @@
                 "Description": "Interface for Management Access",
                 "GroupSet": [
                     {
-                        "Ref": "InternalPortControlSG"
+                        "Ref": "AllowAllSecurityGroup"
                     }
                 ],
 				"PrivateIpAddresses": [
