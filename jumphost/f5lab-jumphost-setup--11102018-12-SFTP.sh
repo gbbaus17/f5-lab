@@ -178,7 +178,6 @@ sleep 2
 docker pull f5devcentral/f5-super-netops-container:base
 docker pull f5devcentral/f5-super-netops-container:jenkins
 docker pull f5devcentral/f5-super-netops-container:ansible
-docker pull f5devcentral/f5-as3-container:latest
 docker pull atmoz/sftp
 
 # Get python package for DSVM
@@ -428,11 +427,10 @@ cat << 'EOF' >> /etc/rc.local
 
 #DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
 nohup /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py &
-docker run --name as3_container --rm -d -p 8443:443 -p 8080:80 f5devcentral/f5-as3-container:latest
-
 EOF
 
 sleep 5
+
 
 
 # Things are created as root, need to transfer ownership

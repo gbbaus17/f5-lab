@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# pull the f5-super-netops images : base, jenkins, ansible
+docker pull f5devcentral/f5-super-netops-container:base
+docker pull f5devcentral/f5-super-netops-container:jenkins
+docker pull f5devcentral/f5-super-netops-container:ansible
+docker pull atmoz/sftp
+
+# Get python package for DSVM
+apt-get -y install python-lxml
+#Run custom dsvm that point to ASM Vip IP address
+chmod 755 /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py
+# Modify IP address of ASM if required
+# Change ListenAddress
+# sudo sed -i "s|10\.1\.10\.100|"10.1.10.16"|g" /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py
+cd ~
+sleep 2
+
+
+
+
+touch /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
+cat << 'EOF' >> /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
+[Desktop Entry]
+Version=1.0
+Type=Link
+Name=DSVM WAF Attacks
+Comment=
+Icon=invest-applet
+URL=http://localhost:65412
+
+EOF
+
+sleep 2
+chmod 755 /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
+
+
+
+
+# Start 
+cat << 'EOF' >> /etc/rc.local
+
+#DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
+nohup /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py &
+EOF
+
+sleep 5
+
+

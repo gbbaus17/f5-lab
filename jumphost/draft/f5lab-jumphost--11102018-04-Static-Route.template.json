@@ -210,10 +210,6 @@
                     {
                         "Key": "Network",
                         "Value": "JumpHost:Public:Primary:eth0"
-                    },
-                    {
-                        "Key": "Name",
-                        "Value": "JumpHost:Public:Primary:eth0"
                     }
                 ]
             },
@@ -542,11 +538,11 @@
                 "Tags": [
                     {
                         "Key": "Network",
-                        "Value": "JumpHost:Internal:MngmtAccess:eth1"
+                        "Value": "MngmtAccess"
                     },
                     {
                         "Key": "Name",
-                        "Value": "JumpHost:Internal:MngmtAccess:eth1"
+                        "Value": "JumpHost:ManagementVlanAccess"
                     }
                 ]
             },
