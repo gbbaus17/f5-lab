@@ -1427,7 +1427,7 @@
 			}
 		}
 	},
-	"BigIpExternalSecurityGroup": {
+	"RestrictedPortsSecurityGroup": {
 		"Properties": {
 			"GroupDescription": "Public or external interface rules",
 			"SecurityGroupIngress": [
@@ -1439,14 +1439,6 @@
 					"IpProtocol": "tcp",
 					"ToPort": "22"
 				},
-				{
-					"CidrIp": {
-						"Ref": "restrictedSrcAddressApp"
-					},
-					"FromPort": "80",
-					"IpProtocol": "tcp",
-					"ToPort": "80"
-				},					
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddressApp"
@@ -1466,7 +1458,7 @@
 								{
 									"Ref": "AWS::StackName"
 								},
-								":Ext Security Group"
+								":Restricted Security Group"
 							]
 						]
 					}
