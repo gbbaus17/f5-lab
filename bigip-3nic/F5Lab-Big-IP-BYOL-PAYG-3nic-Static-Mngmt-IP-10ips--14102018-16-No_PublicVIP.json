@@ -18,7 +18,7 @@
 	"CustomImageId": {
 		"ConstraintDescription": "Must be a valid AMI Id",
 		"Default": "ami-04e893bab1e8b9b10",
-		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs [BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
+		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
 		"MaxLength": 255,
 		"MinLength": 1,
 		"Type": "String"
@@ -131,7 +131,7 @@
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
 		"Default": "10.1.20.240",
-		"Description": "Additional FPS Lab Self-IP - Lab Default is 10.1.20.240",
+		"Description": "Additional Lab Self-IP - FPS Lab Default is 10.1.20.240",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -246,13 +246,13 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "For First Accept BIG-IP Terms and Conditions and note Image ID [v13 or v14]"
+                        "default": "For First Accept BIG-IP Terms and Conditions and note Image ID [v13 or v14]. Either BYOL or PAYG."
                     },
                     "Parameters": []
                 },
                 {
                     "Label": {
-                        "default": "https://aws.amazon.com/marketplace/search/results?searchTerms=f5+Big-ip+All+Boot"
+                        "default": "https://aws.amazon.com/marketplace/search/results?searchTerms=f5+Big-ip"
                     },
                     "Parameters": []
                 },
@@ -439,7 +439,7 @@
                     "default": "BigIp FPS Lab Self-IP"
                 },
                 "AdditionalVipAddr15": {
-                    "default": "Additional VIP .15"
+                    "default": "Address for VIP .15"
                 },
                 "AdditionalVipAddr16": {
                     "default": "FPS Lab VIP Addr .16"
@@ -1211,7 +1211,21 @@
 							]
 						]
 					}
-				}					
+				},
+				{
+					"Key": "MngmtPublicConnectivity",
+					"Value": {
+						"Fn::Join": [
+							"",
+							[
+								"https://",
+								{
+									"Ref": "BigIp1ManagementEipAddress"
+								}
+							]
+						]
+					}
+				}
 			],
 			"UserData": {
 				"Fn::Base64": {
@@ -1242,7 +1256,7 @@
 			"Description": "Internal Interface for the BIG-IP",
 			"GroupSet": [
 				{
-					"Ref": "BigIpInternalSecurityGroup"
+					"Ref": "AllowAllSecurityGroup"
 				}
 			],
 			"SubnetId": {
@@ -1346,7 +1360,7 @@
 				"Description": "External Interface for the BIG-IP",
 				"GroupSet": [
 					{
-						"Ref": "BigIpExternalSecurityGroup"
+						"Ref": "AllowAllSecurityGroup"
 					}
 				],
 				"SubnetId": {
@@ -1382,7 +1396,7 @@
 				"Description": "External Interface for the BIG-IP",
 				"GroupSet": [
 					{
-						"Ref": "BigIpExternalSecurityGroup"
+						"Ref": "AllowAllSecurityGroup"
 					}
 				],
 				"SubnetId": {
@@ -1413,7 +1427,7 @@
 			}
 		}
 	},
-	"BigIpExternalSecurityGroup": {
+	"RestrictedPortsSecurityGroup": {
 		"Properties": {
 			"GroupDescription": "Public or external interface rules",
 			"SecurityGroupIngress": [
@@ -1425,14 +1439,6 @@
 					"IpProtocol": "tcp",
 					"ToPort": "22"
 				},
-				{
-					"CidrIp": {
-						"Ref": "restrictedSrcAddressApp"
-					},
-					"FromPort": "80",
-					"IpProtocol": "tcp",
-					"ToPort": "80"
-				},					
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddressApp"
@@ -1452,7 +1458,7 @@
 								{
 									"Ref": "AWS::StackName"
 								},
-								":Ext Security Group"
+								":Restricted Security Group"
 							]
 						]
 					}
@@ -1469,9 +1475,29 @@
 			}
 		}
 	},
-	"BigIpInternalSecurityGroup": {
+	"AllowAllSecurityGroup": {
 		"Properties": {
-			"GroupDescription": "Allow All from Intra-VPC only",
+			"GroupDescription": "Enable All protocols",
+			"SecurityGroupIngress": [
+				{
+					"IpProtocol": "icmp",
+					"FromPort": "-1",
+					"ToPort": "-1",
+					"CidrIp": "0.0.0.0/0"
+				},
+				{
+					"IpProtocol": "tcp",
+					"FromPort": "1",
+					"ToPort": "65535",
+					"CidrIp": "0.0.0.0/0"
+				},
+				{
+					"IpProtocol": "udp",
+					"FromPort": "1",
+					"ToPort": "65535",
+					"CidrIp": "0.0.0.0/0"
+				}
+			],			
 			"Tags": [
 				{
 					"Key": "Name",
@@ -1482,7 +1508,7 @@
 								{
 									"Ref": "AWS::StackName"
 								},
-								":Int Security Group"
+								":AllowAll_Security_Group"
 							]
 						]
 					}
@@ -1704,16 +1730,10 @@
 			]
 		}
 	},
-	"BigIpExternalSecurityGroup": {
-		"Description": "Public or External Security Group",
-		"Value": {
-			"Ref": "BigIpExternalSecurityGroup"
-		}
-	},
-	"BigIpInternalSecurityGroup": {
+	"AllowAllSecurityGroup": {
 		"Description": "Private or Internal Security Group",
 		"Value": {
-			"Ref": "BigIpInternalSecurityGroup"
+			"Ref": "AllowAllSecurityGroup"
 		}
 	},
 	"BigIpManagementSecurityGroup": {

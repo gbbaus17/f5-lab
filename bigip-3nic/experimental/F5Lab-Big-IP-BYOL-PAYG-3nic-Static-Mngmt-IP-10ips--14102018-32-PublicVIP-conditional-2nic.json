@@ -2,7 +2,9 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "F5 BigIP 3nic Template for use with F5 labs https://clouddocs.f5.com/training/community/",
   "Conditions": {  
-	  "UsePaygImage": { "Fn::Equals": [ "Yes", {"Ref": "UsePAYG"} ] }
+	  "UsePaygImage": { "Fn::Equals": [ "Yes", {"Ref": "UsePAYG"} ] },
+	  "AssignExtraVips": { "Fn::Equals": [ "Yes", {"Ref": "AssignExtra"} ] },
+	  "UseBigIp3Nic": { "Fn::Equals": [ "3nics", {"Ref": "BigIp3Nic"} ] }
 	 },
   "Parameters": {
 	"VPC": {
@@ -17,7 +19,7 @@
 	"CustomImageId": {
 		"ConstraintDescription": "Must be a valid AMI Id",
 		"Default": "ami-04e893bab1e8b9b10",
-		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs [BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
+		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; Sydney v14=ami-098d744be7a18d539]",
 		"MaxLength": 255,
 		"MinLength": 1,
 		"Type": "String"
@@ -49,10 +51,19 @@
 	   "Description": "You can use an F5 Eval key, or choose Pay-As-You-Go. If you select 'No' you need to specify a License Key. ** NOTE** PAYG F5 Software cost is approx @~50cents/hour",
 	   "Type": "String"
 	  },
+	"BigIp3Nic": {
+	   "AllowedValues": [
+		"3nics",
+		"2nics"
+	   ],
+	   "Default": "3nics",
+	   "Description": "Create 3 NIC or 2 NIC instance ? Lab default is 3 NICs",
+	   "Type": "String"
+	  },	  
 	"licenseKey1": {
 		"ConstraintDescription": "Verify your F5 BYOL regkey.",
-	    "Default": "Optional",
-		"Description": "F5 BYOL license key - For eval obtain from your F5 SE or leave 'Optional' if using PAYG option",
+	    "Default": "Needed for BYOL",
+		"Description": "F5 BYOL license key - For eval obtain from your F5 SE or Ignore if using PAYG option",
 		"MaxLength": 255,
 		"MinLength": 8,
 		"Type": "String"
@@ -95,8 +106,7 @@
 		"Type": "AWS::EC2::Subnet::Id"
 	},
 	"InternalSubnet": {
-		"ConstraintDescription": "The subnet ID must be within an existing VPC",
-		"Description": "Private or Internal subnet",
+		"Description": "Internal subnet - for 3 NIC Instance. Ignore for 2 NIC",
 		"Type": "AWS::EC2::Subnet::Id"
 	},
 	"BigIpManagementIP": {
@@ -119,9 +129,8 @@
 	},
 	"BigIpInternalSubnetIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
 		"Default": "10.1.20.245",
-		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.245",
+		"Description": "Internal Self-IP for 3 NIC Instance - Lab Default is 10.1.20.245",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -130,16 +139,25 @@
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
 		"Default": "10.1.20.240",
-		"Description": "Additional FPS Lab Self-IP - Lab Default is 10.1.20.240",
+		"Description": "Additional Lab Self-IP - FPS Lab Default is 10.1.20.240",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},
+	"AssignExtra": {
+	   "AllowedValues": [
+		"Yes",
+		"No"
+	   ],
+	   "Default": "Yes",
+	   "Description": "Assign/reserve extra EC2 addresses for VIPs ?",
+	   "Type": "String"
+	  },	
 	"AdditionalVipAddr15": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
 		"Default": "10.1.10.15",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.15",
+		"Description": "EC2 address to be used as first VIP address: 10.1.10.15",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -236,13 +254,13 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "For First Accept BIG-IP Terms and Conditions and note Image ID [v13 or v14]"
+                        "default": "For First Accept BIG-IP Terms and Conditions and note Image ID [v13 or v14]. Either BYOL or PAYG."
                     },
                     "Parameters": []
                 },
                 {
                     "Label": {
-                        "default": "https://aws.amazon.com/marketplace/search/results?searchTerms=f5+Big-ip+All+Boot"
+                        "default": "https://aws.amazon.com/marketplace/search/results?searchTerms=f5+Big-ip"
                     },
                     "Parameters": []
                 },
@@ -266,12 +284,6 @@
                 },
                 {
                     "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
-                    },
-                    "Parameters": []
-                },
-                {
-                    "Label": {
                         "default": "Run this template AFTER you have run the TOPOLOGY template for the F5 Lab which creates 3 Subnets in CIDR 10.1.0.0/16"
                     },
                     "Parameters": []
@@ -282,6 +294,15 @@
                     },
                     "Parameters": []
                 },
+				{
+				 "Label": {
+				  "default": "PAYG or BYOL | 3 NIC or 2 NIC"
+				 },
+				 "Parameters": [
+					  "UsePAYG",
+					  "BigIp3Nic"
+				 ]
+				},				
                 {
                     "Label": {
                         "default": "NETWORKING CONFIGURATION"
@@ -294,14 +315,6 @@
                         "availabilityZone1"
                     ]
                 },
-				{
-				 "Label": {
-				  "default": "PAYG or BYOL"
-				 },
-				 "Parameters": [
-				  "UsePAYG"
-				 ]
-				},				
                 {
                     "Label": {
                         "default": "INSTANCE CONFIGURATION"
@@ -329,15 +342,23 @@
                         "BigIpManagementIP",
                         "BigIpExternalSubnetIP",
                         "BigIpInternalSubnetIP",
-						"BigipFpsLabSelfIP"
+						"BigipFpsLabSelfIP",
+						"AdditionalVipAddr15"
                     ]
                 },
 				{
+				 "Label": {
+				  "default": "Assign Extra Addresses in EC2 for VIPs"
+				 },
+				 "Parameters": [
+				  "AssignExtra"
+				 ]
+				},
+				{
                     "Label": {
-                        "default": "Avaliable Virtual server Addresses"
+                        "default": "If Assign 'YES' - Avaliable Addresses for Virtual servers"
                     },
                     "Parameters": [
-						"AdditionalVipAddr15",
 						"AdditionalVipAddr16",
 						"AdditionalVipAddr30",
 						"AdditionalVipAddr32",
@@ -365,7 +386,10 @@
                 },
 				"UsePAYG": {
 				     "default": "Use PAYG license?"
-				},				
+				},
+				"BigIp3Nic": {
+				     "default": "3NIC or 2 NIC Instance?"
+				},					
                 "CustomImageId": {
                     "default": "AMI Image Id for your Region"
                 },
@@ -400,7 +424,7 @@
                     "default": "External Subnet"
                 },
                 "InternalSubnet": {
-                    "default": "Internal Subnet"
+                    "default": "Internal Subnet ?"
                 },
                 "TimeZone": {
                     "default": "Timezone (Olson)"
@@ -421,7 +445,7 @@
                     "default": "BigIp FPS Lab Self-IP"
                 },
                 "AdditionalVipAddr15": {
-                    "default": "Additional VIP .15"
+                    "default": "Address for VIP .15"
                 },
                 "AdditionalVipAddr16": {
                     "default": "FPS Lab VIP Addr .16"
@@ -704,52 +728,96 @@
 						},
 						"040-network-config": {
 							"command": {
+							 "Fn::If": [
+						       "UseBigIp3Nic",
+						       {
+							   "Fn::Join": [
+									"",
+									[
+									"GATEWAY_MAC=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`; ",
+									"GATEWAY_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC}/subnet-ipv4-cidr-block`; ",
+									"GATEWAY_NET=${GATEWAY_CIDR_BLOCK%/*}; ",
+									"GATEWAY_PREFIX=${GATEWAY_CIDR_BLOCK#*/}; ",
+									"GATEWAY=`echo ${GATEWAY_NET} | awk -F. '{ print $1\".\"$2\".\"$3\".\"$4+1 }'`; ",
+									"GATEWAY_MAC2=`ifconfig eth2 | egrep HWaddr | awk '{print tolower($5)}'`; ",
+									"GATEWAY_CIDR_BLOCK2=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC2}/subnet-ipv4-cidr-block`; ",
+									"GATEWAY_PREFIX2=${GATEWAY_CIDR_BLOCK2#*/}; ",
+									"nohup /config/waitThenRun.sh ",
+									"f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/network.js ",
+									"--host localhost ",
+									"--user admin ",
+									"--password-url file:///config/cloud/aws/.adminPassword ",
+									"--password-encrypted ",
+									"-o /var/log/cloud/aws/network.log ",
+									"--log-level silly ",
+									"--wait-for ADMIN_CREATED ",
+									"--signal NETWORK_CONFIG_DONE ",
+									"--vlan name:external,nic:1.1 ",
+									"--self-ip name:external-self,address:",
+									{
+										"Fn::GetAtt": [
+											"BigIp1ExternalSubnetInterface",
+											"PrimaryPrivateIpAddress"
+										]
+									},
+									"/${GATEWAY_PREFIX},vlan:external ",
+									"--vlan name:internal,nic:1.2 ",
+									"--self-ip name:internal-self,address:",
+									{
+										"Fn::GetAtt": [
+											"BigIp1InternalInterface",
+											"PrimaryPrivateIpAddress"
+										]
+									},											
+									"/${GATEWAY_PREFIX2},vlan:internal ",
+									"&>> /var/log/cloud/aws/install.log < /dev/null &"
+									]
+								 ]							   
+							   },
+							   {
 								"Fn::Join": [
 									"",
 									[
-										"GATEWAY_MAC=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`; ",
-										"GATEWAY_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC}/subnet-ipv4-cidr-block`; ",
-										"GATEWAY_NET=${GATEWAY_CIDR_BLOCK%/*}; ",
-										"GATEWAY_PREFIX=${GATEWAY_CIDR_BLOCK#*/}; ",
-										"GATEWAY=`echo ${GATEWAY_NET} | awk -F. '{ print $1\".\"$2\".\"$3\".\"$4+1 }'`; ",
-										"GATEWAY_MAC2=`ifconfig eth2 | egrep HWaddr | awk '{print tolower($5)}'`; ",
-										"GATEWAY_CIDR_BLOCK2=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC2}/subnet-ipv4-cidr-block`; ",
-										"GATEWAY_PREFIX2=${GATEWAY_CIDR_BLOCK2#*/}; ",
-										"nohup /config/waitThenRun.sh ",
-										"f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/network.js ",
-										"--host localhost ",
-										"--user admin ",
-										"--password-url file:///config/cloud/aws/.adminPassword ",
-										"--password-encrypted ",
-										"-o /var/log/cloud/aws/network.log ",
-										"--log-level silly ",
-										"--wait-for ADMIN_CREATED ",
-										"--signal NETWORK_CONFIG_DONE ",
-										"--vlan name:external,nic:1.1 ",
-										"--default-gw ${GATEWAY} ",
-										"--self-ip name:external-self,address:",
-										{
-											"Fn::GetAtt": [
-												"BigIp1ExternalSubnetInterface",
-												"PrimaryPrivateIpAddress"
-											]
-										},
-										"/${GATEWAY_PREFIX},vlan:external ",
-										"--vlan name:internal,nic:1.2 ",
-										"--self-ip name:internal-self,address:",
-										{
-											"Fn::GetAtt": [
-												"BigIp1InternalInterface",
-												"PrimaryPrivateIpAddress"
-											]
-										},											
-										"/${GATEWAY_PREFIX2},vlan:internal ",
-										"&>> /var/log/cloud/aws/install.log < /dev/null &"
+									"GATEWAY_MAC=`ifconfig eth1 | egrep HWaddr | awk '{print tolower($5)}'`; ",
+									"GATEWAY_CIDR_BLOCK=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC}/subnet-ipv4-cidr-block`; ",
+									"GATEWAY_NET=${GATEWAY_CIDR_BLOCK%/*}; ",
+									"GATEWAY_PREFIX=${GATEWAY_CIDR_BLOCK#*/}; ",
+									"GATEWAY=`echo ${GATEWAY_NET} | awk -F. '{ print $1\".\"$2\".\"$3\".\"$4+1 }'`; ",
+									"GATEWAY_MAC2=`ifconfig eth2 | egrep HWaddr | awk '{print tolower($5)}'`; ",
+									"GATEWAY_CIDR_BLOCK2=`curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC2}/subnet-ipv4-cidr-block`; ",
+									"GATEWAY_PREFIX2=${GATEWAY_CIDR_BLOCK2#*/}; ",
+									"nohup /config/waitThenRun.sh ",
+									"f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/network.js ",
+									"--host localhost ",
+									"--user admin ",
+									"--password-url file:///config/cloud/aws/.adminPassword ",
+									"--password-encrypted ",
+									"-o /var/log/cloud/aws/network.log ",
+									"--log-level silly ",
+									"--wait-for ADMIN_CREATED ",
+									"--signal NETWORK_CONFIG_DONE ",
+									"--vlan name:external,nic:1.1 ",
+									"--self-ip name:external-self,address:",
+									{
+										"Fn::GetAtt": [
+											"BigIp1ExternalSubnetInterface",
+											"PrimaryPrivateIpAddress"
+										]
+									},
+									"/${GATEWAY_PREFIX},vlan:external ",
+									"&>> /var/log/cloud/aws/install.log < /dev/null &"
 									]
 								]
-							}
-						},
-					  "050-onboard-BIG-IP": {
+
+
+								
+							  }
+						     ]
+						   
+						   
+						   }
+						 },
+					    "050-onboard-BIG-IP": {
 						"command": {
 						 "Fn::If": [
 						  "UsePaygImage",
@@ -757,49 +825,49 @@
 						   "Fn::Join": [
 								" ",
 								[
-									"REGION=\"",
-									{
-										"Ref": "AWS::Region"
-									},
-									"\";",
-									"DEPLOYMENTID=`echo \"",
-									{
-										"Ref": "AWS::StackId"
-									},
-									"\"|sha512sum|cut -d \" \" -f 1`;",
-									"CUSTOMERID=`echo \"",
-									{
-										"Ref": "AWS::AccountId"
-									},
-									"\"|sha512sum|cut -d \" \" -f 1`;",
-									"NAME_SERVER=`/config/cloud/aws/getNameServer.sh eth1`;",
-									"nohup /config/waitThenRun.sh",
-									"f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/onboard.js",
-									"--wait-for NETWORK_CONFIG_DONE",
-									"-o /var/log/cloud/aws/onboard.log",
-									"--log-level silly",
-									"--no-reboot",
-									"--host localhost",
-									"--user admin",
-									"--password-url file:///config/cloud/aws/.adminPassword",
-									"--password-encrypted",
-									"--hostname `curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/hostname`",
-									"--ntp ",
-									{
-										"Ref": "ntpServer"
-									},
-									"--tz ",
-									{
-										"Ref": "TimeZone"
-									},
-									"--dns ${NAME_SERVER}",
-									"--module ltm:nominal",
-									"--module asm:nominal",
-									"--module avr:nominal",
-									"--ping",
-									"&>> /var/log/cloud/aws/install.log < /dev/null &"
+								"REGION=\"",
+								{
+									"Ref": "AWS::Region"
+								},
+								"\";",
+								"DEPLOYMENTID=`echo \"",
+								{
+									"Ref": "AWS::StackId"
+								},
+								"\"|sha512sum|cut -d \" \" -f 1`;",
+								"CUSTOMERID=`echo \"",
+								{
+									"Ref": "AWS::AccountId"
+								},
+								"\"|sha512sum|cut -d \" \" -f 1`;",
+								"NAME_SERVER=`/config/cloud/aws/getNameServer.sh eth1`;",
+								"nohup /config/waitThenRun.sh",
+								"f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/onboard.js",
+								"--wait-for NETWORK_CONFIG_DONE",
+								"-o /var/log/cloud/aws/onboard.log",
+								"--log-level silly",
+								"--no-reboot",
+								"--host localhost",
+								"--user admin",
+								"--password-url file:///config/cloud/aws/.adminPassword",
+								"--password-encrypted",
+								"--hostname `curl -s -f --retry 20 http://169.254.169.254/latest/meta-data/hostname`",
+								"--ntp ",
+								{
+									"Ref": "ntpServer"
+								},
+								"--tz ",
+								{
+									"Ref": "TimeZone"
+								},
+								"--dns ${NAME_SERVER}",
+								"--module ltm:nominal",
+								"--module asm:nominal",
+								"--module avr:nominal",
+								"--ping",
+								"&>> /var/log/cloud/aws/install.log < /dev/null &"
 								]
-						   ]
+						    ]
 						  },
 						  {
 						   "Fn::Join": [
@@ -851,10 +919,10 @@
 									"--ping",
 									"&>> /var/log/cloud/aws/install.log < /dev/null &"
 								]
-						   ]
-						  }
-						 ]
-						}
+						    ]
+						   }
+						  ]
+						 }
 					   },							
 						"060-custom-config": {
 							"command": {
@@ -903,6 +971,9 @@
 					"files": {
 						"/config/cloud/aws/custom-config.sh": {
 							"content": {
+							"Fn::If": [
+						       "UseBigIp3Nic",
+						       {
 								"Fn::Join": [
 									"",
 									[
@@ -929,8 +1000,6 @@
 										"echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
 										"exit 1\n",
 										"}\n",
-										"echo \"#Avoid costs, shutdown daily\" >> /etc/rc.local\n",
-										"echo \"shutdown -h 01:00\" >> /etc/rc.local\n",
 										"declare -a tmsh=()\n",
 										"echo 'starting custom-config.sh'\n",
 										"tmsh+=(\n",
@@ -958,6 +1027,58 @@
 										"### END CUSTOM CONFIGURATION"
 									]
 								]
+								
+								},
+								{
+								"Fn::Join": [
+									"",
+									[
+										"#!/bin/bash\n",
+										"tz=",
+										{
+											"Ref": "TimeZone"
+										},
+										"\n",
+										"BIGIP_ADMIN_USERNAME=admin\n",
+										"BIGIP_ADMIN_PASSWORD=",
+										{
+											"Ref": "BigIpAdminPassword"
+										},
+										"\n",
+										"PROGNAME=$(basename $0)\n",
+										"function error_exit {\n",
+										"echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
+										"exit 1\n",
+										"}\n",
+										"declare -a tmsh=()\n",
+										"echo 'starting custom-config.sh'\n",
+										"tmsh+=(\n",
+										"\"tmsh load sys application template /config/cloud/aws/f5.service_discovery.tmpl\"\n",
+										"\"tmsh load sys application template /config/cloud/aws/f5.cloud_logger.v1.0.0.tmpl\"\n",
+										"\"tmsh modify sys db dhclient.mgmt { value disable }\"\n",
+										"\"tmsh modify sys ntp TimeZone ${tz}\"\n",
+										"\"tmsh modify sys ntp servers add { 0.pool.ntp.org }\"\n",
+										"\"tmsh modify sys dns name-servers add { ${NAME_SERVER} }\"\n",
+										"\"tmsh modify sys global-settings gui-setup disabled\"\n",
+										"\"tmsh modify sys global-settings hostname ${HOSTNAME}\"\n",
+										"\"tmsh modify auth user admin password ${BIGIP_ADMIN_PASSWORD}\"\n",
+										"\"tmsh save sys config\")\n",
+										"for CMD in \"${tmsh[@]}\"\n",
+										"do\n",
+										"  \"/config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/waitForMcp.sh\"\n",
+										"    if $CMD;then\n",
+										"        echo \"command $CMD successfully executed.\"\n",
+										"    else\n",
+										"        error_exit \"$LINENO: An error has occurred while executing $CMD. Aborting!\"\n",
+										"    fi\n",
+										"done\n",
+										"date\n",
+										"### END CUSTOM CONFIGURATION"
+									]
+								]								
+							  }
+						     ]	
+								
 							},
 							"group": "root",
 							"mode": "000755",
@@ -1119,6 +1240,9 @@
 			}
 		},
 		"Properties": {
+	     "Fn::If": [
+	      "UseBigIp3Nic",
+	      {	
 			"BlockDeviceMappings": [
 				{
 					"DeviceName": "/dev/xvda",
@@ -1195,7 +1319,21 @@
 							]
 						]
 					}
-				}					
+				},
+				{
+					"Key": "MngmtPublicConnectivity",
+					"Value": {
+						"Fn::Join": [
+							"",
+							[
+								"https://",
+								{
+									"Ref": "BigIp1ManagementEipAddress"
+								}
+							]
+						]
+					}
+				}
 			],
 			"UserData": {
 				"Fn::Base64": {
@@ -1218,25 +1356,141 @@
 					]
 				}
 			}
+		 },
+		  {	
+			"BlockDeviceMappings": [
+				{
+					"DeviceName": "/dev/xvda",
+					"Ebs": {
+						"DeleteOnTermination": "true",
+						"VolumeType": "gp2"
+					}
+				},
+				{
+					"DeviceName": "/dev/xvdb",
+					"NoDevice": {}
+				}
+			],
+			"IamInstanceProfile": {
+				"Ref": "BigIpServiceDiscoveryProfile"
+			},
+			"ImageId": {
+				"Ref": "CustomImageId"
+			},
+			"InstanceType": {
+				"Ref": "InstanceType"
+			},
+			"KeyName": {
+				"Ref": "sshKey"
+			},
+			"NetworkInterfaces": [
+				{
+					"Description": "Management Interface",
+					"DeviceIndex": "0",
+					"NetworkInterfaceId": {
+						"Ref": "BigIp1ManagementInterface"
+					}
+				},
+				{
+					"Description": "Public or External Interface",
+					"DeviceIndex": "1",
+					"NetworkInterfaceId": {
+						"Ref": "BigIp1ExternalSubnetInterface"
+					}
+				}
+			],
+			"Tags": [
+				{
+					"Key": "Name",
+					"Value": {
+						"Fn::Join": [
+							"",
+							[
+							"F5Lab:",
+								{
+									"Ref": "AWS::StackName"
+								}
+							]
+						]
+					}
+				},
+				{
+					"Key": "SSHConnectivity",
+					"Value": {
+						"Fn::Join": [
+							"",
+							[
+								"ssh -i your-aws-key.pem admin@",
+								{
+									"Ref": "BigIp1ManagementEipAddress"
+								}
+							]
+						]
+					}
+				},
+				{
+					"Key": "MngmtPublicConnectivity",
+					"Value": {
+						"Fn::Join": [
+							"",
+							[
+								"https://",
+								{
+									"Ref": "BigIp1ManagementEipAddress"
+								}
+							]
+						]
+					}
+				}
+			],
+			"UserData": {
+				"Fn::Base64": {
+					"Fn::Join": [
+						"",
+						[
+							"#!/bin/bash\n",
+							"/opt/aws/apitools/cfn-init-1.4-0.amzn1/bin/cfn-init -v -s ",
+							{
+								"Ref": "AWS::StackId"
+							},
+							" -r ",
+							"BigIp1Instance",
+							" --region ",
+							{
+								"Ref": "AWS::Region"
+							},
+							"\n"
+						]
+					]
+				}
+			 }
+		   }		
+		 ]
 		},
 		"Type": "AWS::EC2::Instance"
 	},
 	"BigIp1InternalInterface": {
+		"Condition" : "UseBigIp3Nic",	
 		"Properties": {
 			"Description": "Internal Interface for the BIG-IP",
 			"GroupSet": [
 				{
-					"Ref": "BigIpInternalSecurityGroup"
+					"Ref": "AllowAllSecurityGroup"
 				}
 			],
 			"SubnetId": {
 				"Ref": "InternalSubnet"
 			},
+			"SourceDestCheck" : "false",
 			"PrivateIpAddresses": [
 				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" },
 				{ "PrivateIpAddress": { "Ref": "BigipFpsLabSelfIP" }, "Primary": "false" }					
 			],
 			"Tags": [
+				{
+					"Key": "Network",
+					"Value": "F5Labs:BigIp:InternalNIC"
+				},			
 				{
 					"Key": "Name",
 					"Value": "F5Labs:BigIp:InternalNIC"
@@ -1301,6 +1555,10 @@
 			],
 			"Tags": [
 				{
+					"Key": "Network",
+					"Value": "F5Labs:BigIp:ManagementNIC"
+				},			
+				{
 					"Key": "Name",
 					"Value": "F5Labs:BigIp:ManagementNIC"
 				}
@@ -1310,6 +1568,81 @@
 		"Metadata": {
 			"AWS::CloudFormation::Designer": {
 				"id": "851ab336-8f09-4d5a-b8bf-bec0139c3977"
+			}
+		}
+	},
+	"BigIp1ExternalSubnetInterface": {
+		"Properties": {
+			"Fn::If": [
+			  "AssignExtraVips",
+			  {
+				"Description": "External Interface for the BIG-IP",
+				"GroupSet": [
+					{
+						"Ref": "AllowAllSecurityGroup"
+					}
+				],
+				"SubnetId": {
+					"Ref": "ExternalSubnet"
+				},
+				"SourceDestCheck" : "false",
+				"PrivateIpAddresses" : [ 
+					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
+					 ],		   
+				"Tags": [
+						{
+							"Key": "Network",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						},			
+						{
+							"Key": "Name",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						}
+				]
+				
+			  },
+			  {
+				"Description": "External Interface for the BIG-IP",
+				"GroupSet": [
+					{
+						"Ref": "AllowAllSecurityGroup"
+					}
+				],
+				"SubnetId": {
+					"Ref": "ExternalSubnet"
+				},
+				"SourceDestCheck" : "false",
+				"PrivateIpAddresses" : [ 
+					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" }
+					 ],		   
+				"Tags": [
+						{
+							"Key": "Network",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						},			
+						{
+							"Key": "Name",
+							"Value": "F5Labs:BigIp:ExternalNIC"
+						}
+				]
+			  }
+			 ]
+			},
+		"Type": "AWS::EC2::NetworkInterface",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "3cbfa9c8-a6da-40fb-ba48-5a2c1aab08ae"
 			}
 		}
 	},
@@ -1336,7 +1669,7 @@
 				"Ref": "BigIp1ExternalSubnetInterface"
 			},
 			"PrivateIpAddress": {
-				"Ref": "AdditionalVipAddr145"
+				"Ref": "AdditionalVipAddr15"
 			}					
 		},
 		"Type": "AWS::EC2::EIPAssociation",
@@ -1346,81 +1679,7 @@
 			}
 		}
 	},
-	"BigIp1ExternalSubnetInterface": {
-		"Properties": {
-			"Description": "External Interface for the BIG-IP",
-			"GroupSet": [
-				{
-					"Ref": "BigIpExternalSecurityGroup"
-				}
-			],
-			"SubnetId": {
-				"Ref": "ExternalSubnet"
-			},
-		"PrivateIpAddresses" : [ 
-			   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
-			   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
-			 ],		   
-		"Tags": [
-				{
-					"Key": "Name",
-					"Value": "F5Labs:BigIp:ExternalNIC"
-				}
-			]
-		},
-		"Type": "AWS::EC2::NetworkInterface",
-		"Metadata": {
-			"AWS::CloudFormation::Designer": {
-				"id": "3cbfa9c8-a6da-40fb-ba48-5a2c1aab08ae"
-			}
-		}
-	},
-	"BigIp1ExternalSubnetSelfEipAddress": {
-		"Properties": {
-			"Domain": "VPC"
-		},
-		"Type": "AWS::EC2::EIP",
-		"Metadata": {
-			"AWS::CloudFormation::Designer": {
-				"id": "b3ef9593-6cef-4afd-85c6-d2f68144a251"
-			}
-		}
-	},
-	"BigIp1ExternalSubnetSelfEipAssociation": {
-		"Properties": {
-			"AllocationId": {
-				"Fn::GetAtt": [
-					"BigIp1ExternalSubnetSelfEipAddress",
-					"AllocationId"
-				]
-			},
-			"NetworkInterfaceId": {
-				"Ref": "BigIp1ExternalSubnetInterface"
-			},
-			"PrivateIpAddress": {
-				"Fn::GetAtt": [
-					"BigIp1ExternalSubnetInterface",
-					"PrimaryPrivateIpAddress"
-				]
-			}					
-		},
-		"Type": "AWS::EC2::EIPAssociation",
-		"Metadata": {
-			"AWS::CloudFormation::Designer": {
-				"id": "a0be736d-0240-476c-9eba-f9ea99d9d4da"
-			}
-		}
-	},
-	"BigIpExternalSecurityGroup": {
+	"RestrictedPortsSecurityGroup": {
 		"Properties": {
 			"GroupDescription": "Public or external interface rules",
 			"SecurityGroupIngress": [
@@ -1432,14 +1691,6 @@
 					"IpProtocol": "tcp",
 					"ToPort": "22"
 				},
-				{
-					"CidrIp": {
-						"Ref": "restrictedSrcAddressApp"
-					},
-					"FromPort": "80",
-					"IpProtocol": "tcp",
-					"ToPort": "80"
-				},					
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddressApp"
@@ -1459,7 +1710,7 @@
 								{
 									"Ref": "AWS::StackName"
 								},
-								":Ext Security Group"
+								":Restricted Security Group"
 							]
 						]
 					}
@@ -1476,9 +1727,29 @@
 			}
 		}
 	},
-	"BigIpInternalSecurityGroup": {
+	"AllowAllSecurityGroup": {
 		"Properties": {
-			"GroupDescription": "Allow All from Intra-VPC only",
+			"GroupDescription": "Enable All protocols",
+			"SecurityGroupIngress": [
+				{
+					"IpProtocol": "icmp",
+					"FromPort": "-1",
+					"ToPort": "-1",
+					"CidrIp": "0.0.0.0/0"
+				},
+				{
+					"IpProtocol": "tcp",
+					"FromPort": "1",
+					"ToPort": "65535",
+					"CidrIp": "0.0.0.0/0"
+				},
+				{
+					"IpProtocol": "udp",
+					"FromPort": "1",
+					"ToPort": "65535",
+					"CidrIp": "0.0.0.0/0"
+				}
+			],			
 			"Tags": [
 				{
 					"Key": "Name",
@@ -1489,7 +1760,7 @@
 								{
 									"Ref": "AWS::StackName"
 								},
-								":Int Security Group"
+								":AllowAll_Security_Group"
 							]
 						]
 					}
@@ -1644,13 +1915,15 @@
 		}
 	},
 	"BigIp1InternalInterface": {
+		"Condition" : "UseBigIp3Nic",	
 		"Description": "Internal interface ID on BIG-IP",
 		"Value": {
 			"Ref": "BigIp1InternalInterface"
 		}
 	},
 	"BigIp1InternalInterfacePrivateIp": {
-		"Description": "Internally routable IP of internal interface on BIG-IP",
+		"Condition" : "UseBigIp3Nic",
+	    "Description": "Internally routable IP of internal interface on BIG-IP",
 		"Value": {
 			"Fn::GetAtt": [
 				"BigIp1InternalInterface",
@@ -1702,7 +1975,7 @@
 			"Fn::Join": [
 				"",
 				[
-					"https://",
+					"http://",
 					{
 						"Ref": "BigIp1VipEipAddress"
 					}
@@ -1716,12 +1989,6 @@
 			"Ref": "BigIp1ExternalSubnetInterface"
 		}
 	},
-	"BigIp1ExternalSubnetSelfEipAddress": {
-		"Description": "IP Address of the External interface attached to BIG-IP",
-		"Value": {
-			"Ref": "BigIp1ExternalSubnetSelfEipAddress"
-		}
-	},
 	"availabilityZone1": {
 		"Description": "Availability Zone",
 		"Value": {
@@ -1731,16 +1998,10 @@
 			]
 		}
 	},
-	"BigIpExternalSecurityGroup": {
-		"Description": "Public or External Security Group",
-		"Value": {
-			"Ref": "BigIpExternalSecurityGroup"
-		}
-	},
-	"BigIpInternalSecurityGroup": {
+	"AllowAllSecurityGroup": {
 		"Description": "Private or Internal Security Group",
 		"Value": {
-			"Ref": "BigIpInternalSecurityGroup"
+			"Ref": "AllowAllSecurityGroup"
 		}
 	},
 	"BigIpManagementSecurityGroup": {
