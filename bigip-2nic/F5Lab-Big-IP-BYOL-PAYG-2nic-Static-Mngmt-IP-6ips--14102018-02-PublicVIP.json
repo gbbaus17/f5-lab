@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "F5 BigIP 3nic Template for use with F5 labs https://clouddocs.f5.com/training/community/",
+  "Description": "F5 BigIP 2nic Template - with Public VIP Address",
   "Conditions": {  
 	  "UsePaygImage": { "Fn::Equals": [ "Yes", {"Ref": "UsePAYG"} ] },
 	  "AssignExtraVips": { "Fn::Equals": [ "Yes", {"Ref": "AssignExtra"} ] }
@@ -38,7 +38,7 @@
 		],
 		"ConstraintDescription": "Subset of valid EC2 instance types for Lab BIG-IP",
 		"Default": "m4.xlarge",
-		"Description": "Size of the F5 BIG-IP VE Instance that supports 3 NICs |'m4.xlarge' has 4 cores, 16Gb RAM @~25cents/hour",
+		"Description": "Size of the F5 BIG-IP VE Instance |'m4.xlarge' has 4 cores, 16Gb RAM @~25cents/hour",
 		"Type": "String"
 	},
 	"UsePAYG": {
@@ -95,11 +95,6 @@
 		"Description": "Public or External subnet",
 		"Type": "AWS::EC2::Subnet::Id"
 	},
-	"InternalSubnet": {
-		"ConstraintDescription": "The subnet ID must be within an existing VPC",
-		"Description": "Private or Internal subnet",
-		"Type": "AWS::EC2::Subnet::Id"
-	},
 	"BigIpManagementIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
@@ -114,24 +109,6 @@
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
 		"Default": "10.1.10.245",
 		"Description": "Public or External Self-IP - Lab Default is 10.1.10.245",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},
-	"BigIpInternalSubnetIP": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.20.245",
-		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.245",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},
-	"BigipFpsLabSelfIP": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.20.240",
-		"Description": "Additional Lab Self-IP - FPS Lab Default is 10.1.20.240",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -163,74 +140,29 @@
 		"MinLength": 7,
 		"Type": "String"
 	},
-	"AdditionalVipAddr30": {
+	"AdditionalVipAddr17": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.30",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.30",
+		"Default": "10.1.10.17",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.17",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},
-	"AdditionalVipAddr32": {
+	"AdditionalVipAddr18": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.32",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.32",
+		"Default": "10.1.10.18",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.18",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},
-	"AdditionalVipAddr100": {
+	"AdditionalVipAddr19": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.100",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.100",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},		
-	"AdditionalVipAddr145": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.145",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.145",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},	
-	"AdditionalVipAddr146": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.146",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.146",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},
-	"AdditionalVipAddr150": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.150",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.150",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},
-	"AdditionalVipAddr200": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.200",
-		"Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.200",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},
-	"AdditionalVipAddr210": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.210",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.210",
+		"Default": "10.1.10.19",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.19",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -258,7 +190,7 @@
                 },
                 {
                     "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
                     },
                     "Parameters": []
                 },
@@ -276,19 +208,7 @@
                 },
                 {
                     "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------------"
-                    },
-                    "Parameters": []
-                },
-                {
-                    "Label": {
-                        "default": "This template assumes you have 3 Subnets in CIDR 10.1.0.0/16. The Lab TOPOLOGY template creates that for you."
-                    },
-                    "Parameters": []
-                },
-                {
-                    "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------------"
+                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
                     },
                     "Parameters": []
                 },
@@ -300,7 +220,6 @@
                         "VPC",
                         "ManagementSubnet",
                         "ExternalSubnet",
-                        "InternalSubnet",
                         "availabilityZone1"
                     ]
                 },
@@ -321,7 +240,6 @@
                         "InstanceType",
                         "applicationInstanceType",
                         "licenseKey1",
-                        "licenseKey2",
                         "managementGuiPort",
                         "sshKey",
                         "BigIpAdminPassword",
@@ -338,8 +256,6 @@
                     "Parameters": [
                         "BigIpManagementIP",
                         "BigIpExternalSubnetIP",
-                        "BigIpInternalSubnetIP",
-						"BigipFpsLabSelfIP",
 						"AdditionalVipAddr15"
                     ]
                 },
@@ -357,23 +273,15 @@
                     },
                     "Parameters": [
 						"AdditionalVipAddr16",
-						"AdditionalVipAddr30",
-						"AdditionalVipAddr32",
-						"AdditionalVipAddr100",
-						"AdditionalVipAddr145",
-						"AdditionalVipAddr146",
-						"AdditionalVipAddr150",
-						"AdditionalVipAddr200",
-						"AdditionalVipAddr210"
+						"AdditionalVipAddr17",
+						"AdditionalVipAddr18",
+						"AdditionalVipAddr19"
                     ]
                 }
             ],
             "ParameterLabels": {
                 "VPC": {
                     "default": "VPC"
-                },
-                "additionalNicLocation": {
-                    "default": "Additional NIC Location"
                 },
                 "applicationInstanceType": {
                     "default": "Application Instance Type"
@@ -392,9 +300,6 @@
                 },
                 "licenseKey1": {
                     "default": "Big-IP License Key"
-                },
-                "licenseKey2": {
-                    "default": "License Key 2"
                 },
                 "managementGuiPort": {
                     "default": "BIG-IP Management Port"
@@ -417,9 +322,6 @@
                 "ExternalSubnet": {
                     "default": "External Subnet"
                 },
-                "InternalSubnet": {
-                    "default": "Internal Subnet"
-                },
                 "TimeZone": {
                     "default": "Timezone (Olson)"
                 },
@@ -432,41 +334,20 @@
                 "BigIpExternalSubnetIP": {
                     "default": "BigIp External Self-IP"
                 },
-                "BigIpInternalSubnetIP": {
-                    "default": "BigIp Internal Self-IP"
-                },
-                "BigipFpsLabSelfIP": {
-                    "default": "BigIp FPS Lab Self-IP"
-                },
                 "AdditionalVipAddr15": {
                     "default": "Address for VIP .15"
                 },
                 "AdditionalVipAddr16": {
-                    "default": "FPS Lab VIP Addr .16"
+                    "default": "Additional VIP .16"
                 },				
-                "AdditionalVipAddr30": {
-                    "default": "Additional VIP .30"
+                "AdditionalVipAddr17": {
+                    "default": "Additional VIP .17"
                 },
-                "AdditionalVipAddr32": {
-                    "default": "Additional VIP .32"
+                "AdditionalVipAddr18": {
+                    "default": "Additional VIP .18"
                 },	
-                "AdditionalVipAddr100": {
-                    "default": "DVSM Lab VIP .100"
-                },
-                "AdditionalVipAddr145": {
-                    "default": "ASM Lab VIP Addr .145"
-                },
-                "AdditionalVipAddr146": {
-                    "default": "ASM Lab VIP Addr .146"
-                },
-                "AdditionalVipAddr150": {
-                    "default": "ASM Lab VIP Addr .150"
-                },
-                "AdditionalVipAddr200": {
-                    "default": "ASM Lab VIP Addr .200"
-                },	
-                "AdditionalVipAddr210": {
-                    "default": "ASM Lab VIP Addr .210"
+                "AdditionalVipAddr19": {
+                    "default": "Additional VIP .19"
                 }			
             }
         },
@@ -752,15 +633,6 @@
 											]
 										},
 										"/${GATEWAY_PREFIX},vlan:external ",
-										"--vlan name:internal,nic:1.2 ",
-										"--self-ip name:internal-self,address:",
-										{
-											"Fn::GetAtt": [
-												"BigIp1InternalInterface",
-												"PrimaryPrivateIpAddress"
-											]
-										},											
-										"/${GATEWAY_PREFIX2},vlan:internal ",
 										"&>> /var/log/cloud/aws/install.log < /dev/null &"
 									]
 								]
@@ -936,12 +808,6 @@
 											"Ref": "BigIpAdminPassword"
 										},
 										"\n",
-										"BIGIP_FPS_LAB_ADDRESS=",
-										{
-											"Ref": "BigipFpsLabSelfIP"
-										},
-										"\n",
-										"BIGIP_INTERNAL_VLAN=internal\n",
 										"PROGNAME=$(basename $0)\n",
 										"function error_exit {\n",
 										"echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
@@ -959,7 +825,6 @@
 										"\"tmsh modify sys global-settings gui-setup disabled\"\n",
 										"\"tmsh modify sys global-settings hostname ${HOSTNAME}\"\n",
 										"\"tmsh modify auth user admin password ${BIGIP_ADMIN_PASSWORD}\"\n",
-										"\"tmsh create net self fps_lab_selfip { address ${BIGIP_FPS_LAB_ADDRESS}/24 vlan ${BIGIP_INTERNAL_VLAN} allow-service default description \"FPS Lab guide selfip address\" }\"\n",
 										"\"tmsh save sys config\")\n",
 										"for CMD in \"${tmsh[@]}\"\n",
 										"do\n",
@@ -1174,13 +1039,6 @@
 					"NetworkInterfaceId": {
 						"Ref": "BigIp1ExternalSubnetInterface"
 					}
-				},
-				{
-					"Description": "Private or Internal Interface",
-					"DeviceIndex": "2",
-					"NetworkInterfaceId": {
-						"Ref": "BigIp1InternalInterface"
-					}
 				}
 			],
 			"Tags": [
@@ -1250,40 +1108,6 @@
 			}
 		},
 		"Type": "AWS::EC2::Instance"
-	},
-	"BigIp1InternalInterface": {
-		"Properties": {
-			"Description": "Internal Interface for the BIG-IP",
-			"GroupSet": [
-				{
-					"Ref": "AllowAllSecurityGroup"
-				}
-			],
-			"SubnetId": {
-				"Ref": "InternalSubnet"
-			},
-			"SourceDestCheck" : "false",
-			"PrivateIpAddresses": [
-				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" },
-				{ "PrivateIpAddress": { "Ref": "BigipFpsLabSelfIP" }, "Primary": "false" }					
-			],
-			"Tags": [
-				{
-					"Key": "Network",
-					"Value": "F5Labs:BigIp:InternalNIC"
-				},			
-				{
-					"Key": "Name",
-					"Value": "F5Labs:BigIp:InternalNIC"
-				}
-			]
-		},
-		"Type": "AWS::EC2::NetworkInterface",
-		"Metadata": {
-			"AWS::CloudFormation::Designer": {
-				"id": "f6bebf4d-2109-45e5-8e38-0b82e7e68c14"
-			}
-		}
 	},
 	"BigIp1ManagementEipAddress": {
 		"Properties": {
@@ -1371,14 +1195,9 @@
 					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
 					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
 					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr17" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr18" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr19" }, "Primary": "false" }
 					 ],		   
 				"Tags": [
 						{
@@ -1424,6 +1243,39 @@
 		"Metadata": {
 			"AWS::CloudFormation::Designer": {
 				"id": "3cbfa9c8-a6da-40fb-ba48-5a2c1aab08ae"
+			}
+		}
+	},
+	"BigIp1VipEipAddress": {
+		"Properties": {
+			"Domain": "VPC"
+		},
+		"Type": "AWS::EC2::EIP",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
+			}
+		}
+	},
+	"BigIp1VipEipAssociation": {
+		"Properties": {
+			"AllocationId": {
+				"Fn::GetAtt": [
+					"BigIp1VipEipAddress",
+					"AllocationId"
+				]
+			},
+			"NetworkInterfaceId": {
+				"Ref": "BigIp1ExternalSubnetInterface"
+			},
+			"PrivateIpAddress": {
+				"Ref": "AdditionalVipAddr15"
+			}					
+		},
+		"Type": "AWS::EC2::EIPAssociation",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "d7468fd4-001a-4f2b-b0df-cac0767611bc"
 			}
 		}
 	},
@@ -1662,21 +1514,6 @@
 			"Ref": "BigIp1Instance"
 		}
 	},
-	"BigIp1InternalInterface": {
-		"Description": "Internal interface ID on BIG-IP",
-		"Value": {
-			"Ref": "BigIp1InternalInterface"
-		}
-	},
-	"BigIp1InternalInterfacePrivateIp": {
-		"Description": "Internally routable IP of internal interface on BIG-IP",
-		"Value": {
-			"Fn::GetAtt": [
-				"BigIp1InternalInterface",
-				"PrimaryPrivateIpAddress"
-			]
-		}
-	},
 	"BigIp1ManagementInterface": {
 		"Description": "Management interface ID on BIG-IP",
 		"Value": {
@@ -1715,6 +1552,20 @@
 			]
 		}
 	},
+	"BigIp1VipEipAddress": {
+		"Description": "Future EIP address for VIP",
+		"Value": {
+			"Fn::Join": [
+				"",
+				[
+					"https://",
+					{
+						"Ref": "BigIp1VipEipAddress"
+					}
+				]
+			]
+		}
+	},
 	"BigIp1ExternalSubnetInterface": {
 		"Description": "External interface Id on BIG-IP",
 		"Value": {
@@ -1731,7 +1582,7 @@
 		}
 	},
 	"AllowAllSecurityGroup": {
-		"Description": "Private or Internal Security Group",
+		"Description": "Allow All Security Group",
 		"Value": {
 			"Ref": "AllowAllSecurityGroup"
 		}
