@@ -1427,6 +1427,39 @@
 			}
 		}
 	},
+	"BigIp1VipEipAddress": {
+		"Properties": {
+			"Domain": "VPC"
+		},
+		"Type": "AWS::EC2::EIP",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
+			}
+		}
+	},
+	"BigIp1VipEipAssociation": {
+		"Properties": {
+			"AllocationId": {
+				"Fn::GetAtt": [
+					"BigIp1VipEipAddress",
+					"AllocationId"
+				]
+			},
+			"NetworkInterfaceId": {
+				"Ref": "BigIp1ExternalSubnetInterface"
+			},
+			"PrivateIpAddress": {
+				"Ref": "AdditionalVipAddr15"
+			}					
+		},
+		"Type": "AWS::EC2::EIPAssociation",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "d7468fd4-001a-4f2b-b0df-cac0767611bc"
+			}
+		}
+	},
 	"RestrictedPortsSecurityGroup": {
 		"Properties": {
 			"GroupDescription": "Public or external interface rules",
@@ -1710,6 +1743,20 @@
 							"BigIp1Instance",
 							"PublicIp"
 						]
+					}
+				]
+			]
+		}
+	},
+	"BigIp1VipEipAddress": {
+		"Description": "Future EIP address for VIP",
+		"Value": {
+			"Fn::Join": [
+				"",
+				[
+					"https://",
+					{
+						"Ref": "BigIp1VipEipAddress"
 					}
 				]
 			]

@@ -12,7 +12,7 @@
 	},
 	"BigIpAdminPassword": {
 		"Default": "f5DEMOs4u!",
-		"Description": "Admin password for Web Access",
+		"Description": "Admin password. NOTE: Must pass the 'pam_cracklib' checks. See support article K10612010",
 		"Type": "String"
 	},
 	"CustomImageId": {
