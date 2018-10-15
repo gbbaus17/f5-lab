@@ -644,10 +644,16 @@
                 },
                 {
                     "Label": {
-                        "default": "This template assumes you have an External and Mngmt Subnet in CIDR 10.1.0.0/16. The Lab TOPOLOGY template creates that for you. JumpHost Build takes ~10 min"
+                        "default": "This template assumes you have an External and Mngmt Subnet in CIDR 10.1.0.0/16"
                     },
                     "Parameters": []
                 },
+                {
+                    "Label": {
+                        "default": "The Lab TOPOLOGY template creates that for you. JumpHost Build takes ~10 min"
+                    },
+                    "Parameters": []
+                },				
                 {
                     "Label": {
                         "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
