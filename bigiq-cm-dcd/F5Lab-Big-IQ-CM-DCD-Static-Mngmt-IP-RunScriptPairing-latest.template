@@ -510,6 +510,8 @@
 										"###########Starting Config#############",
 										"echo \"Starting tmsh config\"",
 										"tmsh modify auth user admin password ${BIGIQ_PWD}",
+										"sleep 10",
+										"tmsh save sys config",
 										"#LICENSE VIA SOAP CLIENT",
 										{
 											"Fn::Join": [
@@ -850,7 +852,8 @@
 										"chmod 777 *.py",
 										"echo \"Starting tmsh config\"",
 										"tmsh modify auth user admin password ${BIGIQ_PWD}",
-										"sleep 5",										
+										"sleep 10",
+										"tmsh save sys config",										
 										"#LICENSE VIA SOAP CLIENT",
 										{
 											"Fn::Join": [

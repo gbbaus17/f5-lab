@@ -1,0 +1,974 @@
+ogin as: root
+This is a private system; unauthorized access is prohibited. Disconnect immediately if you have not been explicitly authorized to access this system.
+Authenticating with public key "rsa-key-20170505"
+-- UDF SSH ---------------------
+Deployment: APM-Consulting-Access-Base
+Component:  Linux LAMP/LDAP
+--------------------------------
+Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.4.0-137-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+181 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Wed Oct 10 20:46:28 2018 from 10.1.1.254
+ubuntu@ip-10-1-1-9:~$ history
+    1  sudo root
+    2  sudo bash
+    3  ls
+    4  ifconfig -a|more
+    5  apt-get update
+    6  cd /etc/init.d
+    7  ls
+    8  more networking
+    9  cd /etc/network/
+   10  ls
+   11  cd interfaces.d/
+   12  ls
+   13  more 50-cloud-init.cfg
+   14  ifconfig -a|more
+   15  ls
+   16  more 50-cloud-init.cfg
+   17  ifconfig -a
+   18  ls
+   19  cd ..
+   20  ls
+   21  more interfaces
+   22  cd interfaces.d/
+   23  ls
+   24  cd ..
+   25  ls
+   26  more interfaces
+   27  ls
+   28  ifconfig -a
+   29  vi interfaces
+   30  cd /etc/int.d
+   31  cd /etc/init.d/
+   32  ls
+   33  ./networking restart
+   34  ifconfig -a
+   35  ifconfig ens4 up
+   36  ifconfig -a
+   37  ifconfig ens4 down
+   38  ls
+   39  cd /etc/network/
+   40  ls
+   41  more interfaces
+   42  vi interfaces
+   43  cd interfaces.d/
+   44  ls
+   45  vi ens4
+   46  mv ens4 ens4.cfg
+   47  ls
+   48  cd ..
+   49  ls
+   50  more interfaces
+   51  vi interfaces
+   52  reboot
+   53  apt-get update install
+   54  apt-get update
+   55  sudo bash
+   56  ifconfig -a
+   57  cd /etc/network/
+   58  ls
+   59  cd interfaces.d/
+   60  ls
+   61  ls -la
+   62  more 50-cloud-init.cfg
+   63  vi ens4.cfg
+   64  /etc/init.d/networking restart
+   65  ifconfig -a
+   66  ping 10.1.20.1
+   67  apt-get update
+   68  sudo bash
+   69  apt-get update
+   70  apt-get update install
+   71  apt-get install update
+   72  apt-get
+   73  apt-get upgrade
+   74  cd /var/www
+   75  ls
+   76  cd /var
+   77  ls
+   78  sudo bash
+   79  cd /var/tmp
+   80  tar tvf /var/tmp/lamp-www.tar
+   81  cd ..
+   82  mkdir www
+   83  ls -la
+   84  cd www
+   85  tar xvf /var/tmp/lamp-www.tar
+   86  ls -la
+   87  apt-get install apache
+   88  apt-get install apache2
+   89  cd /etc
+   90  ls
+   91  cd apache2/
+   92  ls
+   93  sudo bash
+   94  vi /etc/hosts
+   95  ping 10.1.20.16
+   96  ping 10.1.20.252
+   97  ifconfig -a|more
+   98  ifconfig -a 10.1.20.11
+   99  ping 10.1.20.11
+  100  ping 10.1.20.12
+  101  sudo bash
+  102  cd /var/tmp
+  103  ls
+  104  mkdir apache-lamp-conf
+  105  cp apache-config-lamp.tar apache-lamp-conf/
+  106  cd apache-lamp-conf/
+  107  ls
+  108  tar xvf apache-config-lamp.tar
+  109  ls
+  110  more apache2.conf
+  111  ls
+  112  rm apache-config-lamp.tar
+  113  cp -pr * /etc/apache2/
+  114  cd /etc/init.d
+  115  apache restart
+  116  apache2 restart
+  117  apache2ctl restart
+  118  apt-get install php5
+  119  apt-get install php
+  120  apache2ctl restart
+  121  apt-get install php5
+  122  cd /etc/apache2/
+  123  grep php *
+  124  cd conf.d
+  125  grep php *
+  126  cd ..
+  127  ls
+  128  grep php *
+  129  cd mods-enabled/
+  130  ls
+  131  more php5.conf
+  132  add-apt-repository ppa:ondrej/php
+  133  apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0
+  134  add-apt-repository apt-get update
+  135  apt-get update
+  136  apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0
+  137  exit
+  138  cd /etc/network/
+  139  ls
+  140  vi interfaces
+  141  ls
+  142  cd interfaces.d/
+  143  ls
+  144  more ens4.cfg
+  145  vi ens4.cfg
+  146  /etc/init.d
+  147  /etc/init.d/networking restart
+  148  ifconfig -a
+  149  ping 10.1.20.12
+  150  vi ens4.cfg
+  151  /etc/init.d/networking restart
+  152  ping 10.1.2050
+  153  ping 10.1.20.50
+  154  cd /etc/apache2/
+  155  ls
+  156  tar cvf * /var/tmp/apache2-conf.tar
+  157  ls
+  158  tar cvf /var/tmp/apache2-conf.tar *
+  159  sudo a2dismod php7.0 ; sudo a2enmod php5.6 ;
+  160  sudo bash
+  161  a2dismod
+  162  a2dismod php7.0
+  163  a2endmod php5.6
+  164  a2enmod php5.6
+  165  service apache2 start
+  166  service apache2 stop
+  167  service apache2 start
+  168  systemctl status apache2.service
+  169  ls
+  170  cd /etc/apache2
+  171  ls
+  172  cd conf.d
+  173  ls
+  174  cd ..
+  175  which apache2ctl
+  176  apache2ctl stop
+  177  apache2ctl start
+  178  a2dismod php5
+  179  a2enmod php5.6
+  180  apache2ctl start
+  181  apt-get install phpldapadmin
+  182  apache2ctl start
+  183  ls
+  184  apache2ctl sttop
+  185  apache2ctl start
+  186  cd ..
+  187  ls
+  188  cd apache2
+  189  ls
+  190  rm -rf *
+  191  cd /var/tmp
+  192  ls
+  193  cd -
+  194  tar xvf /var/tmp/apache2-conf.tar
+  195  apache2ctl start
+  196  vi apache2.conf
+  197  whoami www-data
+  198  more /etc/users
+  199  cd /etc
+  200  more passwd
+  201  cd
+  202  cd -
+  203  apache2ctl start
+  204  apt-get install apache2
+  205  apt-get remove apache2
+  206  apt-get install apache2
+  207  apachectl stop
+  208  apachectl start
+  209  cd /etc/apache2/
+  210  vi apache2.conf
+  211  apt-get remove apache2
+  212  ld
+  213  ls
+  214  pwd
+  215  cd ..
+  216  ls
+  217  rm -rf apache2/
+  218  apt-get install apache2
+  219  cd apache2
+  220  ls
+  221  apt-get
+  222  apt-get purge apache2
+  223  apt-get install apache2
+  224  apachectl start
+  225  apachectl sttop
+  226  apachectl stop
+  227  apachectl status
+  228  apachectl start
+  229  whoami
+  230  cd /etc/init.d
+  231  ls
+  232  more apache2
+  233  service apache start
+  234  service apache2 stop
+  235  service apache2 start
+  236  apache2ctl start
+  237  apache2ctl sttop
+  238  apache2ctl stop
+  239  apache2ctl start
+  240  telnet localhost 80
+  241  cd /var/www
+  242  ls
+  243  cd /etc/apache2
+  244  ls
+  245  a2dismod php5
+  246  apt-get install libapache2-mod-php5
+  247  apt-get install libapache2-mod-php
+  248  ls
+  249  tar xvf /var/tmp/apache-config-lamp.tar
+  250  ls
+  251  apt-get purge libapache2-mod-php
+  252  apt-get install libapache2-mod-php
+  253  apache2ctl start
+  254  vi apache2.conf
+  255  cd mods-enabled/
+  256  ls
+  257  rm php5.load
+  258  rm php5.conf
+  259  apache2ctl start
+  260  apache2ctl stop
+  261  apache2ctl start
+  262  sudo bash
+  263  apt-get install php-mysql
+  264  service apache2 restart
+  265  a2enmod rewrite
+  266  a2enmod php
+  267  a2enmod php7
+  268  a2enmod php7.1
+  269  apt-get install mysql
+  270  apt-get install mysql-server
+  271  apt-get install php-bcmath
+  272  service apache2 restart
+  273  chown -R www-data:www-data /var/www/hackazon
+  274  cd /var/www/hackazon/
+  275  ls
+  276  more DOCUMENTATION.md
+  277  ls
+  278  cd assets/
+  279  ls
+  280  cd config
+  281  ls
+  282  more db.php
+  283  more auth.php
+  284  ls
+  285  more db.php
+  286  mv db.php db.php.old
+  287  service apache2 restart
+  288  mysql -u root -p
+  289  /etc/init.d/mysql restart
+  290  ls
+  291  more db.php
+  292  mysql -u root -p
+  293  ls
+  294  cd ..
+  295  l
+  296  cd ..
+  297  ls
+  298  cd database/
+  299  ls
+  300  more db.sql
+  301  vi db.sql
+  302  service mysql restart
+  303  service apache2 restart
+  304  apt-get install php7.1-mbstring
+  305  service apache2 restart
+  306  phpenmod mysqli
+  307  apt-get install php-mysqli
+  308  ls
+  309  tail er
+  310  tail error.log
+  311  cd /var/www/dvwa/dvwa/includes/
+  312  grep mysql_conn *
+  313  cp dvwaPage.inc.php dvwaPage.inc.php.old
+  314  vi dvwaPage.inc.php
+  315  tail -f /var/log/apache2/error.log
+  316  ls
+  317  cp dvwaPage.inc.php.old dvwaPage.inc.php
+  318  add-apt-repository ppa:ondrej/php
+  319  apt-get update
+  320  apt-get install php5.6 php5.6-mysql php5.6-mbstring libapache2-mod-php5.6
+  321  exit
+  322  a2dismod php7.1
+  323  a2enmod php5.6
+  324  a2enmod php5
+  325  service apache2 restart
+  326  tail /var/log/apache2/error.log
+  327  service apache2 stop
+  328  service apache2 start
+  329  tail /var/log/apache2/error.log
+  330  a2dismod php5
+  331  a2enmod php7.1
+  332  service apache2 restart
+  333  apt-get install php5.6-mysql
+  334  apt-get install php-gettext
+  335  apt-get install php-xdebug
+  336  a2dismod php7.1
+  337  a2enmod php5
+  338  service apache2 restart
+  339  sudo apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0
+  340  a2enmod php5.6
+  341  a2enmod php7.1
+  342  a2dismod php5
+  343  a2enmod php7.1
+  344  service apache2 restart
+  345  tail -f /var/log/apache2/error.log
+  346  exit
+  347  cd /var/html
+  348  cd /var/www
+  349  ls
+  350  cd dvwa
+  351  ls
+  352  cd config
+  353  ls
+  354  more config.inc.php
+  355  cd /var/www
+  356  ls
+  357  cd log
+  358  cd //etc/apache2/
+  359  ls
+  360  grep log *
+  361  cd /var/log
+  362  ls
+  363  cd apache2/
+  364  ls
+  365  tail -f error.log
+  366  sudo bash
+  367  sudo a2dismod php7.0 ; sudo a2enmod php5.6 ; sudo service apache2 restart
+  368  sudo bash
+  369  exit
+  370  sudo bash
+  371  cd /var/tmp
+  372  ls
+  373  unzip DVWA-master.zip
+  374  apt install unzip
+  375  unzip DVWA-master.zip
+  376  ls
+  377  cd DVWA-master/
+  378  ls
+  379  cp -pr * /var/www/dvwa/dvwa/
+  380  service apache2 stop
+  381  service apache2 start
+  382  tail -f /var/log/apache2/error.log
+  383  cd /var/www/dvwa/
+  384  ls
+  385  cd dvwa
+  386  ls
+  387  cd /var/tmp
+  388  cd DVWA-master/
+  389  ls
+  390  cp -pr * /var/www/dvwa/dvwa/
+  391  tail -f /var/log/apache2/error.log
+  392  a2dismod php7.1
+  393  a2enmod php5
+  394  service apache restart
+  395  service apache stop
+  396  service apache start
+  397  cd /var/log
+  398  ls
+  399  cd apache2/
+  400  ls
+  401  tail access.log
+  402  tail error.log
+  403  apt-get install php5.6-mbstring php5.6-mcrypt php5.6-mysql php5.6-xml
+  404  sudo bash
+  405  apt-get install php5.6-mbstring php5.6-mcrypt php5.6-mysql php5.6-xml
+  406  cd /var/www
+  407  ls
+  408  cd dvwa
+  409  ls
+  410  cd dvwa
+  411  ls -la
+  412  rm -rf *
+  413  unzip /var/tmp/DVWA-master.zip .
+  414  unzip /var/tmp/DVWA-master.zip
+  415  ls
+  416  cd ..
+  417  mv * ../
+  418  ls
+  419  pwd
+  420  cd dvwa
+  421  ls
+  422  cd DVWA-master/
+  423  ls
+  424  mv * ../
+  425  ls
+  426  cd ..
+  427  ls
+  428  rm -rf DVWA-master/
+  429  service apache2 restart
+  430  a2dismod
+  431  a2enmod php7.1
+  432  service apache2 restart
+  433  ls
+  434  cd dvwa/
+  435  ls
+  436  cd includes/
+  437  ls
+  438  more dvwaPage.inc.php
+  439  apt-get install php-gb
+  440  apt-get install php-gd
+  441  apt-get install php-allow-url
+  442  apt-get install php-allow-url-include
+  443  apt-get install php-all
+  444  ls
+  445  cd ..
+  446  ls
+  447  cd ..
+  448  ls
+  449  cd config
+  450  ls
+  451  vi config.inc.php
+  452  apt-get install ldap
+  453  apt-get install ldaps
+  454  apt-get install python
+  455  apt-get install python-liball
+  456  apt-get install libapache2-mod-auth-mysql
+  457  man scp
+  458  sudo bash
+  459  apt-get ab
+  460  apt-get install ab
+  461  apt-get install apache-bench
+  462  apt-get install dnsperf
+  463  apt-get install -y bind9utils libbind-dev libkrb5-dev libssl-dev libcap-dev libxml2-dev
+  464  pwd
+  465  curl ftp://ftp.nominum.com/pub/nominum/dnsperf/2.0.0.0/dnsperf-src-2.0.0.0-1.tar.gz -O
+  466  tar xfvz dnsperf-src-2.0.0.0-1.tar.gz
+  467  cd dnsperf-src-2.0.0.0-1
+  468  ./configure
+  469  apt-get install gcc
+  470  apt-get install bind9utils make
+  471  ./configure
+  472  make
+  473  apt-get install geoip
+  474  apt-get install geoip*
+  475  apt-get install geoip-database
+  476  apt-get install geoip-database-extra
+  477  make
+  478  apt-get install libgeoip-dev
+  479  make
+  480  ls
+  481  exit
+  482  ls
+  483  cd dnsperf-src-2.0.0.0-1/
+  484  make install
+  485  dnsperf
+  486  bash
+  487  sudo bash
+  488  ab
+  489  which ab
+  490  man ab
+  491  apt-get install freeradius
+  492  ldap
+  493  ldapsearch
+  494  apt-get install ldap-utils
+  495  apt-get install ldap-server
+  496  sudo bash
+  497  ifconfig -a|more
+  498  ls -la
+  499  rm dnsperf-src-2.0.0.0-1.tar.gz
+  500  cd /var/log
+  501  tail apache2/
+  502  cd apache2/
+  503  ls
+  504  tail error.log
+  505  telnet 127.0.0.1 80
+  506  exi
+  507  exit
+  508  cd /var/log
+  509  ls
+  510  more cloud-init.log
+  511  cd /
+  512  find . -name cloud-config
+  513  ls
+  514  cd ..
+  515  ls
+  516  pwd
+  517  ls
+  518  cd /etc/network/
+  519  ls
+  520  cd interfaces.d/
+  521  ls
+  522  whoami
+  523  ifconfig -a
+  524  ls
+  525  more ens4.cfg
+  526  ifconfig -a ens4 up
+  527  /etc/init.d/networking restart
+  528  networkctl restart
+  529  networkctl stop
+  530  ifconfig -a
+  531  exit
+  532  sudo bash
+  533  ls -la
+  534  ifconfig -a
+  535  ifconfig -a|more
+  536  sudo bash
+  537  exit
+  538  sudo bash
+  539  cd /etc/network/
+  540  ls
+  541  cd interfaces.d/
+  542  ls
+  543  more ens4.cfg
+  544  ls
+  545  cd ..
+  546  more interfaces
+  547  cd interfaces.d/
+  548  ls
+  549  ifconfig ens4 up
+  550  ifconfig -a|more
+  551  ls
+  552  cp ens4.cfg eth1.cfg
+  553  ifconfig eth1 up
+  554  ifconfig -a
+  555  reboott
+  556  reboot
+  557  cd /etc/network/interfaces.d/
+  558  ls
+  559  ifconfig -a
+  560  vi eth1.cfg
+  561  reboot
+  562  sudo bash
+  563  ifconfig -a
+  564  which php
+  565  php --version
+  566  ifconfig
+  567  cat /etc/network/interfaces
+  568  cat /etc/network/interfaces.d/50-cloud-init.cfg
+  569  ls
+  570  cd /etc/network/interfaces.d/
+  571  ls
+  572  cat ens4.cfg
+  573  ls
+  574  cd ..
+  575  ls
+  576  cat interfaces
+  577  sudos service networking restart
+  578  systemctl status networking.service
+  579  ls
+  580  cd interfaces.d/
+  581  ls
+  582  cat ens4.cfg
+  583  cat eth1.cfg
+  584  ifconfig eth1 up
+  585  ls
+  586  ifconfig
+  587  sudo ifdown --exclude=lo -a && sudo ifup --exclude=lo -a
+  588  ifconfig
+  589  sudo ifconfig eth1 up
+  590  sudo ifconfig ens4 up
+  591  ls
+  592  cat eth1.cfg
+  593  ls
+  594  ifconfig
+  595  ping 10.1.20.50
+  596  ping 10.1.20.12
+  597  ping 10.1.20.13
+  598  ping 10.1.20.14
+  599  ping 10.1.20.15
+  600  ping 10.1.20.14
+  601  ping 10.1.20.17
+  602  curl http://10.1.20.11/
+  603  curl http://10.1.20.12/
+  604  curl http://10.1.20.13/
+  605  curl http://10.1.20.14/
+  606  curl http://10.1.20.15/
+  607  curl http://10.1.20.17/
+  608  curl http://10.1.20.50/
+  609  curl https://10.1.20.50/
+  610  curl -k https://10.1.20.50/
+  611  curl -k https://10.1.20.11/
+  612  curl  https://10.1.20.11/
+  613  curl -k https://10.1.20.11/
+  614  curl -k https://10.1.20.15/
+  615  curl -k https://10.1.20.17/
+  616  sudo apt-get update
+  617  sudo apt-get install slapd ldap-utils
+  618  sudo dpkg-reconfigure slapd
+  619  sudo ufw allow ldap
+  620  ldapwhoami -H ldap:// -x
+  621  sudo apt-get install phpldapadmin
+  622  sudo nano /etc/phpldapadmin/config.php
+  623  sudo vim /etc/phpldapadmin/config.php
+  624  curl -k https://10.1.20.11/phpldapadmin
+  625  curl -k https://10.1.20.11/phpldapadmin/
+  626  cat /etc/passwd
+  627  ifconfig
+  628  sudo apt-get install php5-ldap
+  629  sudo apt-cache search php7-ldap
+  630  sudo apt-cache search php*ldap
+  631  sudo apt-cache search php-ldap
+  632  sudo apt-get install php-ldap
+  633  sudo apt-get update php-ldap
+  634  sudo apt-get update
+  635  sudo apt-get update php7.0-ldap
+  636  sudo apt-get install php7.0-ldap
+  637  /etc/init.d/apache2 restart
+  638  sudo /etc/init.d/apache2 restart
+  639  sudo /etc/init.d/apache2 status
+  640  php --version
+  641  ls
+  642  ping 10.1.10.11
+  643  ping 10.1.20.11
+  644  ifconfig
+  645  ping 10.1.20.50
+  646  tcpdump 10.1.20.50
+  647  sudotcpdump 10.1.20.50
+  648  sudo tcpdump 10.1.20.50
+  649  sudo tcpdump -ni 10.1.20.50
+  650  sudo tcpdump -ni eth1 10.1.20.50
+  651  ifconfig
+  652  sudo tcpdump host 10.1.20.50
+  653  sudo ping  10.1.20.50
+  654  arp -a
+  655  ifconfig
+  656  if -a
+  657  arp -a
+  658  route
+  659  arp
+  660  ping 10.1.20.5
+  661  ping 10.1.20.50
+  662  cat /etc/network/interfaces
+  663  cat /etc/network/interfaces.d/50-cloud-init.cfg
+  664  cat /etc/network/interfaces.d/ens4.cfg
+  665  cat /etc/network/interfaces.d/eth1.cfg
+  666  sudo vim /etc/network/interfaces.d/ens4.cfg
+  667  sudo vim /etc/network/interfaces.d/eth1.cfg
+  668  cat /etc/network/interfaces.d/ens4.cfg
+  669  cat /etc/network/interfaces.d/eth1.cfg
+  670  reboot
+  671  sudo reboot
+  672  uptime
+  673  ping 10.1.20.50
+  674  arp -a
+  675  arp
+  676  ping 10.1.20.50
+  677  ifconfig
+  678  ping 10.1.20.51
+  679  hostname
+  680  curl -k https://10.1.20.80/
+  681  telnet 10.1.20.80 443
+  682  ifconfig
+  683  ping 10.1.20.12
+  684  ping 10.1.20.13
+  685  ping 10.1.20.14
+  686  ping 10.1.20.15
+  687  ping 10.1.20.17
+  688  ping 10.1.20.20
+  689  ls
+  690  cd /etc/network/
+  691  ls
+  692  cd interfaces.d/
+  693  ls
+  694  cat 50-cloud-init.cfg
+  695  cat ens4.cfg
+  696  sudo vim  ens4.cfg
+  697  ls
+  698  cat eth1.cfg
+  699  sudo vim  eth1.cfg
+  700  ping 10.1.20.20
+  701  reboot
+  702  sudo reboot
+  703  cd /etc/networking
+  704  cd /etc/network/
+  705  ls
+  706  cd interfaces.d/
+  707  ls
+  708  vim ens4.cfg
+  709  sudo vim ens4.cfg
+  710  sudo vim eth1.cfg
+  711  ls
+  712  ifconfig
+  713  curl -k https://10.1.20.21
+  714  ls
+  715  cd /
+  716  ls
+  717  cd var/www/
+  718  ls
+  719  cat setup.php
+  720  cat setup.php  | more
+  721  ls
+  722  cd config/
+  723  ls
+  724  cat config.inc.php
+  725  ls
+  726  cd ..
+  727  ls
+  728  cd external/
+  729  ls
+  730  cd ...
+  731  cd ser
+  732  cd ..
+  733  cd server/
+  734  ls
+  735  cd 1/
+  736  ls
+  737  cd ..
+  738  ls
+  739  cd 2
+  740  ls
+  741  cd ..
+  742  ls
+  743  cd 6
+  744  ls
+  745  cd ..
+  746  cd 5
+  747  ls
+  748  cd ..
+  749  ls
+  750  cd ..
+  751  ls
+  752  cd /etc/apache2/
+  753  ls
+  754  cat apache2.conf
+  755  cat apache2.conf | more
+  756  ls
+  757  cd conf.d/
+  758  ls
+  759  cd ..
+  760  ls
+  761  cd mods-available/
+  762  ls
+  763  cd ..
+  764  ls
+  765  cd mods-enabled/
+  766  ls
+  767  cat ssl.conf
+  768  less ssl.conf
+  769  ls
+  770  cat ssl.load
+  771  cat ssl.conf
+  772  cd ..
+  773  sls
+  774  ls
+  775  cd sites-available/
+  776  ls
+  777  cat Cert.conf
+  778  cat Server1.conf
+  779  ls
+  780  cd ..
+  781  ls
+  782  cd sites-enabled/
+  783  ls
+  784  cat 000-default
+  785  less 000-default
+  786  ls
+  787  cat 000-default.conf
+  788  ls
+  789  cat dvwa.conf
+  790  ls
+  791  cd ..
+  792  ls
+  793  cd sites-available/
+  794  ls
+  795  cat default-ssl.conf
+  796  cat default-ssl.conf | jore
+  797  cat default-ssl.conf | more
+  798  ls
+  799  cat app3.conf
+  800  ls
+  801  cat 000-default
+  802  cat 000-default | more
+  803  ls
+  804  sudo vim 000-default
+  805  sudo vim 000-default.b4hac
+  806  sudo vim 000-default.conf
+  807  sudo vim app3.conf
+  808  sudo vim Cert.conf
+  809  sudo vim dvwa.conf
+  810  ls
+  811  cat peruggia.conf
+  812  sudo vim peruggia.conf
+  813  sudo vim Server1.conf
+  814  sudo vim Server2.conf
+  815  sudo vim Server3.conf
+  816  sudo vim Server4.conf
+  817  sudo vim Server5.conf
+  818  ls
+  819  cat wackopicko.conf
+  820  sudo vim wackopicko.conf
+  821  ls
+  822  cat webmin.14225
+  823  cat webmin.1422574526.conf
+  824  cat webmin.1422590127.conf
+  825  cd ..
+  826  cd sites-enabled/
+  827  ls
+  828  sudo vim 000-default
+  829  sudo vim 000-default.conf
+  830  sudo vim dvwa.conf
+  831  ls -alh
+  832  sudo /etc/init.d/apache2 restart
+  833  ssh root@10.1.1.4
+  834  ping 10.1.1.3
+  835  ssh root@10.1.1.13
+  836  sudo apt-get install freeradius freeradius-mysql freeradius-utils
+  837  sudo apt-get update
+  838  sudo mysql -u root -p
+  839  sudo mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql
+  840  sudo mysql -u root -p
+  841  sudo mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql
+  842  mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql
+  843  su -
+  844  su root
+  845  sudo mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql
+  846  sudo mysql -u root -p
+  847  sudo mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql
+  848  sudo mysql -u root -p
+  849  cat /etc/freeradius/sql.con
+  850  cat /etc/freeradius/sql.conf
+  851  sudo cat /etc/freeradius/sql.conf
+  852  sudo vim /etc/freeradius/sql.conf
+  853  sudo vim /etc/freeradius/sites-enabled/default
+  854  sudo freeradius -CX
+  855  sudo vim /etc/freeradius/sites-enabled/default
+  856  sudo vim /etc/freeradius/radiusd.conf
+  857  sudo vim /etc/freeradius/sql.conf
+  858  sudo mysql -u root -p
+  859  mysql -u root -p radius &lt; /etc/freeradius/sql/mysql/schema.sql;
+  860  mysql -u root -p radius <  /etc/freeradius/sql/mysql/schema.sql;
+  861  sudo mysql -u root -p radius <  /etc/freeradius/sql/mysql/schema.sql;
+  862  cat /etc/freeradius/sql/mysql/schema.sql;
+  863  cat /etc/freeradius/sql/mysql/schema.sql
+  864  sudo cat /etc/freeradius/sql/mysql/schema.sql
+  865  sudo cat /etc/freeradius/sql/mysql/schema.sql | more
+  866  mysql -u root -p radius
+  867  cd /etc/freeradius/sql/mysql/
+  868  ls
+  869  sudo ls
+  870  sudo ls -alh
+  871  cd /
+  872  cat /etc/network/interfaces
+  873  cd /etc
+  874  ls -alh
+  875  sudo chmod u=wxr,g=xr,o=x freeradius
+  876  ls -alh | egrep 'freeradius|network'
+  877  sudo mysql -u root -p radius <  /etc/freeradius/sql/mysql/schema.sql;
+  878  chmod u=wxr,g=xr,o=x freeradius
+  879  sudo chmod u=wxr,g=xr,o=x freeradius
+  880  ls -alh | egrep 'freeradius|network'
+  881  sudo chmod 777 freeradius
+  882  ls -alh | egrep 'freeradius|network'
+  883  sudo mysql -u root -p radius <  /etc/freeradius/sql/mysql/schema.sql;
+  884  cd freeradius/
+  885  ls
+  886  ls -alh
+  887  chmod 777 *
+  888  sudo chmod 777 *
+  889  ls -alh
+  890  sudo mysql -u root -p radius <  /etc/freeradius/sql/mysql/schema.sql;
+  891  mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql;
+  892  sudo mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql;
+  893  sudo mysql -u root -p radius < /etc/freeradius/sql/mysql/schema.sql
+  894  sudo passwd root
+  895  su -
+  896  exit
+  897  quit
+  898  logout
+  899  exit
+  900  whoami
+  901  sudo freeradius -X
+  902  cd /etc/freeradius/
+  903  ls
+  904  sudo ls
+  905  sudo ls -alh
+  906  sudo chmod 644 sites-available/
+  907  ls -alh
+  908  sudo chmod 600 sites-available/
+  909  ls -alh
+  910  su -
+  911  whoami
+  912  sudo /etc/init.d/freeradius stop
+  913  sudo /etc/init.d/freeradius start
+  914  lsfreeradius -X
+  915  freeradius -X
+  916  sudo freeradius -X
+  917  su -
+  918  cd /var/log
+  919  ls
+  920  cd apt
+  921  ls
+  922  cat term.log
+  923  cd ..
+  924  ls
+  925  cat syslog
+  926  ls
+  927  cat auth.log
+  928  ls
+  929  cd lxd/
+  930  ls
+  931  cd ..
+  932  cat lastlog
+  933  cat apport.log
+  934  cat auth.log
+  935  ls
+  936  cat btmp
+  937  sudo cat btmp
+  938  sudo cat btmp.1
+  939  sudo docker ps
+  940  sudo apt-get update
+  941  sudo docker install docker.io
+  942  sudo apt-get install docker.io
+  943  sudo docker ps
+  944  sudo docker run  -d -p 8008:8000 --restart always -it appsecco/dsvw
+  945  sudo docker ps
+  946  sudo docker stop quizzical_swirles
+  947  sudo docker run  -d -p 8008:8000 --name dsvw_f5lab --restart always -it appsecco/dsvw
+  948  sudo doker exec -it dsvw_f5lab /bin/bash
+  949  sudo docker exec -it dsvw_f5lab /bin/bash
+  950  sudo docker exec -it dsvw_f5lab /etc/bin/bash
+  951  ifconfig
+  952  history
