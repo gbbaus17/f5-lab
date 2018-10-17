@@ -361,7 +361,27 @@
 						"group": "root",
 						"mode": "000755",
 						"owner": "root"
-					   }						
+					   },
+					   "/home/ubuntu/OpenLdap_instructions.txt": {
+						"content": {
+							 "Fn::Join": [
+							  "",
+							  [
+							   "echo \"#See https://github.com/osixia/docker-openldap for details\n",
+							   "echo \"#\n",
+							   "echo \"#--------#\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
+							    "echo \"#To Connect to the LDAP docker conatiner\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
+							   "echo \"docker exec -it openldap_f5lab /bin/bash\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
+							   "echo \"Do not edit slapd.conf it's not used. To modify your server configuration use ldap utils: ldapmodify | ldapadd | ldapdelete\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
+							   "echo \"(exit)  -- to diconnect from docker container\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
+							   "echo \"#--------#\" >> /home/ubuntu/OpenLdap_instructions.txt\n"
+							  ]
+							 ]
+							},
+						"group": "root",
+						"mode": "000755",
+						"owner": "root"
+					   }					   
 				   },
 					"commands": {
                             "000-just-cheching": {

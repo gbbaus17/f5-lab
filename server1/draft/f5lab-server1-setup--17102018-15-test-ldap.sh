@@ -104,7 +104,7 @@ sudo sed -i 's|\\u@\\h|\\u@server1_\\h|g' /home/ubuntu/.bashrc
 sleep 2
 
 # Start the Docker containers
-cat << 'EOF' >> /etc/rc.local
+#cat << 'EOF' >> /etc/rc.local
 
 ## Add Web App firewall testing sites
 #DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
@@ -124,12 +124,7 @@ docker run -i -t -d -p 8002:80 --restart always --name grey_f5lab -e F5DEMO_APP=
 docker run -d -p 8003:80 --restart always --name green_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' -it f5devcentral/f5-demo-httpd
 docker run -d -p 8004:80 --restart always --name blue_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' -it f5devcentral/f5-demo-httpd
 ## Run Openldap Pt 389, anf 636 defaults See README @ https://github.com/osixia/docker-openldap
-docker run -p 389:389 -p 636:636 --name ldap-service --hostname ldap-service --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" -d osixia/openldap:latest
-## Run Admin GUI https://localhost:6443
-docker run -p 6443:443 -p 6080:80 --name ldapadmin-service --hostname ldapadmin-service --link ldap-service:ldap-host --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host -d osixia/phpldapadmin:latest
-
-
-
+docker run -d -p 389:389 -p 636:636 --name openldap_f5lab --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" --detach  osixia/openldap:latest
 
 		  
 EOF

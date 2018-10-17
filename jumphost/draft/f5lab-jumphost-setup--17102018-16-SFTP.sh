@@ -390,7 +390,7 @@ cat << 'EOF' >> /home/ubuntu/Desktop/OpenLdapSearch.desktop
 Version=1.0
 Name=LDAP Seacrh
 Comment=
-Exec=sudo docker exec ldap-service ldapsearch -x -H ldap://10.1.1.250 -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
+Exec=sudo docker exec openldap_f5lab ldapsearch -x -H ldap://localhost -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
 Icon=accessories-character-map
 Terminal=true
 Type=Application
@@ -401,24 +401,6 @@ EOF
 
 sleep 2
 chmod 755 /home/ubuntu/Desktop/OpenLdapSearch.desktop
-
-
-
-touch /home/ubuntu/Desktop/OpenLdapAdmin.desktop
-cat << 'EOF' >> /home/ubuntu/Desktop/OpenLdapAdmin.desktop
-[Desktop Entry]
-Version=1.0
-Type=Link
-Name=Open LDAP Admin
-Comment=
-Icon=
-URL=https://10.1.1.250:6443
-
-EOF
-
-sleep 2
-chmod 755 /home/ubuntu/Desktop/OpenLdapAdmin.desktop
-
 
 
 #File to make 'tab complete' work
