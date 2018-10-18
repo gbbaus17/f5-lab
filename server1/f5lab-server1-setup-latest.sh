@@ -128,10 +128,6 @@ docker run -p 389:389 -p 636:636 --name ldap-service --hostname ldap-service --e
 ## Run Admin GUI https://localhost:6443
 docker run -p 6443:443 -p 6080:80 --name ldapadmin-service --hostname ldapadmin-service --link ldap-service:ldap-host --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host -d osixia/phpldapadmin:latest
 
-
-
-
-		  
 EOF
 
 sleep 5
