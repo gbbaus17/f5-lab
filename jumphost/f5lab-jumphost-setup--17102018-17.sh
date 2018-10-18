@@ -184,7 +184,7 @@ docker pull atmoz/sftp
 # Get python package for DSVM
 apt-get -y install python-lxml
 #Run custom dsvm that point to ASM Vip IP address
-chmod 755 /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py
+chmod 775 /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py
 # Modify IP address of ASM if required
 # Change ListenAddress
 # sudo sed -i "s|10\.1\.10\.100|"10.1.10.16"|g" /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py
@@ -218,7 +218,7 @@ mkdir -p /home/ubuntu/burpsuite/
 wget -O /home/ubuntu/burpsuite/burpsuite_community_linux.jar 'https://portswigger.net/burp/releases/download?product=community&version=1.7.36&type=jar'
 # Only need MOVE if Burpsuite JAR is bundled and part of Git clone
 ##mv /home/ubuntu/F5-Lab/jumphost/client-files/burpsuite/burpsuite_community_v1.7.36.jar /home/ubuntu/burpsuite/burpsuite_community_linux.jar
-chmod 755 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
+chmod 775 /home/ubuntu/burpsuite/burpsuite_community_linux.jar
 cp /home/ubuntu/F5-Lab/jumphost/client-files/burp.png /home/ubuntu/burpsuite/burp.png
 chmod 555 /home/ubuntu/burpsuite/burp.png
 cd ~
@@ -256,7 +256,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/Firefox.desktop
+chmod 775 /home/ubuntu/Desktop/Firefox.desktop
 
 touch /home/ubuntu/Desktop/Chrome.desktop
 cat << 'EOF' >> /home/ubuntu/Desktop/Chrome.desktop
@@ -274,7 +274,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/Chrome.desktop
+chmod 775 /home/ubuntu/Desktop/Chrome.desktop
 
 
 touch /home/ubuntu/Desktop/F5-BigIP.desktop
@@ -290,7 +290,7 @@ URL=https://10.1.1.245
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/F5-BigIP.desktop
+chmod 775 /home/ubuntu/Desktop/F5-BigIP.desktop
 
 
 touch /home/ubuntu/Desktop/Postman.desktop
@@ -309,7 +309,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/Postman.desktop
+chmod 775 /home/ubuntu/Desktop/Postman.desktop
 
 
 touch /home/ubuntu/Desktop/BurpSuite.desktop
@@ -328,7 +328,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/BurpSuite.desktop
+chmod 775 /home/ubuntu/Desktop/BurpSuite.desktop
 
 
 touch /home/ubuntu/Desktop/OWASP_ZAP.desktop
@@ -347,7 +347,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/OWASP_ZAP.desktop
+chmod 775 /home/ubuntu/Desktop/OWASP_ZAP.desktop
 
 
 touch /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
@@ -363,7 +363,7 @@ URL=http://localhost:65412
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
+chmod 775 /home/ubuntu/Desktop/DSVMwaf_attacks.desktop
 
 
 touch /home/ubuntu/Desktop/SSH_Server1.desktop
@@ -382,7 +382,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/SSH_Server1.desktop
+chmod 775 /home/ubuntu/Desktop/SSH_Server1.desktop
 
 touch /home/ubuntu/Desktop/OpenLdapSearch.desktop
 cat << 'EOF' >> /home/ubuntu/Desktop/OpenLdapSearch.desktop
@@ -400,7 +400,7 @@ StartupNotify=false
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/OpenLdapSearch.desktop
+chmod 775 /home/ubuntu/Desktop/OpenLdapSearch.desktop
 
 
 
@@ -417,7 +417,7 @@ URL=https://10.1.1.250:6443
 EOF
 
 sleep 2
-chmod 755 /home/ubuntu/Desktop/OpenLdapAdmin.desktop
+chmod 775 /home/ubuntu/Desktop/OpenLdapAdmin.desktop
 
 
 
