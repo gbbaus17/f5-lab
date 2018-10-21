@@ -124,7 +124,7 @@ docker run -i -t -d -p 8002:80 --restart always --name grey_f5lab -e F5DEMO_APP=
 docker run -d -p 8003:80 --restart always --name green_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' -it f5devcentral/f5-demo-httpd
 docker run -d -p 8004:80 --restart always --name blue_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' -it f5devcentral/f5-demo-httpd
 ## Run Openldap Pt 389, anf 636 defaults See README @ https://github.com/osixia/docker-openldap
-docker run -p 389:389 -p 636:636 --restart always --name ldap_f5lab --hostname openldap.f5lab.com --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" --env LDAP_TLS_PROTOCOL_MIN=3.0 --env LDAP_TLS_CIPHER_SUITE=NORMAL --env LDAP_TLS_VERIFY_CLIENT=never -d osixia/openldap:latest
+docker run -p 389:389 -p 636:636 --name ldap_f5lab --hostname openldap.f5lab.com --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" --env LDAP_TLS_PROTOCOL_MIN=3.0 --env LDAP_TLS_CIPHER_SUITE=NORMAL --env LDAP_TLS_VERIFY_CLIENT=never -d osixia/openldap:latest
 
 EOF
 

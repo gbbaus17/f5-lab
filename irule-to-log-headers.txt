@@ -1,0 +1,54 @@
+ltm rule /Common/log_http_headers {
+#  Log HTTP Headers
+#  CPU impact:   Medium
+#  Requirement:  HTTP Profile
+#
+#  This simple rule logs all HTTP headers in requests and responses to /var/log/ltm.
+#  This can be helpful in troubleshooting.
+#  http://devcentral.f5.com/Wiki/default.aspx/iRules/LogHttpHeaders.html
+
+
+when HTTP_REQUEST {
+   set LogString "Client [IP::client_addr]:[TCP::client_port] -> [HTTP::host][HTTP::uri]"
+   log local0. "============================================="
+   log local0. "$LogString (request)"
+   foreach aHeader [HTTP::header names] {
+      log local0. "$aHeader: [HTTP::header value $aHeader]"
+   }
+   log local0. "============================================="
+}
+when HTTP_REQUEST_RELEASE {
+   set LogString "Client [IP::client_addr]:[TCP::client_port] -> [HTTP::host][HTTP::uri]"
+   log local0. "============================================="
+   log local0. "$LogString (request)"
+   foreach aHeader [HTTP::header names] {
+      log local0. "$aHeader: [HTTP::header value $aHeader]"
+   }
+   log local0. "============================================="
+}
+when ACCESS_ACL_ALLOWED {
+   set LogString "Client [IP::client_addr]:[TCP::client_port] -> [HTTP::host][HTTP::uri]"
+   log local0. "============================================="
+   log local0. "$LogString (request)"
+   foreach aHeader [HTTP::header names] {
+      log local0. "$aHeader: [HTTP::header value $aHeader]"
+   }
+   log local0. "============================================="
+}
+when HTTP_RESPONSE {
+   log local0. "============================================="
+   log local0. " (response) - status: [HTTP::status]"
+   foreach aHeader [HTTP::header names] {
+      log local0. "$aHeader: [HTTP::header value $aHeader]"
+   }
+   log local0. "============================================="
+}
+when HTTP_RESPONSE_RELEASE {
+   log local0. "============================================="
+   log local0. " (response) - status: [HTTP::status]"
+   foreach aHeader [HTTP::header names] {
+      log local0. "$aHeader: [HTTP::header value $aHeader]"
+   }
+   log local0. "============================================="
+}
+}
