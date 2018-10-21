@@ -114,7 +114,7 @@ docker run -d -p 80:8000 --restart always --name dsvm_f5lab -it gbbaus17/dsvw
 docker run -d -p 81:80 --restart always --name webgoat_f5lab -it danmx/docker-owasp-webgoat
 #sudo docker run -d -p 8011:8080 --restart always --name webgoat_f5lab webgoat/webgoat-8.0
 #DVWA
-docker run -d -p 82:80 --restart always --name dvma_f5lab -e MYSQL_PASS="f5DEMOs4u!" -it citizenstig/dvwa
+docker run -d -p 82:80 --restart always --name dvwa_f5lab -e MYSQL_PASS="f5DEMOs4u!" -it citizenstig/dvwa
 #Hackazon
 docker run  -d -p 83:80 --restart always --name hackazon_f5lab -it mutzel/all-in-one-hackazon
 ## Add Standard Websites for LB Tests

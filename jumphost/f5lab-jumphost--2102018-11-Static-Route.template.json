@@ -350,7 +350,7 @@
 							   "echo \"#\n",
 							   "echo \"Run: sudo docker run -p 2222:22 -d --name sftp_f5lab atmoz/sftp sftpuser:supersecretpassword01:::upload\" > /home/ubuntu/SFTP_Start_instructions.txt\n",
 							   "echo \"#--------#\" >> /home/ubuntu/SFTP_Start_instructions.txt\n",
-							   "echo \"#Connect to the docker conatiner and change the upload directory permissions\" >> /home/ubuntu/SFTP_Start_instructions.txt\n",
+							   "echo \"#Connect to the docker container and change the upload directory permissions\" >> /home/ubuntu/SFTP_Start_instructions.txt\n",
 							   "echo \"docker exec -it sftp_f5lab /bin/bash\" >> /home/ubuntu/SFTP_Start_instructions.txt\n",
 							   "echo \"chmod 711 /home/sftpuser/upload\" >> /home/ubuntu/SFTP_Start_instructions.txt\n",
 							   "echo \"(exit)  -- to diconnect from sftp docker\" >> /home/ubuntu/SFTP_Start_instructions.txt\n",
@@ -361,27 +361,7 @@
 						"group": "root",
 						"mode": "000755",
 						"owner": "root"
-					   },
-					   "/home/ubuntu/OpenLdap_instructions.txt": {
-						"content": {
-							 "Fn::Join": [
-							  "",
-							  [
-							   "echo \"#See https://github.com/osixia/docker-openldap for details\n",
-							   "echo \"#\n",
-							   "echo \"#--------#\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
-							    "echo \"#To Connect to the LDAP docker conatiner\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
-							   "echo \"docker exec -it openldap_f5lab /bin/bash\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
-							   "echo \"Do not edit slapd.conf it's not used. To modify your server configuration use ldap utils: ldapmodify | ldapadd | ldapdelete\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
-							   "echo \"(exit)  -- to diconnect from docker container\" >> /home/ubuntu/OpenLdap_instructions.txt\n",
-							   "echo \"#--------#\" >> /home/ubuntu/OpenLdap_instructions.txt\n"
-							  ]
-							 ]
-							},
-						"group": "root",
-						"mode": "000755",
-						"owner": "root"
-					   }					   
+					   }
 				   },
 					"commands": {
                             "000-just-cheching": {

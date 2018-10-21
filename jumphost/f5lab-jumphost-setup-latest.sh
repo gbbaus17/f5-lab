@@ -384,25 +384,6 @@ EOF
 sleep 2
 chmod 775 /home/ubuntu/Desktop/SSH_Server1.desktop
 
-touch /home/ubuntu/Desktop/OpenLdapSearch.desktop
-cat << 'EOF' >> /home/ubuntu/Desktop/OpenLdapSearch.desktop
-[Desktop Entry]
-Version=1.0
-Name=LDAP Seacrh
-Comment=
-Exec=sudo docker exec ldap-service ldapsearch -x -H ldap://10.1.1.250 -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
-Icon=accessories-character-map
-Terminal=true
-Type=Application
-Path=
-StartupNotify=false
-
-EOF
-
-sleep 2
-chmod 775 /home/ubuntu/Desktop/OpenLdapSearch.desktop
-
-
 
 touch /home/ubuntu/Desktop/OpenLdapAdmin.desktop
 cat << 'EOF' >> /home/ubuntu/Desktop/OpenLdapAdmin.desktop
@@ -412,7 +393,7 @@ Type=Link
 Name=Open LDAP Admin
 Comment=
 Icon=
-URL=https://10.1.1.250:6443
+URL=https://127.0.0.1:6443
 
 EOF
 
@@ -438,9 +419,6 @@ ln -s /home/ubuntu/F5-Lab/lab-files/ /home/ubuntu/Desktop/lab-files
 
 #Put a TXT link on the Desktop to enable SFTP
 ln -s /home/ubuntu/SFTP_Start_instructions.txt /home/ubuntu/Desktop/home/ubuntu/SFTP_Start_instructions.txt
-
-#Put a TXT link on the Desktop to config OpenLDAP
-ln -s /home/ubuntu/OpenLdap_instructions.txt /home/ubuntu/Desktop/home/ubuntu/OpenLdap_instructions.txt
 
 #Create new lab users
 # quietly add user without passwords

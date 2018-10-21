@@ -1,0 +1,111 @@
+
+
+
+## Run Openldap Pt 389, anf 636 defaults See README @ https://github.com/osixia/docker-openldap
+
+sudo docker run -p 389:389 -p 636:636 --name ldap_f5lab --hostname openldap.f5lab.com --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" --env LDAP_TLS_PROTOCOL_MIN=3.0 --env LDAP_TLS_CIPHER_SUITE=NORMAL --env LDAP_TLS_VERIFY_CLIENT=never -d osixia/openldap:latest
+
+
+
+## Run Admin GUI https://localhost:6443
+
+sudo docker run -p 6443:443 -p 6080:80 --name ldapadmin_f5lab --hostname ldapadmin.f5lab.com --link ldap_f5lab:ldap-host --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host -d osixia/phpldapadmin:latest
+
+
+
+#Check running (locally)
+sudo docker exec ldap_f5lab ldapsearch -x -H ldap://openldap.f5lab.com -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
+
+#Check running (remotely)
+ldapsearch -x -H ldaps://openldap.f5lab.com:636 -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
+
+
+sudo docker stop ldap_f5lab
+
+sudo docker start ldap_f5lab
+
+============
+
+# Connect to docker and check ports listening on, and install utils inside docker conatiner to run these tests
+
+sudo docker exec -it ldap_f5lab /bin/bash
+
+sudo apt update
+sudo apt install net-tools
+apt-get install iputils-ping
+apt-get install vim
+
+netstat -an
+
+
+==========
+
+
+
+#Create KEY, and take note of password
+openssl genrsa -des3 2048 >/home/ubuntu/ldapkeys/openldap.f5lab.com.key
+# create copy of key without password
+cp ldap1.key ldap1.key.pass
+openssl rsa -in ldad1.key.pass -out ldap1.key
+
+# Create CSR, and enter cert details, CN must match name of server  eg: ldap1.linuxcbts.com
+req -new -key /home/ubuntu/ldap1.key -days 365 -out /home/ubuntu/ldap1.csr
+
+#Copy to Cert Authority for signing
+scp ldap1.csr ubuntu@ca.linuxcbts.com:/tmp/
+
+
+# On CA , sign the CSR
+openssl ca -in /tmp/ldap1.csr -out /tmp/ldap1.crt
+
+
+# FRom CA, copy the ldap server cert and CA cert back to the ldap server
+scp /tmp/ldap1.crt ubuntu@ldap1.linuxcbts.com:/etc/openldap/
+scp /etc/pki/CA/ca.crt ubuntu@ldap1.linuxcbts.com:/etc/ldap/
+
+
+sudo cp /home/ubuntu/ldapkeys/openldap.f5lab.com.key /etc/ldap/slapd.d/openldap.f5lab.com.key
+sudo cp /home/ubuntu/ldapkeys/openldap.f5lab.com.crt /etc/ldap/slapd.d/openldap.f5lab.com.crt
+sudo cp /home/ubuntu/ldapkeys/ca.f5lab.com.crt /etc/ldap/slapd.d/ca.f5lab.com.crt
+
+sudo chown openldap:openldap /etc/ldap/slapd.d/openldap.f5lab.com.key
+sudo chown openldap:openldap /etc/ldap/slapd.d/openldap.f5lab.com.crt
+sudo chown openldap:openldap /etc/ldap/slapd.d/ca.f5lab.com.crt
+
+#ldap1 key should have permission  600 for ldapuser
+sudo chmod 600 /etc/ldap/slapd.d/openldap.f5lab.com.key
+
+
+
+#Create a tls.ldif file, with
+------------------------------------
+
+dn: cn=config
+changeType: modify
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ldap/slapd.d/ca.f5lab.com.crt
+-
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ldap/slapd.d/openldap.f5lab.com.crt
+-
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ldap/slapd.d/openldap.f5lab.com.key
+
+-----------------------
+
+#run ldap modify
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/ldap/tls.ldif
+
+#test 
+openssl s_client -connect openldap.f5lab.com:636 -tls1_1
+
+
+
+#Enable listenig on Port 636
+vi /etc/sysconfig/ldap
+
+... and change SLAPD_LDAPS=yes (default=no)
+
+# restart SLAPD
+/etc/init.d/slapd restart
+
