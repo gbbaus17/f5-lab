@@ -17,7 +17,7 @@ sudo docker run -p 6443:443 -p 6080:80 --name ldapadmin_f5lab --hostname ldapadm
 sudo docker exec ldap_f5lab ldapsearch -x -H ldap://openldap.f5lab.com -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
 
 #Check running (remotely)
-ldapsearch -x -H ldaps://openldap.f5lab.com:636 -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
+ldapsearch -x -H ldaps://10.1.20.21:636 -b dc=f5lab,dc=com -D "cn=admin,dc=f5lab,dc=com" -w f5DEMOs4u!
 
 
 sudo docker stop ldap_f5lab
@@ -97,7 +97,7 @@ olcTLSCertificateKeyFile: /etc/ldap/slapd.d/openldap.f5lab.com.key
 ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/ldap/tls.ldif
 
 #test 
-openssl s_client -connect openldap.f5lab.com:636 -tls1_1
+openssl s_client -connect 10.1.20.21:636 -tls1_1
 
 
 
