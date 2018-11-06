@@ -609,9 +609,6 @@
 										"sleep 5",
 										"echo \"Finished\"",
 										"set-basic-auth off",
-										"#CLEANUP",
-										"rm /home/admin/setup-cm-runme-second.sh",
-										"rm /config/cloud/setup-cm-runme-second.sh",
 										"echo \"You can reboot\""
 										]
                                     ]
@@ -955,10 +952,7 @@
 										"echo \"#\"",
 										"sleep 5",
 										"echo \"Finished\"",
-										"set-basic-auth off",
-										"#CLEANUP",
-										"rm /home/admin/setup-dcd-runme-first.sh",
-										"rm /config/cloud/setup-dcd-runme-first.sh"
+										"set-basic-auth off"
                                         ]
                                     ]
                                 },
