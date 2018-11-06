@@ -61,11 +61,11 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Jumphost-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>   
    
-  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigiq-cm-dcd">**Big-IQ_CM+DCD**</a>, DRAFT : Big-IQ Central Manager with a DCD for log collection 
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigiq-cm-dcd">**Big-IQ_CM+DCD**</a>, Big-IQ Central Manager with a DCD for log collection 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIQ-60-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
-    - NOTE: For Big-IQ, After launch you need to connect/ssh and run setup scripts on DCD then CM. Big-IQ template is still in draft.
+    - NOTE: For Big-IQ, After launch you need to connect/ssh and run setup scripts on DCD then CM.
    
   
 ---
