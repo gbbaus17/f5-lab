@@ -69,7 +69,8 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
    
 ---
 
-  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, 2nd Standalone (3 nic) Big-IP -Optional for testing
+- *Additional*
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP 2**</a>, 2nd Standalone (3 nic) -Optional for testing
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIP2-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-3nic-UNIT2-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
   
