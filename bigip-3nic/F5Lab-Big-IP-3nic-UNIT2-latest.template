@@ -103,8 +103,8 @@
 	"BigIpManagementIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.1.245",
-		"Description": "Management IP - Lab Default is 10.1.1.245",
+		"Default": "10.1.1.246",
+		"Description": "Management IP - Lab Default is 10.1.1.246",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -112,8 +112,8 @@
 	"BigIpExternalSubnetIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.10.245",
-		"Description": "Public or External Self-IP - Lab Default is 10.1.10.245",
+		"Default": "10.1.10.246",
+		"Description": "Public or External Self-IP - Lab Default is 10.1.10.246",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -121,8 +121,8 @@
 	"BigIpInternalSubnetIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.20.245",
-		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.245",
+		"Default": "10.1.20.246",
+		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.246",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
