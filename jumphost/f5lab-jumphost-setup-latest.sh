@@ -12,6 +12,7 @@
 # It takes approx. 10-15 min to have the RDP instance fully setup
 
 set -x
+1
 
 #ifconfig eth0 10.1.10.51 netmask 255.255.255.0
 #ifconfig eth1 10.1.1.51 netmask 255.255.255.0
