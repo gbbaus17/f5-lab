@@ -5,7 +5,7 @@
 This GitHub repository allows you to quickly create a Lab environment in AWS to run through the labs at https://clouddocs.f5.com/training/community/ 
 
 
-The CFTs 'foundations' are from F5 and Community contributed sources. The CFT coupling and logic has been modified by me to allow a lab environemnt to be easily created [mailto: g.boniface AT f5.com]
+The CFTs 'foundations' are from F5 and Community contributed sources. The CFT coupling and logic has been modified by me to allow a lab environment to be easily created [mailto: g.boniface AT f5.com]
 
 
 For information on getting started using F5's CFT templates on GitHub, see [Amazon Web Services: Solutions 101](http://clouddocs.f5.com/cloud/public/v1/aws/AWS_solutions101.html) and the README files in each directory.  
@@ -32,7 +32,7 @@ It only needs a public IP during creation time. After that you can delete the EI
 ********************************
 
 Each template has an **OUTPUT** section of Template and the **EC2 Tags** in Dashboard gives connectivity info.  
- - (Tip: You can Modify the template in Desinger before launch if you want to remove the final 'Output' info and can edit the Tags in EC2 console if you dont want that info to show - **put there for ease of use with Lab)**
+ - (Tip: You can Modify the template in Designer before launch if you want to remove the final 'Output' info and can edit the Tags in EC2 console if you dont want that info to show - **put there for ease of use with Lab)**
 
 Also default passwords **(f5DEMOs4u!)** are created and it is recommended you change these.
 
