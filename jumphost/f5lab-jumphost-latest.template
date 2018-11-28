@@ -26,8 +26,8 @@
         },
         "CustomImageId": {
             "ConstraintDescription": "Must be a valid AMI Id",
-            "Default": "ami-068ab34816099a0a9",
-            "Description": "Please specify the 'Ubuntu 16.04 LTS' AMI Id that you have Agreed to T&Cs [Sydney=ami-0d9c4a2f1c21c130d]",
+            "Default": "ami-0d9c4a2f1c21c130d",
+            "Description": "Please specify the 'Ubuntu 16.04 LTS' AMI Id that you have Agreed to T&Cs [eg, N.VA=ami-068ab34816099a0a9; SYD=ami-0d9c4a2f1c21c130d]",
             "MaxLength": 255,
             "MinLength": 1,
             "Type": "String"
