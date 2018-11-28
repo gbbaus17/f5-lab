@@ -17,9 +17,9 @@ For information on getting started using F5's CFT templates on GitHub, see [Amaz
 Templates exists for  
 
 0) Topology  (3 lab subnets - run first) 
-1) Big-IP v13 or v14.0 (attaches to above topology) 
-2) LAMP Server (Sits on Internal vlan) 
-3) Jumphost with utils(Sits on External vlan - this is the entry into Lab) 
+1) Jumphost with utils(Sits on External vlan - this is the entry into Lab) 
+2) Big-IP v13 or v14.0 (attaches to above topology) 
+3) LAMP Server (Sits on Internal vlan) 
 4) Big-IQ v6.0.1 (optional) 
 
 **NOTE**
@@ -49,18 +49,18 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5LabTopology--YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
 
+- <a href="https://github.com/gbbaus17/F5-Lab/tree/master/jumphost">**Jumphost**</a>, Linux RDP Jumphost with Utils for Labs 
+    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Jumphost-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
+   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>   
+   
   - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, Standalone (3 nic) Big-IP with Optional 10 EC2 addresses for VIPs 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIP-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-3nic-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
-  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/server1">**LAMPServer**</a>, Web Sites, Pool members, and ASM Attack Servers
+ - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/server1">**LAMPServer**</a>, Web Sites, Pool members, and ASM Attack Servers
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=UbuntuServer1-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-server1-4IPs-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
-
-  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/jumphost">**Jumphost**</a>, Linux xRDP Jumphost with Utils for Labs 
-    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Jumphost-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
-   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>   
-   
+ 
   - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigiq-cm-dcd">**Big-IQ_CM+DCD**</a>, Big-IQ Central Manager with a DCD for log collection 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIQ-60-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
