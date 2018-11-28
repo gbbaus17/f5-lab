@@ -53,7 +53,7 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Jumphost-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>   
    
-  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, Standalone (3 nic) Big-IP with Optional 10 EC2 addresses for VIPs 
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP**</a>, Standalone (3 nic) Big-IP with **Optional 10 EC2 addresses for VIPs** 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIP-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-3nic-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
@@ -65,7 +65,7 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIQ-60-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IQ-CM-DCD-Static-Mngmt-IP-RunScriptPairing-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
-    - NOTE: For Big-IQ, After launch you need to connect/ssh and run setup scripts on DCD then CM.
+    - **NOTE: For Big-IQ, After launch you need to connect/ssh and run setup scripts on DCD then CM.**
    
 ---
 
