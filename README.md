@@ -17,14 +17,14 @@ For information on getting started using F5's CFT templates on GitHub, see [Amaz
 Templates exists for  
 
 0) Topology  (3 lab subnets - run first) 
-1) Jumphost with utils(Sits on External vlan - this is the entry into Lab) 
+1) Jumphost with utils (Sits on External vlan - this is the entry into Lab) 
 2) Big-IP v13 or v14.0 (attaches to above topology) 
 3) LAMP Server (Sits on Internal vlan) 
 4) Big-IQ v6.0.1 (optional) 
 
 **NOTE**
 
-For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to delete the assigned EIPs AFTER the BigIP has been created.
+For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to **delete the assigned EIPs** AFTER the BigIP has been created.
 
 Same for the 'LAMP Server'. 
 It only needs a public IP during creation time. After that you can delete the EIP and access from the Jumphost
