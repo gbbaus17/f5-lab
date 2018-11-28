@@ -49,7 +49,7 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5LabTopology--YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Toplogy-New-VPC-10-1-0-0-3subnet-IGW-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
 
-- <a href="https://github.com/gbbaus17/F5-Lab/tree/master/jumphost">**Jumphost**</a>, Linux RDP Jumphost with Utils for Labs 
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/jumphost">**Jumphost**</a>, Linux RDP Jumphost with Utils for Labs 
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Jumphost-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-jumphost-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>   
    
@@ -57,7 +57,7 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIP-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-3nic-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
    
- - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/server1">**LAMPServer**</a>, Web Sites, Pool members, and ASM Attack Servers
+  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/server1">**LAMPServer**</a>, Web Sites, Pool members, and ASM Attack Servers
     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=UbuntuServer1-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/f5lab-server1-4IPs-latest.template">  
    <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
  
