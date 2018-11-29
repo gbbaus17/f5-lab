@@ -16,7 +16,7 @@ The Server has the following avaliable
 ## Hackazon
 - docker run  -d -p 83:80 --restart always --name hackazon_f5lab -it mutzel/all-in-one-hackazon
 
-## App-Sec https://github.com/ArtiomL/f5-app-sec
+## App-Sec from github.com/ArtiomL/f5-app-sec
 - docker run -d -p 443:8443 --restart always --name f5appsec_f5lab -it artioml/f5-app-sec
 
 # Standard Websites for LB Tests
