@@ -1,7 +1,6 @@
  
 The Server has the following avaliable
 
-
 # Web App firewall testing sites
 
 ## DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
