@@ -2,9 +2,9 @@
 The Server has the following avaliable
 
 
-## Web App firewall testing sites
+# Web App firewall testing sites
 
-# DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
+## DamnSmallVulenerableWeb - Jumphost has installer [.py] pointing to ASM VIP
 - docker run -d -p 80:8000 --restart always --name dsvm_f5lab -it gbbaus17/dsvw
 
 ## Webgoat
