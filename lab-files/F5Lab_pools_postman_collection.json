@@ -1,0 +1,1207 @@
+{
+	"info": {
+		"_postman_id": "56671640-2149-467e-ba2d-7323e6a1344c",
+		"name": "F5Lab GaryB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1 - API Authentication & 'example' Templates",
+			"item": [
+				{
+					"name": "Step 1: HTTP BASIC Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "564d5a76-b13c-439a-8d97-f931687ebbfb",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"kind\", ",
+									"            \"value\":\"tm:ltm:ltmcollectionstate\" ",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "f5DEMOs4u!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 2: Retrieve Authentication Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2c180130-2c9d-4180-aee0-a89b3885f994",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"bigip_a_auth_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"{{bigip_password}}\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"authn",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 3: Verify Authentication Works",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd45d445-38a1-4360-a997-74f6ab6467ae",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"items\", ",
+									"            \"value\":\"0\",",
+									"            \"op\":\">=\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/shared/authz/tokens",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"authz",
+								"tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 4: Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"timeout\", ",
+									"            \"value\":\"36000\" ",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"36000\"\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/shared/authz/tokens/{{bigip_a_auth_token}}",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"authz",
+								"tokens",
+								"{{bigip_a_auth_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 5: Get 'example' of a Pool Resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"kind\", ",
+									"            \"value\":\"tm:ltm:pool:poolcollectionstate\" ",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool/example",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool",
+								"example"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 2 - Check Base info",
+			"item": [
+				{
+					"name": " Step 1: Get BIG-IP Software Version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// This is a Postman post-request request test script.",
+									"//",
+									"// The Javascript code below is executed AFTER a response is ",
+									"// received by the Postman client.  This code can do all sorts",
+									"// of interesting things.",
+									"",
+									"// Parse the JSON response body and save the result in the resp variable",
+									"var resp = JSON.parse(responseBody);",
+									"",
+									"// Set an environemnt variable based on the value in the response JSON",
+									"postman.setEnvironmentVariable(\"lab1.5_sw_version\", resp.version);",
+									"",
+									"// Populate a Postman test item",
+									"tests[\"Populate SW Version\"] = 0;",
+									"if(resp.version.length > 0) {",
+									"    tests[\"Populate SW Version\"] = 1;",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/sys/software/volume/HD1.1",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"sys",
+								"software",
+								"volume",
+								"HD1.1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 2: Get BIG-IP CPU Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// This is a Postman post-request request test script.",
+									"//",
+									"// The Javascript code below is executed AFTER a response is ",
+									"// received by the Postman client.  This code can do all sorts",
+									"// of interesting things.",
+									"",
+									"// Parse the JSON response body and save the result in the resp variable",
+									"var resp = JSON.parse(responseBody);",
+									"",
+									"// Set an environemnt variable based on the value in the response JSON",
+									"postman.setEnvironmentVariable(\"lab1.5_cpu_count\", resp.items.length);",
+									"",
+									"// Populate a Postman test item",
+									"tests[\"Populate CPU Count\"] = 0;",
+									"if(resp.items.length > 0) {",
+									"    tests[\"Populate CPU Count\"] = 1;",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/cloud/sys/cpu-info-stat",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"cloud",
+								"sys",
+								"cpu-info-stat"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 3 - Check Basic Network Connectivity",
+			"item": [
+				{
+					"name": " Step 2: Get VLANs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc5010e7-1fa4-47a1-9e3c-903fdf935b17",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vlan = function(resp) {",
+									"    if(resp.items.length != 2) {",
+									"        tests[\"Correct number of VLANs configured\"] = 0;",
+									"    } ",
+									"    ",
+									"    var internal_ok = false;",
+									"    var external_ok = false;",
+									"    tests[\"VLAN Internal Configured Correctly\"] = 0;",
+									"    tests[\"VLAN External Configured Correctly\"] = 0;",
+									"    ",
+									"    for(var i=0; i < resp.items.length; i++) {",
+									"        var vlan = resp.items[i];",
+									"        if(vlan.name == \"Internal\" &&",
+									"           vlan.tag == \"10\" &&",
+									"           vlan.interfacesReference.items[0].name == \"1.1\") {",
+									"            tests[\"VLAN Internal Configured Correctly\"] = 1;",
+									"            internal_ok = true;",
+									"        }",
+									"        if(vlan.name == \"External\" &&",
+									"           vlan.tag == \"20\" &&",
+									"           vlan.interfacesReference.items[0].name == \"1.2\") {",
+									"            tests[\"VLAN External Configured Correctly\"] = 1;",
+									"            external_ok = true;",
+									"        } ",
+									"    }",
+									"    ",
+									"    if(internal_ok && external_ok) {",
+									"        tests[\"VLANs Configured Correctly'\"] = 1;",
+									"        return 1;",
+									"    } else {",
+									"        tests[\"VLANs Configured Correctly'\"] = 0;",
+									"        return 0;",
+									"    }",
+									"    ",
+									"};",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"check_created_vlans\", ",
+									"            \"value\": check_vlan",
+									"        }       ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/net/vlan/?expandSubcollections=true",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"net",
+								"vlan",
+								""
+							],
+							"query": [
+								{
+									"key": "expandSubcollections",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": " Step 6: Get Self IPs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2172a096-445d-48af-9a09-f1394558e2aa",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vlan = function(resp) {",
+									"    if(resp.items.length != 2) {",
+									"        tests[\"Correct number of Self-IPs configured\"] = 0;",
+									"    } ",
+									"    ",
+									"    var internal_ok = false;",
+									"    var external_ok = false;",
+									"    tests[\"Self-Internal Configured Correctly\"] = 0;",
+									"    tests[\"Self-External Configured Correctly\"] = 0;",
+									"    ",
+									"    for(var i=0; i < resp.items.length; i++) {",
+									"        var item = resp.items[i];",
+									"        if(item.name == \"Self-Internal\" &&",
+									"           item.address == \"10.1.10.10/24\" &&",
+									"           item.vlan == \"/Common/Internal\") {",
+									"            tests[\"Self-Internal Configured Correctly\"] = 1;",
+									"            internal_ok = true;",
+									"        }",
+									"        if(item.name == \"Self-External\" &&",
+									"           item.address == \"10.1.20.10/24\" &&",
+									"           item.vlan == \"/Common/External\") {",
+									"            tests[\"Self-External Configured Correctly\"] = 1;",
+									"            external_ok = true;",
+									"        } ",
+									"    }",
+									"    ",
+									"    if(internal_ok && external_ok) {",
+									"        tests[\"Self-IPs Configured Correctly'\"] = 1;",
+									"        return 1;",
+									"    } else {",
+									"        tests[\"VLANs Configured Correctly'\"] = 0;",
+									"        return 0;",
+									"    }",
+									"    ",
+									"};",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"check_created_vlans\", ",
+									"            \"value\": check_vlan",
+									"        }       ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/net/self?expandSubcollections=true",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"net",
+								"self"
+							],
+							"query": [
+								{
+									"key": "expandSubcollections",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": " Step 7: Get Routes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"kind\", ",
+									"            \"value\":\"tm:net:route:routecollectionstate\" ",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/net/route?expandSubcollections=true",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"net",
+								"route"
+							],
+							"query": [
+								{
+									"key": "expandSubcollections",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 4 - Add Pools",
+			"item": [
+				{
+					"name": "Create a Pool - DSVW",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"dsvw_pool\",\n    \"monitor\":\"/Common/tcp\",\n    \"members\": [\"10.1.20.100:80\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Pool - DVWA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"dvwa_pool\",\n    \"monitor\":\"/Common/tcp\",\n    \"members\": [\"10.1.20.100:82\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Pool - Hackazon",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"hackazon_pool\",\n    \"monitor\":\"/Common/tcp\",\n    \"members\": [\"10.1.20.100:83\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Pool - f5AppSec",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"f5appsec_pool\",\n    \"monitor\":\"/Common/tcp\",\n    \"members\": [\"10.1.20.100:443\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Pool - demoHTTP_red",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"web_red_pool\",\n    \"monitor\":\"/Common/http\",\n    \"members\": [\"10.1.20.100:8000\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Pool - demoHTTP_green",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"web_green_pool\",\n    \"monitor\":\"/Common/http\",\n    \"members\": [\"10.1.20.100:8001\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Pool - demoHTTP_blue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"web_blue_pool\",\n    \"monitor\":\"/Common/http\",\n    \"members\": [\"10.1.20.100:8002\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 4 - Build a WebGoat Virtual",
+			"item": [
+				{
+					"name": "1. Create a WebGoat HTTP Monitor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"webgoat_monitor\",\n    \"send\":\"GET /WebGoat/login.mvc\\r\\n\"\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/monitor/http",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"monitor",
+								"http"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create a Pool",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"webgoat_pool\",\n    \"monitor\":\"/Common/webgoat_monitor\",\n    \"members\": [\"10.1.20.100:8081\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/pool",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Create a XFF HTTP Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"xff_http_profile\",\n    \"insertXforwardedFor\":\"enabled\",\n    \"serverAgentName\":\"F5Lab\"\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/profile/http",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"profile",
+								"http"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Create a TCP Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"f5lab_tcp_clientside_profile\",\n    \"nagle\":\"disabled\",\n    \"sendBufferSize\":\"16000\"\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/profile/tcp",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"profile",
+								"tcp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5 Create a redirect iRule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"kind\": \"tm:ltm:rule:rulestate\",\n  \"name\": \"redirect_to_webgoat\",\n  \"partition\": \"Common\",\n  \"fullPath\": \"/Common/redirect_to_webgoat\",\n  \"generation\": 224,\n  \"selfLink\": \"https://localhost/mgmt/tm/ltm/rule/~Common~redirect_to_webgoat?ver=13.1.1\",\n  \"apiAnonymous\": \"when HTTP_REQUEST {\\n if { [HTTP::uri] eq \\\"/\\\" } {\\n  HTTP::redirect \\\"http://[HTTP::host]/WebGoat/login.mvc\\\"\\n }\\n}\",\n  \"metadata\": {}\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/rule",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"rule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Create WebGoat Virtual Server",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"webgoat_vs\",\n    \"destination\":\"10.1.10.145:8081\",\n    \"ipProtocol\":\"tcp\",\n    \"pool\":\"webgoat_pool\",\n    \"sourceAddressTranslation\": { \"type\":\"automap\" },\n    \"profiles\": [\n        { \"name\":\"/Common/f5lab_tcp_clientside_profile\", \"context\":\"clientside\" },\n        { \"name\":\"/Common/tcp-lan-optimized\", \"context\":\"serverside\" },\n        \"/Common/xff_http_profile\"\n    ],\n    \"rules\": [\"/Common/redirect_to_webgoat\"]\n}"
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/virtual",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"virtual"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Retrieve VS information",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{bigip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~webgoat_vs/",
+							"protocol": "https",
+							"host": [
+								"{{bigip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"virtual",
+								"~Common~webgoat_vs",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6bc859cd-3989-4415-a39d-3efa2eaa181f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b59485b1-c0be-46d0-a43c-95bf234efffd",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

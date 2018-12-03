@@ -1,0 +1,59 @@
+{
+	"id": "146e52f0-fd32-4814-8e58-8a3c0f4d5eb7",
+	"values": [
+		{
+			"key": "_f5_debug",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_enable_polled_mode",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_apiurl",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_bypass_timeout",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_curr",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_iterator",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_max_tries",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_useinternal",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_poll_wait",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "_f5_workflow_functions",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2018-12-03T11:55:30.787Z",
+	"_postman_exported_using": "Postman/6.5.3"
+}

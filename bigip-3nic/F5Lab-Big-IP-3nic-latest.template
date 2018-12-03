@@ -1543,20 +1543,33 @@
 		"Properties": {
 			"GroupDescription": "BIG-IP management interface policy",
 			"SecurityGroupIngress": [
+			    {
+                   "CidrIp": "10.1.0.0/16",
+                   "IpProtocol": "tcp",
+                   "FromPort": "1",
+                   "ToPort": "65535"
+                },
+				{
+				    "CidrIp": "10.1.0.0/16",
+					"IpProtocol": "icmp",
+					"FromPort": "-1",
+					"ToPort": "-1",
+					"CidrIp": "0.0.0.0/0"
+				},				
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "22",
 					"IpProtocol": "tcp",
+					"FromPort": "22",
 					"ToPort": "22"
 				},
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "443",
 					"IpProtocol": "tcp",
+					"FromPort": "443",
 					"ToPort": "443"
 				}
 			],

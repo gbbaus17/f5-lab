@@ -18,7 +18,7 @@
 	"CustomImageId": {
 		"ConstraintDescription": "Must be a valid AMI Id",
 		"Default": "ami-098d744be7a18d539",
-		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
+		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539; SYD v13=ami-e95ffe8b]",
 		"MaxLength": 255,
 		"MinLength": 1,
 		"Type": "String"
@@ -103,8 +103,8 @@
 	"BigIpManagementIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.1.246",
-		"Description": "Management IP - Lab Default is 10.1.1.246",
+		"Default": "10.1.1.245",
+		"Description": "Management IP - Lab Default is 10.1.1.245",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -112,8 +112,8 @@
 	"BigIpExternalSubnetIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.10.246",
-		"Description": "Public or External Self-IP - Lab Default is 10.1.10.246",
+		"Default": "10.1.10.245",
+		"Description": "Public or External Self-IP - Lab Default is 10.1.10.245",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -121,8 +121,8 @@
 	"BigIpInternalSubnetIP": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.20.246",
-		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.246",
+		"Default": "10.1.20.245",
+		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.245",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -136,51 +136,96 @@
 	   "Description": "Assign/reserve extra EC2 addresses for VIPs ?",
 	   "Type": "String"
 	  },	
-	"AdditionalVipAddr25": {
+	"AdditionalVipAddr15": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.25",
-		"Description": "EC2 address to be used as first VIP address: 10.1.10.25",
+		"Default": "10.1.10.15",
+		"Description": "EC2 address to be used as first VIP address: 10.1.10.15",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},		
-	"AdditionalVipAddr26": {
+	"AdditionalVipAddr16": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.26",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.26",
+		"Default": "10.1.10.16",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.16",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},
-	"AdditionalVipAddr27": {
+	"AdditionalVipAddr30": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.27",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.27",
+		"Default": "10.1.10.30",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.30",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},
-	"AdditionalVipAddr28": {
+	"AdditionalVipAddr32": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.28",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.28",
+		"Default": "10.1.10.32",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.32",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},
-	"AdditionalVipAddr29": {
+	"AdditionalVipAddr100": {
 		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
 		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
-		"Default": "10.1.10.29",
-		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.29",
+		"Default": "10.1.10.100",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.100",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
 	},		
+	"AdditionalVipAddr145": {
+		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+		"Default": "10.1.10.145",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.145",
+		"MaxLength": 15,
+		"MinLength": 7,
+		"Type": "String"
+	},	
+	"AdditionalVipAddr146": {
+		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+		"Default": "10.1.10.146",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.146",
+		"MaxLength": 15,
+		"MinLength": 7,
+		"Type": "String"
+	},
+	"AdditionalVipAddr150": {
+		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+		"Default": "10.1.10.150",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.150",
+		"MaxLength": 15,
+		"MinLength": 7,
+		"Type": "String"
+	},
+	"AdditionalVipAddr200": {
+		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+		"Default": "10.1.10.200",
+		"Description": "Additional EC2 address to be used as VIP address eg: 10.1.10.200",
+		"MaxLength": 15,
+		"MinLength": 7,
+		"Type": "String"
+	},
+	"AdditionalVipAddr210": {
+		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
+		"ConstraintDescription": "Must be a valid IP in the form x.x.x.x",
+		"Default": "10.1.10.210",
+		"Description": "Additional EC2 address to be used as VIP address: 10.1.10.210",
+		"MaxLength": 15,
+		"MinLength": 7,
+		"Type": "String"
+	},
 	"TimeZone": {
             "Default": "Australia/NSW",
             "Description": "Olson TimeZone string from /usr/share/zoneinfo eg: America/Los_Angeles",
@@ -285,7 +330,7 @@
                         "BigIpManagementIP",
                         "BigIpExternalSubnetIP",
                         "BigIpInternalSubnetIP",
-						"AdditionalVipAddr25"
+						"AdditionalVipAddr15"
                     ]
                 },
 				{
@@ -301,10 +346,15 @@
                         "default": "If Assign 'YES' - Avaliable Addresses for Virtual servers"
                     },
                     "Parameters": [
-						"AdditionalVipAddr26",
-						"AdditionalVipAddr27",
-						"AdditionalVipAddr28",
-						"AdditionalVipAddr29"
+						"AdditionalVipAddr16",
+						"AdditionalVipAddr30",
+						"AdditionalVipAddr32",
+						"AdditionalVipAddr100",
+						"AdditionalVipAddr145",
+						"AdditionalVipAddr146",
+						"AdditionalVipAddr150",
+						"AdditionalVipAddr200",
+						"AdditionalVipAddr210"
                     ]
                 }
             ],
@@ -375,20 +425,35 @@
                 "BigIpInternalSubnetIP": {
                     "default": "BigIp Internal Self-IP"
                 },
-                "AdditionalVipAddr25": {
-                    "default": "Address for VIP .25"
+                "AdditionalVipAddr15": {
+                    "default": "Address for VIP .15"
                 },
-                "AdditionalVipAddr26": {
-                    "default": "Additional VIP .26"
+                "AdditionalVipAddr16": {
+                    "default": "Additional VIP .16"
                 },				
-                "AdditionalVipAddr27": {
-                    "default": "Additional VIP .27"
+                "AdditionalVipAddr30": {
+                    "default": "Additional VIP .30"
                 },
-                "AdditionalVipAddr28": {
-                    "default": "Additional VIP .28"
+                "AdditionalVipAddr32": {
+                    "default": "Additional VIP .32"
                 },	
-                "AdditionalVipAddr29": {
-                    "default": "Additional VIP .29"
+                "AdditionalVipAddr100": {
+                    "default": "DVSM Lab VIP .100"
+                },
+                "AdditionalVipAddr145": {
+                    "default": "ASM Lab VIP Addr .145"
+                },
+                "AdditionalVipAddr146": {
+                    "default": "ASM Lab VIP Addr .146"
+                },
+                "AdditionalVipAddr150": {
+                    "default": "ASM Lab VIP Addr .150"
+                },
+                "AdditionalVipAddr200": {
+                    "default": "ASM Lab VIP Addr .200"
+                },	
+                "AdditionalVipAddr210": {
+                    "default": "ASM Lab VIP Addr .210"
                 }			
             }
         },
@@ -666,6 +731,7 @@
 										"--wait-for ADMIN_CREATED ",
 										"--signal NETWORK_CONFIG_DONE ",
 										"--vlan name:external,nic:1.1 ",
+										"--default-gw ${GATEWAY} ",
 										"--self-ip name:external-self,address:",
 										{
 											"Fn::GetAtt": [
@@ -1180,7 +1246,7 @@
 			},
 			"SourceDestCheck" : "false",
 			"PrivateIpAddresses": [
-				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" }
+				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" }					
 			],
 			"Tags": [
 				{
@@ -1284,11 +1350,16 @@
 				"SourceDestCheck" : "false",
 				"PrivateIpAddresses" : [ 
 					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr25" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr26" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr27" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr28" }, "Primary": "false" },
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr29" }, "Primary": "false" }
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr16" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr30" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr32" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr100" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr145" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr146" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr150" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr200" }, "Primary": "false" },
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr210" }, "Primary": "false" }
 					 ],		   
 				"Tags": [
 						{
@@ -1315,7 +1386,7 @@
 				"SourceDestCheck" : "false",
 				"PrivateIpAddresses" : [ 
 					   { "PrivateIpAddress": { "Ref": "BigIpExternalSubnetIP" }, "Primary": "true" }, 
-					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr25" }, "Primary": "false" }
+					   { "PrivateIpAddress": { "Ref": "AdditionalVipAddr15" }, "Primary": "false" }
 					 ],		   
 				"Tags": [
 						{
@@ -1334,6 +1405,39 @@
 		"Metadata": {
 			"AWS::CloudFormation::Designer": {
 				"id": "3cbfa9c8-a6da-40fb-ba48-5a2c1aab08ae"
+			}
+		}
+	},
+	"BigIp1VipEipAddress": {
+		"Properties": {
+			"Domain": "VPC"
+		},
+		"Type": "AWS::EC2::EIP",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
+			}
+		}
+	},
+	"BigIp1VipEipAssociation": {
+		"Properties": {
+			"AllocationId": {
+				"Fn::GetAtt": [
+					"BigIp1VipEipAddress",
+					"AllocationId"
+				]
+			},
+			"NetworkInterfaceId": {
+				"Ref": "BigIp1ExternalSubnetInterface"
+			},
+			"PrivateIpAddress": {
+				"Ref": "AdditionalVipAddr15"
+			}					
+		},
+		"Type": "AWS::EC2::EIPAssociation",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "d7468fd4-001a-4f2b-b0df-cac0767611bc"
 			}
 		}
 	},
@@ -1439,20 +1543,33 @@
 		"Properties": {
 			"GroupDescription": "BIG-IP management interface policy",
 			"SecurityGroupIngress": [
+			    {
+                   "CidrIp": "10.1.0.0/16",
+                   "IpProtocol": "tcp",
+                   "FromPort": "1",
+                   "ToPort": "65535"
+                },
+				{
+				    "CidrIp": "10.1.0.0/16",
+					"IpProtocol": "icmp",
+					"FromPort": "-1",
+					"ToPort": "-1",
+					"CidrIp": "0.0.0.0/0"
+				},				
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "22",
 					"IpProtocol": "tcp",
+					"FromPort": "22",
 					"ToPort": "22"
 				},
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "443",
 					"IpProtocol": "tcp",
+					"FromPort": "443",
 					"ToPort": "443"
 				}
 			],
@@ -1620,6 +1737,20 @@
 							"BigIp1Instance",
 							"PublicIp"
 						]
+					}
+				]
+			]
+		}
+	},
+	"BigIp1VipEipAddress": {
+		"Description": "Future EIP address for VIP",
+		"Value": {
+			"Fn::Join": [
+				"",
+				[
+					"https://",
+					{
+						"Ref": "BigIp1VipEipAddress"
 					}
 				]
 			]
