@@ -21,6 +21,7 @@ Templates exists for
 2) Big-IP v13 or v14.0 (attaches to above topology)  | Cost ~0.25c/hour
 3) LAMP Server (Sits on Internal vlan)  | Cost ~0.11c/hour
 4) Big-IQ v6.0.1 (optional)  | CM+DCD Cost ~0.50c/hour
+
 **(To avoid long running costs, above systems each have a crontab task to shutdown daily at midnight)**
 
 **NOTES**
