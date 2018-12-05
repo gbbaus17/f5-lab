@@ -18,7 +18,7 @@
 	"CustomImageId": {
 		"ConstraintDescription": "Must be a valid AMI Id",
 		"Default": "ami-098d744be7a18d539",
-		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
+		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539; SYD v13=ami-e95ffe8b]",
 		"MaxLength": 255,
 		"MinLength": 1,
 		"Type": "String"
@@ -731,6 +731,7 @@
 										"--wait-for ADMIN_CREATED ",
 										"--signal NETWORK_CONFIG_DONE ",
 										"--vlan name:external,nic:1.1 ",
+										"--default-gw ${GATEWAY} ",
 										"--self-ip name:external-self,address:",
 										{
 											"Fn::GetAtt": [
@@ -924,6 +925,12 @@
 										},
 										"\n",
 										"BIGIP_INTERNAL_VLAN=internal\n",
+										"# Set shutdown daily at midnight\n",
+										"cat << 'EOF' >> /etc/crontab\n",
+										"55 23 * * * root shutdown -h 5\n",
+										"\n",
+										"EOF\n",
+										"sleep 1\n",
 										"PROGNAME=$(basename $0)\n",
 										"function error_exit {\n",
 										"echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
@@ -1542,20 +1549,33 @@
 		"Properties": {
 			"GroupDescription": "BIG-IP management interface policy",
 			"SecurityGroupIngress": [
+			    {
+                   "CidrIp": "10.1.0.0/16",
+                   "IpProtocol": "tcp",
+                   "FromPort": "1",
+                   "ToPort": "65535"
+                },
+				{
+				    "CidrIp": "10.1.0.0/16",
+					"IpProtocol": "icmp",
+					"FromPort": "-1",
+					"ToPort": "-1",
+					"CidrIp": "0.0.0.0/0"
+				},				
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "22",
 					"IpProtocol": "tcp",
+					"FromPort": "22",
 					"ToPort": "22"
 				},
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "443",
 					"IpProtocol": "tcp",
+					"FromPort": "443",
 					"ToPort": "443"
 				}
 			],

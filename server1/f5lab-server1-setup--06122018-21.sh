@@ -103,6 +103,14 @@ sleep 2
 sudo sed -i 's|\\u@\\h|\\u@server1_\\h|g' /home/ubuntu/.bashrc
 sleep 2
 
+# Set shutdown daily at midnight - type 'shutdown -c' to cancel
+cat << 'EOF' >> /etc/crontab
+55 23 * * * root shutdown -h 5
+
+EOF
+
+sleep 5
+
 # Start the Docker containers
 cat << 'EOF' >> /etc/rc.local
 
@@ -111,20 +119,22 @@ cat << 'EOF' >> /etc/rc.local
 #docker run  -d -p 8008:8000 --restart always -it appsecco/dsvw
 docker run -d -p 80:8000 --restart always --name dsvm_f5lab -it gbbaus17/dsvw
 #Webgoat
-docker run -d -p 81:80 --restart always --name webgoat_f5lab -it danmx/docker-owasp-webgoat
+docker run -d -p 8081:8080 -p 81:80 --restart always --name webgoat_f5lab -it danmx/docker-owasp-webgoat
 #sudo docker run -d -p 8011:8080 --restart always --name webgoat_f5lab webgoat/webgoat-8.0
 #DVWA
-docker run -d -p 82:80 --restart always --name dvwa_f5lab -e MYSQL_PASS="f5DEMOs4u!" -it citizenstig/dvwa
+docker run -d -p 8082:3306 -p 82:80 --restart always --name dvwa_f5lab -e MYSQL_PASS="f5DEMOs4u!" -it citizenstig/dvwa
 #Hackazon
 docker run  -d -p 83:80 --restart always --name hackazon_f5lab -it mutzel/all-in-one-hackazon
+#App-Sec https://github.com/ArtiomL/f5-app-sec
+docker run -d -p 443:8443 --restart always --name f5appsec_f5lab -it artioml/f5-app-sec
 ## Add Standard Websites for LB Tests
-docker run -d -p 8000:80 --restart always --name red_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' -it f5devcentral/f5-demo-httpd
-docker run -d -p 8001:80 --restart always --name oranage_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF8000 -e F5DEMO_NODENAME='Orange' -it f5devcentral/f5-demo-httpd
-docker run -i -t -d -p 8002:80 --restart always --name grey_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=A0A0A0 -e F5DEMO_NODENAME='Gray' -it f5devcentral/f5-demo-httpd
-docker run -d -p 8003:80 --restart always --name green_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' -it f5devcentral/f5-demo-httpd
-docker run -d -p 8004:80 --restart always --name blue_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8440:443 -p 8000:80 --restart always --name red_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=FF0000 -e F5DEMO_NODENAME='Red' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8441:443 -p 8001:80 --restart always --name green_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=33FF33 -e F5DEMO_NODENAME='Green' -it f5devcentral/f5-demo-httpd
+docker run -d -p 8442:443 -p 8002:80 --restart always --name blue_f5lab -e F5DEMO_APP=website -e F5DEMO_COLOR=3333FF -e F5DEMO_NODENAME='Blue' -it f5devcentral/f5-demo-httpd
 ## Run Openldap Pt 389, anf 636 defaults See README @ https://github.com/osixia/docker-openldap
-docker run -p 389:389 -p 636:636 --restart always --name ldap_f5lab --hostname openldap.f5lab.com --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" --env LDAP_TLS_PROTOCOL_MIN=3.0 --env LDAP_TLS_CIPHER_SUITE=NORMAL --env LDAP_TLS_VERIFY_CLIENT=never -d osixia/openldap:latest
+#docker run -p 389:389 -p 636:636 --restart always --name ldap_f5lab --hostname openldap.f5lab.com --env LDAP_ORGANISATION="F5 Lab" --env LDAP_DOMAIN="f5lab.com" --env LDAP_ADMIN_PASSWORD="f5DEMOs4u!" --env LDAP_TLS_PROTOCOL_MIN=3.0 --env LDAP_TLS_CIPHER_SUITE=NORMAL --env LDAP_TLS_VERIFY_CLIENT=never -d osixia/openldap:latest
+
+
 
 EOF
 

@@ -442,14 +442,22 @@ sleep 2
 sudo sed -i 's|\\u@\\h|\\u@jumphost_\\h|g' /home/ubuntu/.bashrc
 sleep 2
 
+# Set shutdown daily at midnight - type 'shutdown -c' to cancel
+cat << 'EOF' >> /etc/crontab
+55 23 * * * root shutdown -h 5
 
-# Start 
+EOF
+
+sleep 5
+
+
+# Start the docker containers
 cat << 'EOF' >> /etc/rc.local
 
 #DamnSmallVulenerableWeb - Jumphost has DSVM package [.py] pointing to ASM VIP
 nohup /home/ubuntu/F5-Lab/jumphost/client-files/DVSM/dsvw.py &
-# Start AS3 container - Still experimental
-docker run --restart always --name as3_container --rm -d -p 4443:443 f5devcentral/f5-as3-container:latest
+# Start AS3 container
+# docker run --restart always --name as3_container --rm -d -p 4443:443 f5devcentral/f5-as3-container:latest
 # OpenLDAP Admin for ldap docker instance running on Server1
 docker run -p 6443:443 -p 6080:80 --restart always --name ldapadmin_f5lab --hostname ldapadmin.f5lab.com --link ldap_f5lab:openldap.f5lab.com --env PHPLDAPADMIN_LDAP_HOSTS=openldap.f5lab.com -d osixia/phpldapadmin:latest
 # https://github.com/ArtiomL/f5-app-sec: Image has Audit Tool for ASM policies
@@ -458,6 +466,8 @@ docker run -dit --rm -p 8443:8443 artioml/f5-app-sec
 EOF
 
 sleep 5
+
+
 
 
 # Things are created as root, need to transfer ownership

@@ -12,13 +12,13 @@
 	},
 	"BigIpAdminPassword": {
 		"Default": "f5DEMOs4u!",
-		"Description": "Admin password for Web Access",
+		"Description": "Admin password. NOTE: Must pass the 'pam_cracklib' checks. See support article K10612010",
 		"Type": "String"
 	},
 	"CustomImageId": {
 		"ConstraintDescription": "Must be a valid AMI Id",
-		"Default": "ami-04e893bab1e8b9b10",
-		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539]",
+		"Default": "ami-098d744be7a18d539",
+		"Description": "Please specify your Region BigIP AMI Id that you have Agreed to T&Cs. BYOL or PAYG [eg, BYOL: N.VA v14=ami-04e893bab1e8b9b10; SYD v14=ami-098d744be7a18d539; SYD v13=ami-e95ffe8b]",
 		"MaxLength": 255,
 		"MinLength": 1,
 		"Type": "String"
@@ -123,15 +123,6 @@
 		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
 		"Default": "10.1.20.245",
 		"Description": "Private or Internal Self-IP - Lab Default is 10.1.20.245",
-		"MaxLength": 15,
-		"MinLength": 7,
-		"Type": "String"
-	},
-	"BigipFpsLabSelfIP": {
-		"AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})",
-		"ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x",
-		"Default": "10.1.20.240",
-		"Description": "Additional Lab Self-IP - FPS Lab Default is 10.1.20.240",
 		"MaxLength": 15,
 		"MinLength": 7,
 		"Type": "String"
@@ -258,7 +249,7 @@
                 },
                 {
                     "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
+                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------------"
                     },
                     "Parameters": []
                 },
@@ -276,19 +267,19 @@
                 },
                 {
                     "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
+                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------------"
                     },
                     "Parameters": []
                 },
                 {
                     "Label": {
-                        "default": "Run this template AFTER you have run the TOPOLOGY template for the F5 Lab which creates 3 Subnets in CIDR 10.1.0.0/16"
+                        "default": "This template assumes you have 3 Subnets in CIDR 10.1.0.0/16. The Lab TOPOLOGY template creates that for you."
                     },
                     "Parameters": []
                 },
                 {
                     "Label": {
-                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------"
+                        "default": "--------------------------------------------------------------------------------------------------------------------------------------------------------"
                     },
                     "Parameters": []
                 },
@@ -339,7 +330,6 @@
                         "BigIpManagementIP",
                         "BigIpExternalSubnetIP",
                         "BigIpInternalSubnetIP",
-						"BigipFpsLabSelfIP",
 						"AdditionalVipAddr15"
                     ]
                 },
@@ -435,14 +425,11 @@
                 "BigIpInternalSubnetIP": {
                     "default": "BigIp Internal Self-IP"
                 },
-                "BigipFpsLabSelfIP": {
-                    "default": "BigIp FPS Lab Self-IP"
-                },
                 "AdditionalVipAddr15": {
                     "default": "Address for VIP .15"
                 },
                 "AdditionalVipAddr16": {
-                    "default": "FPS Lab VIP Addr .16"
+                    "default": "Additional VIP .16"
                 },				
                 "AdditionalVipAddr30": {
                     "default": "Additional VIP .30"
@@ -744,6 +731,7 @@
 										"--wait-for ADMIN_CREATED ",
 										"--signal NETWORK_CONFIG_DONE ",
 										"--vlan name:external,nic:1.1 ",
+										"--default-gw ${GATEWAY} ",
 										"--self-ip name:external-self,address:",
 										{
 											"Fn::GetAtt": [
@@ -936,12 +924,13 @@
 											"Ref": "BigIpAdminPassword"
 										},
 										"\n",
-										"BIGIP_FPS_LAB_ADDRESS=",
-										{
-											"Ref": "BigipFpsLabSelfIP"
-										},
-										"\n",
 										"BIGIP_INTERNAL_VLAN=internal\n",
+										"# Set shutdown daily at midnight\n",
+										"cat << 'EOF' >> /etc/crontab\n",
+										"55 23 * * * root shutdown -h 5\n",
+										"\n",
+										"EOF\n",
+										"sleep 1\n",
 										"PROGNAME=$(basename $0)\n",
 										"function error_exit {\n",
 										"echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
@@ -959,7 +948,6 @@
 										"\"tmsh modify sys global-settings gui-setup disabled\"\n",
 										"\"tmsh modify sys global-settings hostname ${HOSTNAME}\"\n",
 										"\"tmsh modify auth user admin password ${BIGIP_ADMIN_PASSWORD}\"\n",
-										"\"tmsh create net self fps_lab_selfip { address ${BIGIP_FPS_LAB_ADDRESS}/24 vlan ${BIGIP_INTERNAL_VLAN} allow-service default description \"FPS Lab guide selfip address\" }\"\n",
 										"\"tmsh save sys config\")\n",
 										"for CMD in \"${tmsh[@]}\"\n",
 										"do\n",
@@ -983,13 +971,13 @@
 							"group": "root",
 							"mode": "000755",
 							"owner": "root",
-							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.1.1/f5-cloud-logger/f5.cloud_logger.v1.0.0.tmpl"
+							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.2.0/f5-cloud-logger/f5.cloud_logger.v1.0.0.tmpl"
 						},
 						"/config/cloud/aws/f5.service_discovery.tmpl": {
 							"group": "root",
 							"mode": "000755",
 							"owner": "root",
-							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.1.1/f5-service-discovery/f5.service_discovery.tmpl"
+							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.2.0/f5-service-discovery/f5.service_discovery.tmpl"
 						},
 						"/config/cloud/aws/getNameServer.sh": {
 							"content": {
@@ -1264,8 +1252,7 @@
 			},
 			"SourceDestCheck" : "false",
 			"PrivateIpAddresses": [
-				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" },
-				{ "PrivateIpAddress": { "Ref": "BigipFpsLabSelfIP" }, "Primary": "false" }					
+				{ "PrivateIpAddress": { "Ref": "BigIpInternalSubnetIP" }, "Primary": "true" }					
 			],
 			"Tags": [
 				{
@@ -1427,6 +1414,39 @@
 			}
 		}
 	},
+	"BigIp1VipEipAddress": {
+		"Properties": {
+			"Domain": "VPC"
+		},
+		"Type": "AWS::EC2::EIP",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "2cfc8d08-bc64-42d1-80fe-0623af783a2c"
+			}
+		}
+	},
+	"BigIp1VipEipAssociation": {
+		"Properties": {
+			"AllocationId": {
+				"Fn::GetAtt": [
+					"BigIp1VipEipAddress",
+					"AllocationId"
+				]
+			},
+			"NetworkInterfaceId": {
+				"Ref": "BigIp1ExternalSubnetInterface"
+			},
+			"PrivateIpAddress": {
+				"Ref": "AdditionalVipAddr15"
+			}					
+		},
+		"Type": "AWS::EC2::EIPAssociation",
+		"Metadata": {
+			"AWS::CloudFormation::Designer": {
+				"id": "d7468fd4-001a-4f2b-b0df-cac0767611bc"
+			}
+		}
+	},
 	"RestrictedPortsSecurityGroup": {
 		"Properties": {
 			"GroupDescription": "Public or external interface rules",
@@ -1529,20 +1549,32 @@
 		"Properties": {
 			"GroupDescription": "BIG-IP management interface policy",
 			"SecurityGroupIngress": [
+			    {
+                   "CidrIp": "10.1.0.0/16",
+                   "IpProtocol": "tcp",
+                   "FromPort": "1",
+                   "ToPort": "65535"
+                },
+				{
+				    "CidrIp": "10.1.0.0/16",
+					"IpProtocol": "icmp",
+					"FromPort": "-1",
+					"ToPort": "-1"
+				},				
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "22",
 					"IpProtocol": "tcp",
+					"FromPort": "22",
 					"ToPort": "22"
 				},
 				{
 					"CidrIp": {
 						"Ref": "restrictedSrcAddress"
 					},
-					"FromPort": "443",
 					"IpProtocol": "tcp",
+					"FromPort": "443",
 					"ToPort": "443"
 				}
 			],
@@ -1710,6 +1742,20 @@
 							"BigIp1Instance",
 							"PublicIp"
 						]
+					}
+				]
+			]
+		}
+	},
+	"BigIp1VipEipAddress": {
+		"Description": "Future EIP address for VIP",
+		"Value": {
+			"Fn::Join": [
+				"",
+				[
+					"https://",
+					{
+						"Ref": "BigIp1VipEipAddress"
 					}
 				]
 			]

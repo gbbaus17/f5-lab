@@ -17,17 +17,19 @@ For information on getting started using F5's CFT templates on GitHub, see [Amaz
 Templates exists for  
 
 0) Topology  (3 lab subnets - run first) 
-1) Jumphost with utils (Sits on External vlan - this is the entry into Lab) 
-2) Big-IP v13 or v14.0 (attaches to above topology) 
-3) LAMP Server (Sits on Internal vlan) 
-4) Big-IQ v6.0.1 (optional) 
+1) Jumphost with utils (Sits on External vlan - this is the entry into Lab)  | Cost ~0.11c/hour
+2) Big-IP v13 or v14.0 (attaches to above topology)  | Cost ~0.25c/hour
+3) LAMP Server (Sits on Internal vlan)  | Cost ~0.11c/hour
+4) Big-IQ v6.0.1 (optional)  | CM+DCD Cost ~0.50c/hour
+**(To avoid long running costs, above systems each have a crontab task to shutdown daily at midnight)**
 
-**NOTE**
+**NOTES**
 
 For the BigIP - Depending on the number of Elastic IPs available in your VPC, you may want to **delete the assigned EIPs** AFTER the BigIP has been created.
 
 Same for the 'LAMP Server'. 
 It only needs a public IP during creation time. After that you can delete the EIP and access from the Jumphost
+
 
 ********************************
 
@@ -67,13 +69,6 @@ Before you begin you will need some demo/eval keys Big-IQ (x2:CM+DCD), and optio
    
     - **NOTE: For Big-IQ, After launch you need to connect/ssh and run setup scripts on DCD then CM.**
    
----
-
-- *Additional*
-  - <a href="https://github.com/gbbaus17/F5-Lab/tree/master/bigip-3nic">**Big-IP 2**</a>, 2nd Standalone (3 nic) -Optional for testing
-    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=F5BigIP2-YourName&templateURL=https://s3.amazonaws.com/f5lab-gbbaus17/F5Lab-Big-IP-3nic-UNIT2-latest.template">  
-   <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></a>
-  
 ---
 
 

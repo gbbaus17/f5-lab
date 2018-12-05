@@ -925,6 +925,12 @@
 										},
 										"\n",
 										"BIGIP_INTERNAL_VLAN=internal\n",
+										"# Set shutdown daily at midnight\n",
+										"cat << 'EOF' >> /etc/crontab\n",
+										"55 23 * * * root shutdown -h 5\n",
+										"\n",
+										"EOF\n",
+										"sleep 1\n",
 										"PROGNAME=$(basename $0)\n",
 										"function error_exit {\n",
 										"echo \"${PROGNAME}: ${1:-\\\"Unknown Error\\\"}\" 1>&2\n",
@@ -965,13 +971,13 @@
 							"group": "root",
 							"mode": "000755",
 							"owner": "root",
-							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.1.1/f5-cloud-logger/f5.cloud_logger.v1.0.0.tmpl"
+							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.2.0/f5-cloud-logger/f5.cloud_logger.v1.0.0.tmpl"
 						},
 						"/config/cloud/aws/f5.service_discovery.tmpl": {
 							"group": "root",
 							"mode": "000755",
 							"owner": "root",
-							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.1.1/f5-service-discovery/f5.service_discovery.tmpl"
+							"source": "https://raw.githubusercontent.com/F5Networks/f5-cloud-iapps/v2.2.0/f5-service-discovery/f5.service_discovery.tmpl"
 						},
 						"/config/cloud/aws/getNameServer.sh": {
 							"content": {
@@ -1553,8 +1559,7 @@
 				    "CidrIp": "10.1.0.0/16",
 					"IpProtocol": "icmp",
 					"FromPort": "-1",
-					"ToPort": "-1",
-					"CidrIp": "0.0.0.0/0"
+					"ToPort": "-1"
 				},				
 				{
 					"CidrIp": {

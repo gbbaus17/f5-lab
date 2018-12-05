@@ -49,50 +49,7 @@ This CloudFormation template downloads helper code to configure the BIG-IP syste
 Additionally, F5 provides checksums for all of our supported Amazon Web Services CloudFormation templates. For instructions and the checksums to compare against, see https://devcentral.f5.com/codeshare/checksums-for-f5-supported-cft-and-arm-templates-on-github-1014.
 
 
-
-
 ---
-
-## Service Discovery
-Once you launch your BIG-IP instance using the CFT template, you can use the Service Discovery iApp template on the BIG-IP VE to automatically update pool members based on auto-scaled cloud application hosts.  In the iApp template, you enter information about your cloud environment, including the tag key and tag value for the pool members you want to include, and then the BIG-IP VE programmatically discovers (or removes) members using those tags. See our [Service Discovery video](https://www.youtube.com/watch?v=ig_pQ_tqvsI) to see this feature in action.
-
-### Tagging
-In AWS, you have two options for tagging objects that the Service Discovery iApp uses. Note that you select public or private IP addresses within the iApp.
-  - *Tag a VM resource*<br>
-The BIG-IP VE will discover the primary public or private IP addresses for the primary NIC configured for the tagged VM.
-  - *Tag a NIC resource*<br>
-The BIG-IP VE will discover the primary public or private IP addresses for the tagged NIC.  Use this option if you want to use the secondary NIC of a VM in the pool.
-
-
-The iApp first looks for NIC resources with the tags you specify.  If it finds NICs with the proper tags, it does not look for VM resources. If it does not find NIC resources, it looks for VM resources with the proper tags. 
-
-**Important**: Make sure the tags and IP addresses you use are unique. You should not tag multiple AWS nodes with the same key/tag combination if those nodes use the same IP address.
-
-To launch the template:
-  1.	From the BIG-IP VE web-based Configuration utility, on the Main tab, click **iApps > Application Services > Create**.
-  2.	In the **Name** field, give the template a unique name.
-  3.	From the **Template** list, select **f5.service_discovery**.  The template opens.
-  4.	Complete the template with information from your environment.  For assistance, from the Do you want to see inline help? question, select Yes, show inline help.
-  5.	When you are done, click the **Finished** button.
-  
-If you want to verify the integrity of the template, from the BIG-IP VE Configuration utility click **iApps > Templates**. In the template list, look for **f5.service_discovery**. In the Verification column, you should see **F5 Verified**.
-
-## Creating virtual servers on the BIG-IP VE
-
-In order to pass traffic from your clients to the servers through the BIG-IP system, you must create a virtual server on the BIG-IP VE. To create a BIG-IP virtual server you need to know the AWS secondary private IP address. If you need additional virtual servers for your applications/servers, you can add more secondary private IP addresses in AWS, and corresponding virtual servers on the BIG-IP system. See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/MultipleIP.html for information on multiple IP addresses.
-
-**To create virtual servers on the BIG-IP system**
-
-1. Once your BIG-IP VE has launched, open the BIG-IP VE Configuration utility.
-2. On the Main tab, click **Local Traffic > Virtual Servers** and then click the **Create** button.
-3. In the **Name** field, give the Virtual Server a unique name.
-4. In the **Destination/Mask** field, type the AWS secondary private IP address.
-5. In the **Service Port** field, type the appropriate port. 
-6. Configure the rest of the virtual server as appropriate.
-7. If you used the Service Discovery iApp template: <br>In the Resources section, from the **Default Pool** list, select the name of the pool created by the iApp.
-8. Click the **Finished** button.
-9. Repeat as necessary.
-
 
 ## Logging iApp
 

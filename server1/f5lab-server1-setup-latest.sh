@@ -103,6 +103,14 @@ sleep 2
 sudo sed -i 's|\\u@\\h|\\u@server1_\\h|g' /home/ubuntu/.bashrc
 sleep 2
 
+# Set shutdown daily at midnight - type 'shutdown -c' to cancel
+cat << 'EOF' >> /etc/crontab
+55 23 * * * root shutdown -h 5
+
+EOF
+
+sleep 5
+
 # Start the Docker containers
 cat << 'EOF' >> /etc/rc.local
 
